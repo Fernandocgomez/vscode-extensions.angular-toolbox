@@ -13,10 +13,38 @@
   "activationEvents": [],
   "main": "./dist/extension.js",
   "contributes": {
+    "menus": {
+      "explorer/context": [
+        {
+          "submenu": "gdlc-angular-toolbox.menu",
+          "group": "navigation"
+        }
+      ],
+      "gdlc-angular-toolbox.menu": [
+        {
+          "command": "gdlc-angular-toolbox.common-capabilities.generate-component",
+          "group": "1_generation"
+        },
+        {
+          "command": "gdlc-angular-toolbox.common-capabilities.generate-service",
+          "group": "1_generation"
+        }
+      ]
+    },
+    "submenus": [
+      {
+        "id": "gdlc-angular-toolbox.menu",
+        "label": "Angular Toolbox"
+      }
+    ],
     "commands": [
       {
-        "command": "gdlc-angular-extension.helloWorld",
-        "title": "Hello World"
+        "command": "gdlc-angular-toolbox.common-capabilities.generate-component",
+        "title": "Generate Component"
+      },
+      {
+        "command": "gdlc-angular-toolbox.common-capabilities.generate-service",
+        "title": "Generate Service"
       }
     ]
   },
