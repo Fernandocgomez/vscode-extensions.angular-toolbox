@@ -8,13 +8,14 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ### Added
 
-- Generate Component
-  - Custom template
-  - Custom spec template
-  - Add selector prefix
-  - Prompt user for spec generation or not
-- Generate Service
-  - Custom HTTP service template and none HTTP template
-  - Custom HTTP service spec template none HTTP template
+- Generate Component 🔄
+  - Custom template ✅
+  - Custom spec template 🔄
+  - Add selector prefix ✅
+  - Prompt user for spec generation or not ✅
+- Generate Service 🔄
+  - Custom HTTP service template and none HTTP template 🔄
+  - Custom HTTP service spec template none HTTP template 🔄
+  - Prompt user for spec generation or not 🔄
 
 ## [0.1.0] -
