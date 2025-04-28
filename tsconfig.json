@@ -7,7 +7,8 @@
 			"@programmaticLanguageFeatures": ["./src/programmatic-language-features"],
 			"@theming": ["./src/theming"],
 			"@utils": ["./src/utils"],
-			"@templates": ["./src/templates"]
+			"@templates": ["./src/templates"],
+			"@models": ["./src/models"]
 		},
 		"module": "Node16",
 		"target": "ES2022",

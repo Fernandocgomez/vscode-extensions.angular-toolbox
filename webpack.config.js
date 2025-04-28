@@ -40,6 +40,7 @@ const extensionConfig = {
 			'@theming': path.resolve(__dirname, 'src/theming'),
 			'@utils': path.resolve(__dirname, 'src/utils'),
 			'@templates': path.resolve(__dirname, 'src/templates'),
+			'@models': path.resolve(__dirname, 'src/models'),
 		},
 	},
 	module: {
