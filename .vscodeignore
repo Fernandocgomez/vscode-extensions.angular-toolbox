@@ -13,5 +13,5 @@ vsc-extension-quickstart.md
 **/*.ts
 **/.vscode-test.*
 to-vsix.sh
-jest.config.ts
+jest.config.json
 .prettierrc
