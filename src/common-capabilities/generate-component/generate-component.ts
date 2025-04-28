@@ -8,11 +8,7 @@ import {
 import { isKebabCase, kebabCaseToPascal } from '@utils';
 import * as path from 'path';
 import * as fs from 'fs';
-import {
-	getCustomTemplatePath,
-	getDefaultTemplatePath,
-	renderTemplate,
-} from '@templates';
+import { getTemplate, renderTemplate } from '@templates';
 import { generateComponentSpec } from '../generate-component-spec/generate-component-spec';
 import { ComponentTemplateData } from '@models';
 
@@ -20,7 +16,7 @@ import { ComponentTemplateData } from '@models';
  *
  * @param fsPath /home/fernando/test/src/app
  */
-export const generateComponent = async (fsPath: string): Promise<void> => {
+export const generateComponent = async (folderRightClickedPath: string): Promise<void> => {
 	const needSelectorPrefix = await promptBoolean({
 		prompt: 'Do you want to prefix your component selector?',
 		options: ['Yes', 'No'],
@@ -31,9 +27,7 @@ export const generateComponent = async (fsPath: string): Promise<void> => {
 				prompt: 'Enter component prefix (kebab-case)',
 				placeHolder: 'e.g. dashboard',
 				validationFn: value =>
-					isKebabCase(value)
-						? null
-						: 'Component prefix must be in kebab-case format',
+					isKebabCase(value) ? null : 'Component prefix must be in kebab-case format',
 				errorMessage: 'Error collecting component prefix',
 			})
 		: null;
@@ -52,35 +46,18 @@ export const generateComponent = async (fsPath: string): Promise<void> => {
 		return;
 	}
 
-	const componentTemplateData: ComponentTemplateData = {
-		className: `${kebabCaseToPascal(nameInKebabCase)}`,
-		selector: needSelectorPrefix
-			? `${componentSelectorPrefix}-${nameInKebabCase}`
-			: `${nameInKebabCase}`,
-		componentNameAsKebabCase: nameInKebabCase,
-	};
-
 	try {
-		const componentFilePath = path.join(
-			fsPath,
-			`${nameInKebabCase}.component.ts`,
+		const componentTemplateData = getComponentTemplateData(
+			nameInKebabCase,
+			needSelectorPrefix,
+			componentSelectorPrefix,
 		);
-		const customComponentTemplatePath = getCustomTemplatePath('component');
+		const componentFilePath = path.join(folderRightClickedPath, `${nameInKebabCase}.component.ts`);
 
-		if (fs.existsSync(customComponentTemplatePath)) {
-			fs.writeFileSync(
-				componentFilePath,
-				renderTemplate(customComponentTemplatePath, componentTemplateData),
-			);
-		} else {
-			fs.writeFileSync(
-				componentFilePath,
-				renderTemplate(
-					getDefaultTemplatePath('component'),
-					componentTemplateData,
-				),
-			);
-		}
+		fs.writeFileSync(
+			componentFilePath,
+			renderTemplate(getTemplate('component'), componentTemplateData),
+		);
 
 		showInformationMessage('Component was generated successfully.');
 
@@ -97,4 +74,18 @@ export const generateComponent = async (fsPath: string): Promise<void> => {
 	} catch (error: any) {
 		showErrorMessage(error.message);
 	}
+};
+
+const getComponentTemplateData = (
+	nameInKebabCase: string,
+	needSelectorPrefix: boolean,
+	componentSelectorPrefix: string | null,
+): ComponentTemplateData => {
+	return {
+		className: `${kebabCaseToPascal(nameInKebabCase)}`,
+		selector: needSelectorPrefix
+			? `${componentSelectorPrefix}-${nameInKebabCase}`
+			: `${nameInKebabCase}`,
+		componentNameAsKebabCase: nameInKebabCase,
+	};
 };
