@@ -38,6 +38,8 @@ const extensionConfig = {
 				'src/programmatic-language-features',
 			),
 			'@theming': path.resolve(__dirname, 'src/theming'),
+			'@utils': path.resolve(__dirname, 'src/utils'),
+			'@templates': path.resolve(__dirname, 'src/templates'),
 		},
 	},
 	module: {

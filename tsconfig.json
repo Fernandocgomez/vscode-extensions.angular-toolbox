@@ -5,7 +5,9 @@
 			"@declarativeLanguageFeatures": ["./src/declarative-language-features"],
 			"@extensionFramework": ["./src/extension-framework"],
 			"@programmaticLanguageFeatures": ["./src/programmatic-language-features"],
-			"@theming": ["./src/theming"]
+			"@theming": ["./src/theming"],
+			"@utils": ["./src/utils"],
+			"@templates": ["./src/templates"]
 		},
 		"module": "Node16",
 		"target": "ES2022",
