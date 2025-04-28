@@ -14,12 +14,7 @@ import {
 	renderTemplate,
 } from '@templates';
 import { generateComponentSpec } from '../generate-component-spec/generate-component-spec';
-
-interface ComponentTemplateData {
-	className: string;
-	selector: string;
-	componentNameAsKebabCase: string;
-}
+import { ComponentTemplateData } from '@models';
 
 /**
  *
@@ -91,7 +86,7 @@ export const generateComponent = async (fsPath: string): Promise<void> => {
 
 		if (
 			await promptBoolean({
-				prompt: 'Do you want to generate spec file?',
+				prompt: 'Do you want to generate the spec file?',
 				options: ['Yes', 'No'],
 			})
 		) {
