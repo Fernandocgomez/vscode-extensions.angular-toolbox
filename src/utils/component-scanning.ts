@@ -1,12 +1,25 @@
 import { Dependency } from '@models';
 
-export const getComponentProviderDependencies = (
-	fileContent: string,
-): Dependency[] => {
-	const dependencyClassNames = new Set<string>();
+export const getComponentProviderDependencies = (fileContent: string): Dependency[] => {
+	const dependencyClassNames = getAllClassNamesBeingInjected(fileContent);
+	const importMap = getAllImportStatements(fileContent);
+
+	// Map class names to their dependencies
+	const dependencies: Dependency[] = Array.from(dependencyClassNames).map(className => ({
+		className,
+		importPath: importMap[className] || 'unknown',
+	}));
+
+	return dependencies;
+};
+
+/**
+ * Parse import statements to build a map of className -> importPath
+ * @param fileContent
+ */
+const getAllImportStatements = (fileContent: string): Record<string, string> => {
 	const importMap: Record<string, string> = {};
 
-	// Parse import statements to build a map of className -> importPath
 	const importRegex = /import\s*{([^}]+)}\s*from\s*['"]([^'"]+)['"]/g;
 	let importMatch;
 
@@ -20,6 +33,16 @@ export const getComponentProviderDependencies = (
 			});
 		}
 	}
+
+	return importMap;
+};
+
+/**
+ * Scan the inside of the class to located any class that is being injected using constructor DI or the inject function.
+ * @param fileContent
+ */
+const getAllClassNamesBeingInjected = (fileContent: string): Set<string> => {
+	const dependencyClassNames = new Set<string>();
 
 	// Find inject() calls
 	const injectRegex = /inject\(([^)]+)\)/g;
@@ -47,13 +70,5 @@ export const getComponentProviderDependencies = (
 		});
 	}
 
-	// Map class names to their dependencies
-	const dependencies: Dependency[] = Array.from(dependencyClassNames).map(
-		className => ({
-			className,
-			importPath: importMap[className] || 'unknown',
-		}),
-	);
-
-	return dependencies;
+	return dependencyClassNames;
 };
