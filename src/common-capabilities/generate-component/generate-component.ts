@@ -14,7 +14,7 @@ import { ComponentTemplateData } from '@models';
 
 /**
  *
- * @param fsPath /home/fernando/test/src/app
+ * @param folderRightClickedPath /home/fernando/test/src/app
  */
 export const generateComponent = async (folderRightClickedPath: string): Promise<void> => {
 	const needSelectorPrefix = await promptBoolean({
