@@ -64,7 +64,7 @@ export const promptBoolean = async (config: {
 	});
 
 	if (result === undefined) {
-		return null;
+		return false;
 	}
 
 	return result === options[0];
