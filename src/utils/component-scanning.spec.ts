@@ -1,6 +1,7 @@
 import { Dependency } from '@models';
 import {
 	getComponentModuleDependencies,
+	getComponentPipesDependencies,
 	getComponentProviderDependencies,
 	getComponentStandaloneComponentDependencies,
 } from './component-scanning';
@@ -12,9 +13,11 @@ import {
 	ComponentWithOnlyModulesPipesAndDirectivesFixture,
 	ComponentWithoutAnyProviderFixture,
 	ComponentWithoutMultipleProvidersFixture,
+	ComponentWithoutPipesFixture,
 	ComponentWithoutStandaloneComponentsFixture,
 	ComponentWithSingleProviderFixture,
 	ComponentWithSingleStandaloneComponentFixture,
+	ComponentWithTwoPipesFixture,
 } from './fixtures';
 
 describe('getComponentProviderDependencies', () => {
@@ -154,5 +157,24 @@ describe('getComponentStandaloneComponentDependencies', () => {
 				ComponentWithOnlyModulesPipesAndDirectivesFixture,
 			),
 		).toEqual<Dependency[]>([]);
+	});
+});
+
+describe('getComponentPipesDependencies', () => {
+	test('should return an empty array when there are not pipes on the imports array', () => {
+		expect(getComponentPipesDependencies(ComponentWithoutPipesFixture)).toEqual<Dependency[]>([]);
+	});
+
+	test('should return two elements when there are two pipes on the imports array', () => {
+		expect(getComponentPipesDependencies(ComponentWithTwoPipesFixture)).toEqual<Dependency[]>([
+			{
+				className: 'DatePipe',
+				importPath: '@angular/common',
+			},
+			{
+				className: 'JsonPipe',
+				importPath: '@angular/common',
+			},
+		]);
 	});
 });

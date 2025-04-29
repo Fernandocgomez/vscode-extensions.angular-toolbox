@@ -10,14 +10,27 @@ export const getComponentProviderDependencies = (fileContent: string): Dependenc
 export const getComponentModuleDependencies = (fileContent: string): Dependency[] => {
 	return combineImportStatementsWithClassnames(
 		getAllImportStatements(fileContent),
-		extractModuleClassesFromImportsArray(fileContent),
+		extractClassesFromImportsArray(
+			fileContent,
+			(className: string) =>
+				/Module$/.test(className) || !/(Pipe|Directive|Component)$/.test(className),
+		),
 	);
 };
 
 export const getComponentStandaloneComponentDependencies = (fileContent: string): Dependency[] => {
 	return combineImportStatementsWithClassnames(
 		getAllImportStatements(fileContent),
-		extractComponentClassesFromImportArray(fileContent),
+		extractClassesFromImportsArray(fileContent, (className: string) =>
+			/Component$/.test(className),
+		),
+	);
+};
+
+export const getComponentPipesDependencies = (fileContent: string): Dependency[] => {
+	return combineImportStatementsWithClassnames(
+		getAllImportStatements(fileContent),
+		extractClassesFromImportsArray(fileContent, className => /Pipe$/.test(className)),
 	);
 };
 
@@ -89,28 +102,6 @@ const getAllClassNamesBeingInjected = (fileContent: string): Set<string> => {
 	}
 
 	return dependencyClassNames;
-};
-
-/**
- * Scan the imports array and extract all module classes. Example: CommonModule, NgClass, RouterLink.
- * @param fileContent
- */
-const extractModuleClassesFromImportsArray = (fileContent: string): Set<string> => {
-	return extractClassesFromImportsArray(
-		fileContent,
-		(className: string) =>
-			/Module$/.test(className) || !/(Pipe|Directive|Component)$/.test(className),
-	);
-};
-
-/**
- * Scan the imports array and extract all component classes. Example: AppComponent
- * @param fileContent
- */
-const extractComponentClassesFromImportArray = (fileContent: string): Set<string> => {
-	return extractClassesFromImportsArray(fileContent, (className: string) =>
-		/Component$/.test(className),
-	);
 };
 
 /**
