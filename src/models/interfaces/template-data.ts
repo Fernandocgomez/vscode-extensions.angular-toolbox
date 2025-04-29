@@ -4,8 +4,8 @@ export interface Dependency {
 }
 
 export interface ComponentSpecTemplateData {
-	className: string;
-	componentNameAsKebabCase: string;
+	className: string; // MyCoolComponent
+	componentNameAsKebabCase: string; // my-cool
 	providers: Dependency[];
 	modules: Dependency[];
 	components: Dependency[];
@@ -14,7 +14,7 @@ export interface ComponentSpecTemplateData {
 }
 
 export interface ComponentTemplateData {
-	className: string;
-	selector: string;
-	componentNameAsKebabCase: string;
+	className: string; // MyCoolComponent
+	selector: string; // my-cool
+	componentNameAsKebabCase: string; // my-cool
 }
