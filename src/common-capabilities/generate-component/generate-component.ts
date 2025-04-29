@@ -1,3 +1,5 @@
+import * as path from 'path';
+import * as fs from 'fs';
 import {
 	openTextFile,
 	promptBoolean,
@@ -6,8 +8,6 @@ import {
 	showInformationMessage,
 } from '@extensionFramework';
 import { isKebabCase, kebabCaseToPascal } from '@utils';
-import * as path from 'path';
-import * as fs from 'fs';
 import { getTemplate, renderTemplate } from '@templates';
 import { generateComponentSpec } from '../generate-component-spec/generate-component-spec';
 import { ComponentTemplateData, TemplateFileNames } from '@models';
@@ -22,31 +22,10 @@ export const generateComponent = async (folderRightClickedPath: string): Promise
 		options: ['Yes', 'No'],
 	});
 
-	const componentSelectorPrefix = needSelectorPrefix
-		? await promptInput({
-				prompt: 'Enter component prefix (kebab-case)',
-				placeHolder: 'e.g. dashboard',
-				validationFn: value =>
-					isKebabCase(value) ? null : 'Component prefix must be in kebab-case format',
-				errorMessage: 'Error collecting component prefix',
-			})
-		: null;
-
-	const nameInKebabCase = await promptInput({
-		prompt: 'Enter component name (kebab-case)',
-		placeHolder: 'e.g. user-profile',
-		validationFn: value =>
-			isKebabCase(value) ? null : 'Component name must be in kebab-case format',
-		errorMessage: 'Error collecting component name',
-	});
-
-	if (!nameInKebabCase) {
-		showErrorMessage('Please provide a component name');
-
-		return;
-	}
+	const componentSelectorPrefix = needSelectorPrefix ? await promptForPrefix() : null;
 
 	try {
+		const nameInKebabCase = await promptForNameAsKebabCase();
 		const componentFilePath = path.join(folderRightClickedPath, `${nameInKebabCase}.component.ts`);
 
 		fs.writeFileSync(
@@ -72,6 +51,34 @@ export const generateComponent = async (folderRightClickedPath: string): Promise
 	} catch (error: any) {
 		showErrorMessage(error.message);
 	}
+};
+
+const promptForPrefix = async (): Promise<string | null> => {
+	return await promptInput({
+		prompt: 'Enter component prefix (kebab-case)',
+		placeHolder: 'e.g. dashboard',
+		validationFn: value =>
+			isKebabCase(value) ? null : 'Component prefix must be in kebab-case format',
+		errorMessage: 'Error collecting component prefix',
+	});
+};
+
+/**
+ * prompt user for component name in Kebab case if not name is provide or if the user type the esc key a error is thrown.
+ */
+const promptForNameAsKebabCase = async (): Promise<string> => {
+	const nameInKebabCase = await promptInput({
+		prompt: 'Enter component name (kebab-case)',
+		placeHolder: 'e.g. user-profile',
+		validationFn: value =>
+			isKebabCase(value) ? null : 'Component name must be in kebab-case format',
+	});
+
+	if (!nameInKebabCase) {
+		throw new Error('Error collecting component name');
+	}
+
+	return nameInKebabCase;
 };
 
 const getComponentTemplateData = (
