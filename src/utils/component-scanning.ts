@@ -113,6 +113,11 @@ const extractComponentClassesFromImportArray = (fileContent: string): Set<string
 	);
 };
 
+/**
+ * Scan the imports array and extract the class names base on the classNameFilteringFn.
+ * @param fileContent
+ * @param classNameFilteringFn - callback to filter class names grab from the imports array.
+ */
 const extractClassesFromImportsArray = (
 	fileContent: string,
 	classNameFilteringFn: (className: string) => boolean,
