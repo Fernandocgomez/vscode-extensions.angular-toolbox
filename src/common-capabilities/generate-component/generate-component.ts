@@ -10,7 +10,7 @@ import * as path from 'path';
 import * as fs from 'fs';
 import { getTemplate, renderTemplate } from '@templates';
 import { generateComponentSpec } from '../generate-component-spec/generate-component-spec';
-import { ComponentTemplateData } from '@models';
+import { ComponentTemplateData, TemplateFileNames } from '@models';
 
 /**
  *
@@ -47,26 +47,24 @@ export const generateComponent = async (folderRightClickedPath: string): Promise
 	}
 
 	try {
-		const componentTemplateData = getComponentTemplateData(
-			nameInKebabCase,
-			needSelectorPrefix,
-			componentSelectorPrefix,
-		);
 		const componentFilePath = path.join(folderRightClickedPath, `${nameInKebabCase}.component.ts`);
 
 		fs.writeFileSync(
 			componentFilePath,
-			renderTemplate(getTemplate('component'), componentTemplateData),
+			renderTemplate(
+				getTemplate(TemplateFileNames.COMPONENT),
+				getComponentTemplateData(nameInKebabCase, componentSelectorPrefix),
+			),
 		);
 
 		showInformationMessage('Component was generated successfully.');
 
-		if (
-			await promptBoolean({
-				prompt: 'Do you want to generate the spec file?',
-				options: ['Yes', 'No'],
-			})
-		) {
+		const shouldGenerateSpecFile = await promptBoolean({
+			prompt: 'Do you want to generate the spec file?',
+			options: ['Yes', 'No'],
+		});
+
+		if (shouldGenerateSpecFile) {
 			await generateComponentSpec(componentFilePath);
 		}
 
@@ -78,12 +76,11 @@ export const generateComponent = async (folderRightClickedPath: string): Promise
 
 const getComponentTemplateData = (
 	nameInKebabCase: string,
-	needSelectorPrefix: boolean,
 	componentSelectorPrefix: string | null,
 ): ComponentTemplateData => {
 	return {
-		className: `${kebabCaseToPascal(nameInKebabCase)}`,
-		selector: needSelectorPrefix
+		className: `${kebabCaseToPascal(nameInKebabCase)}Component`,
+		selector: componentSelectorPrefix
 			? `${componentSelectorPrefix}-${nameInKebabCase}`
 			: `${nameInKebabCase}`,
 		componentNameAsKebabCase: nameInKebabCase,
