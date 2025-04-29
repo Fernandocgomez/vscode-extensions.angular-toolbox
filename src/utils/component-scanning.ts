@@ -14,6 +14,13 @@ export const getComponentModuleDependencies = (fileContent: string): Dependency[
 	);
 };
 
+export const getComponentStandaloneComponentDependencies = (fileContent: string): Dependency[] => {
+	return combineImportStatementsWithClassnames(
+		getAllImportStatements(fileContent),
+		extractComponentClassesFromImportArray(fileContent),
+	);
+};
+
 const combineImportStatementsWithClassnames = (
 	importStatements: Record<string, string>,
 	classNames: Set<string>,
@@ -85,37 +92,42 @@ const getAllClassNamesBeingInjected = (fileContent: string): Set<string> => {
 };
 
 /**
- * Scan the imports array and extract all module classes.
+ * Scan the imports array and extract all module classes. Example: CommonModule, NgClass, RouterLink.
  * @param fileContent
  */
 const extractModuleClassesFromImportsArray = (fileContent: string): Set<string> => {
-	// Find the imports array
+	return extractClassesFromImportsArray(
+		fileContent,
+		(className: string) =>
+			/Module$/.test(className) || !/(Pipe|Directive|Component)$/.test(className),
+	);
+};
+
+/**
+ * Scan the imports array and extract all component classes. Example: AppComponent
+ * @param fileContent
+ */
+const extractComponentClassesFromImportArray = (fileContent: string): Set<string> => {
+	return extractClassesFromImportsArray(fileContent, (className: string) =>
+		/Component$/.test(className),
+	);
+};
+
+const extractClassesFromImportsArray = (
+	fileContent: string,
+	classNameFilteringFn: (className: string) => boolean,
+): Set<string> => {
 	const importsMatch = fileContent.match(/imports:\s*\[([\s\S]*?)\]/);
 
-	if (!importsMatch) return new Set<string>();
+	if (!importsMatch || importsMatch.length < 1) {
+		return new Set<string>();
+	}
 
-	const importsContent = importsMatch[1];
-
-	// Find all identifiers in the imports array
-	const identifiers = importsContent
-		.split(',')
-		.map(item => item.trim())
-		.filter(item => item.length > 0);
-
-	// Use a Set to store unique class names
-	const moduleClassesSet = new Set<string>();
-
-	// Filter based on our criteria and add to Set
-	identifiers.forEach(id => {
-		// Match class names ending with "Module"
-		if (/Module$/.test(id)) {
-			moduleClassesSet.add(id);
-		}
-		// Include class names that DON'T end with "Pipe", "Directive", or "Component"
-		else if (!/(Pipe|Directive|Component)$/.test(id)) {
-			moduleClassesSet.add(id);
-		}
-	});
-
-	return moduleClassesSet;
+	return new Set(
+		importsMatch[1]
+			.split(',')
+			.map(item => item.trim())
+			.filter(item => item.length > 0)
+			.filter(classNameFilteringFn),
+	);
 };

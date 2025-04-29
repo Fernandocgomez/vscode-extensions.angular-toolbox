@@ -1,5 +1,5 @@
 export const ComponentWithoutAnyProviderFixture = `
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-dummy',
@@ -12,7 +12,7 @@ export class DummyComponent {}
 `;
 
 export const ComponentWithSingleProviderFixture = `
-import { Component, Input, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CoolService } from './services';
 
 @Component({
@@ -28,7 +28,7 @@ export class DummyComponent {
 `;
 
 export const ComponentWithoutMultipleProvidersFixture = `
-import { Component, Input, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CoolService } from './services/cool.service';
 import { PublicService } from './services/public.service';
 import { ConstructorPrivateService } from './services/constructor-private.service';
@@ -68,8 +68,8 @@ export class DummyComponent {
 }
 `;
 
-export const ComponentWithNoModules = `
-import { Component, Input } from '@angular/core';
+export const ComponentWithNoModulesFixture = `
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-dummy',
@@ -81,8 +81,8 @@ import { Component, Input } from '@angular/core';
 export class DummyComponent {}
 `;
 
-export const ComponentWithModulesEndingOnModule = `
-import { Component, Input } from '@angular/core';
+export const ComponentWithModulesEndingOnModuleFixture = `
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
@@ -102,8 +102,8 @@ import { AppComponent } from './app.component';
 export class DummyComponent {}
 `;
 
-export const ComponentWithModulesWithoutSuffixModule = `
-import { Component, Input } from '@angular/core';
+export const ComponentWithModulesWithoutSuffixModuleFixture = `
+import { Component } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { AppComponent } from './app.component';
@@ -123,8 +123,8 @@ import { AppComponent } from './app.component';
 export class DummyComponent {}
 `;
 
-export const ComponentWithModulesDirectivesPipesAndComponents = `
-import { Component, Input } from '@angular/core';
+export const ComponentWithModulesDirectivesPipesAndComponentsFixture = `
+import { Component } from '@angular/core';
 import { NgClass, CommonModule, DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { AppComponent } from './app.component';
@@ -141,6 +141,55 @@ import { FormGroupDirective } from '@angular/forms';
     DatePipe,
     FormGroupDirective,
 
+  ],
+  providers: [],
+  template: '',
+})
+export class DummyComponent {}
+`;
+
+export const ComponentWithoutStandaloneComponentsFixture = `
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-dummy',
+  standalone: true,
+  imports: [],
+  providers: [],
+  template: '',
+})
+export class DummyComponent {}
+`;
+
+export const ComponentWithSingleStandaloneComponentFixture = `
+import { Component } from '@angular/core';
+import { AppComponent } from './app.component';
+
+@Component({
+  selector: 'app-dummy',
+  standalone: true,
+  imports: [AppComponent],
+  providers: [],
+  template: '',
+})
+export class DummyComponent {}
+`;
+
+export const ComponentWithOnlyModulesPipesAndDirectivesFixture = `
+import { Component } from '@angular/core';
+import { NgClass, CommonModule, DatePipe } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { FormGroupDirective } from '@angular/forms';
+
+@Component({
+  selector: 'app-dummy',
+  standalone: true,
+  imports: [
+    NgClass,
+    RouterLink,
+    CommonModule,
+    DatePipe,
+    FormGroupDirective,
   ],
   providers: [],
   template: '',

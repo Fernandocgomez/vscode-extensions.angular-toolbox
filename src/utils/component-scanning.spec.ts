@@ -1,24 +1,33 @@
+import { Dependency } from '@models';
 import {
 	getComponentModuleDependencies,
 	getComponentProviderDependencies,
+	getComponentStandaloneComponentDependencies,
 } from './component-scanning';
 import {
-	ComponentWithModulesDirectivesPipesAndComponents,
-	ComponentWithModulesEndingOnModule,
-	ComponentWithModulesWithoutSuffixModule,
-	ComponentWithNoModules,
+	ComponentWithModulesDirectivesPipesAndComponentsFixture,
+	ComponentWithModulesEndingOnModuleFixture,
+	ComponentWithModulesWithoutSuffixModuleFixture,
+	ComponentWithNoModulesFixture,
+	ComponentWithOnlyModulesPipesAndDirectivesFixture,
 	ComponentWithoutAnyProviderFixture,
 	ComponentWithoutMultipleProvidersFixture,
+	ComponentWithoutStandaloneComponentsFixture,
 	ComponentWithSingleProviderFixture,
+	ComponentWithSingleStandaloneComponentFixture,
 } from './fixtures';
 
 describe('getComponentProviderDependencies', () => {
 	test('should return an empty array when there are not providers being injected', () => {
-		expect(getComponentProviderDependencies(ComponentWithoutAnyProviderFixture)).toEqual([]);
+		expect(getComponentProviderDependencies(ComponentWithoutAnyProviderFixture)).toEqual<
+			Dependency[]
+		>([]);
 	});
 
 	test('should return an array with one element', () => {
-		expect(getComponentProviderDependencies(ComponentWithSingleProviderFixture)).toEqual([
+		expect(getComponentProviderDependencies(ComponentWithSingleProviderFixture)).toEqual<
+			Dependency[]
+		>([
 			{
 				className: 'CoolService',
 				importPath: './services',
@@ -27,7 +36,9 @@ describe('getComponentProviderDependencies', () => {
 	});
 
 	test('should return an array with all the providers', () => {
-		expect(getComponentProviderDependencies(ComponentWithoutMultipleProvidersFixture)).toEqual([
+		expect(getComponentProviderDependencies(ComponentWithoutMultipleProvidersFixture)).toEqual<
+			Dependency[]
+		>([
 			{
 				className: 'CoolService',
 				importPath: './services/cool.service',
@@ -66,11 +77,13 @@ describe('getComponentProviderDependencies', () => {
 
 describe('getComponentModuleDependencies', () => {
 	test('should return an empty array when there is not modules present', () => {
-		expect(getComponentModuleDependencies(ComponentWithNoModules)).toEqual([]);
+		expect(getComponentModuleDependencies(ComponentWithNoModulesFixture)).toEqual<Dependency[]>([]);
 	});
 
 	test('should return an array with two elements', () => {
-		expect(getComponentModuleDependencies(ComponentWithModulesEndingOnModule)).toEqual([
+		expect(getComponentModuleDependencies(ComponentWithModulesEndingOnModuleFixture)).toEqual<
+			Dependency[]
+		>([
 			{
 				className: 'RouterModule',
 				importPath: '@angular/router',
@@ -83,7 +96,9 @@ describe('getComponentModuleDependencies', () => {
 	});
 
 	test('should return an array with two elements', () => {
-		expect(getComponentModuleDependencies(ComponentWithModulesWithoutSuffixModule)).toEqual([
+		expect(getComponentModuleDependencies(ComponentWithModulesWithoutSuffixModuleFixture)).toEqual<
+			Dependency[]
+		>([
 			{
 				className: 'NgClass',
 				importPath: '@angular/common',
@@ -97,8 +112,8 @@ describe('getComponentModuleDependencies', () => {
 
 	test('should return an array with three elements', () => {
 		expect(
-			getComponentModuleDependencies(ComponentWithModulesDirectivesPipesAndComponents),
-		).toEqual([
+			getComponentModuleDependencies(ComponentWithModulesDirectivesPipesAndComponentsFixture),
+		).toEqual<Dependency[]>([
 			{
 				className: 'NgClass',
 				importPath: '@angular/common',
@@ -112,5 +127,32 @@ describe('getComponentModuleDependencies', () => {
 				importPath: '@angular/common',
 			},
 		]);
+	});
+});
+
+describe('getComponentStandaloneComponentDependencies', () => {
+	test('should return an empty array', () => {
+		expect(
+			getComponentStandaloneComponentDependencies(ComponentWithoutStandaloneComponentsFixture),
+		).toEqual<Dependency[]>([]);
+	});
+
+	test('should return an array with one element', () => {
+		expect(
+			getComponentStandaloneComponentDependencies(ComponentWithSingleStandaloneComponentFixture),
+		).toEqual<Dependency[]>([
+			{
+				className: 'AppComponent',
+				importPath: './app.component',
+			},
+		]);
+	});
+
+	test('should return an empty array when there is not standalone components on the imports array', () => {
+		expect(
+			getComponentStandaloneComponentDependencies(
+				ComponentWithOnlyModulesPipesAndDirectivesFixture,
+			),
+		).toEqual<Dependency[]>([]);
 	});
 });
