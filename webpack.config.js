@@ -28,10 +28,7 @@ const extensionConfig = {
 		extensions: ['.ts', '.js'],
 		alias: {
 			'@commonCapabilities': path.resolve(__dirname, 'src/common-capabilities'),
-			'@declarativeLanguageFeatures': path.resolve(
-				__dirname,
-				'src/declarative-language-features',
-			),
+			'@declarativeLanguageFeatures': path.resolve(__dirname, 'src/declarative-language-features'),
 			'@extensionFramework': path.resolve(__dirname, 'src/extension-framework'),
 			'@programmaticLanguageFeatures': path.resolve(
 				__dirname,
