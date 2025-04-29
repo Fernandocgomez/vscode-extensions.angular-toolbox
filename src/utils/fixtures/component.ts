@@ -240,3 +240,46 @@ import { FormGroupDirective } from '@angular/forms';
 })
 export class DummyComponent {}
 `;
+
+export const ComponentWithoutDirectivesFixture = `
+import { Component } from '@angular/core';
+import { NgClass, CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
+
+@Component({
+  selector: 'app-dummy',
+  standalone: true,
+  imports: [
+    NgClass,
+    RouterLink,
+    CommonModule,
+  ],
+  providers: [],
+  template: '',
+})
+export class DummyComponent {}
+`;
+
+export const ComponentWithTwoDirectivesFixture = `
+import { Component } from '@angular/core';
+import { NgClass, CommonModule, DatePipe, JsonPipe } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { FormGroupDirective, FormControlDirective } from '@angular/forms';
+
+@Component({
+  selector: 'app-dummy',
+  standalone: true,
+  imports: [
+    NgClass,
+    RouterLink,
+    FormControlDirective,
+    CommonModule,
+    DatePipe,
+    JsonPipe,
+    FormGroupDirective,
+  ],
+  providers: [],
+  template: '',
+})
+export class DummyComponent {}
+`;

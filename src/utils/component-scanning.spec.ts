@@ -1,5 +1,6 @@
 import { Dependency } from '@models';
 import {
+	getComponentDirectivesDependencies,
 	getComponentModuleDependencies,
 	getComponentPipesDependencies,
 	getComponentProviderDependencies,
@@ -12,11 +13,13 @@ import {
 	ComponentWithNoModulesFixture,
 	ComponentWithOnlyModulesPipesAndDirectivesFixture,
 	ComponentWithoutAnyProviderFixture,
+	ComponentWithoutDirectivesFixture,
 	ComponentWithoutMultipleProvidersFixture,
 	ComponentWithoutPipesFixture,
 	ComponentWithoutStandaloneComponentsFixture,
 	ComponentWithSingleProviderFixture,
 	ComponentWithSingleStandaloneComponentFixture,
+	ComponentWithTwoDirectivesFixture,
 	ComponentWithTwoPipesFixture,
 } from './fixtures';
 
@@ -174,6 +177,29 @@ describe('getComponentPipesDependencies', () => {
 			{
 				className: 'JsonPipe',
 				importPath: '@angular/common',
+			},
+		]);
+	});
+});
+
+describe('getComponentDirectivesDependencies', () => {
+	test('should return an empty array when there are not directives on the imports array', () => {
+		expect(getComponentDirectivesDependencies(ComponentWithoutDirectivesFixture)).toEqual<
+			Dependency[]
+		>([]);
+	});
+
+	test('should return two elements when there are two directives on the imports array', () => {
+		expect(getComponentDirectivesDependencies(ComponentWithTwoDirectivesFixture)).toEqual<
+			Dependency[]
+		>([
+			{
+				className: 'FormControlDirective',
+				importPath: '@angular/forms',
+			},
+			{
+				className: 'FormGroupDirective',
+				importPath: '@angular/forms',
 			},
 		]);
 	});

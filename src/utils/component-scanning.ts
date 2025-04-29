@@ -34,6 +34,13 @@ export const getComponentPipesDependencies = (fileContent: string): Dependency[]
 	);
 };
 
+export const getComponentDirectivesDependencies = (fileContent: string): Dependency[] => {
+	return combineImportStatementsWithClassnames(
+		getAllImportStatements(fileContent),
+		extractClassesFromImportsArray(fileContent, className => /Directive$/.test(className)),
+	);
+};
+
 const combineImportStatementsWithClassnames = (
 	importStatements: Record<string, string>,
 	classNames: Set<string>,
