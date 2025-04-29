@@ -1,1 +1,1 @@
-export * from './template-query';
+export * from './template-utils';
