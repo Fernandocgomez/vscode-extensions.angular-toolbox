@@ -1,16 +1,27 @@
 import { Dependency } from '@models';
 
 export const getComponentProviderDependencies = (fileContent: string): Dependency[] => {
-	const dependencyClassNames = getAllClassNamesBeingInjected(fileContent);
-	const importMap = getAllImportStatements(fileContent);
+	return combineImportStatementsWithClassnames(
+		getAllImportStatements(fileContent),
+		getAllClassNamesBeingInjected(fileContent),
+	);
+};
 
-	// Map class names to their dependencies
-	const dependencies: Dependency[] = Array.from(dependencyClassNames).map(className => ({
+export const getComponentModuleDependencies = (fileContent: string): Dependency[] => {
+	return combineImportStatementsWithClassnames(
+		getAllImportStatements(fileContent),
+		extractModuleClassesFromImportsArray(fileContent),
+	);
+};
+
+const combineImportStatementsWithClassnames = (
+	importStatements: Record<string, string>,
+	classNames: Set<string>,
+): Dependency[] => {
+	return Array.from(classNames).map<Dependency>(className => ({
 		className,
-		importPath: importMap[className] || 'unknown',
+		importPath: importStatements[className] || 'unknown',
 	}));
-
-	return dependencies;
 };
 
 /**
@@ -71,4 +82,40 @@ const getAllClassNamesBeingInjected = (fileContent: string): Set<string> => {
 	}
 
 	return dependencyClassNames;
+};
+
+/**
+ * Scan the imports array and extract all module classes.
+ * @param fileContent
+ */
+const extractModuleClassesFromImportsArray = (fileContent: string): Set<string> => {
+	// Find the imports array
+	const importsMatch = fileContent.match(/imports:\s*\[([\s\S]*?)\]/);
+
+	if (!importsMatch) return new Set<string>();
+
+	const importsContent = importsMatch[1];
+
+	// Find all identifiers in the imports array
+	const identifiers = importsContent
+		.split(',')
+		.map(item => item.trim())
+		.filter(item => item.length > 0);
+
+	// Use a Set to store unique class names
+	const moduleClassesSet = new Set<string>();
+
+	// Filter based on our criteria and add to Set
+	identifiers.forEach(id => {
+		// Match class names ending with "Module"
+		if (/Module$/.test(id)) {
+			moduleClassesSet.add(id);
+		}
+		// Include class names that DON'T end with "Pipe", "Directive", or "Component"
+		else if (!/(Pipe|Directive|Component)$/.test(id)) {
+			moduleClassesSet.add(id);
+		}
+	});
+
+	return moduleClassesSet;
 };

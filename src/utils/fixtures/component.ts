@@ -67,3 +67,83 @@ export class DummyComponent {
   ) {}
 }
 `;
+
+export const ComponentWithNoModules = `
+import { Component, Input } from '@angular/core';
+
+@Component({
+  selector: 'app-dummy',
+  standalone: true,
+  imports: [],
+  providers: [],
+  template: '',
+})
+export class DummyComponent {}
+`;
+
+export const ComponentWithModulesEndingOnModule = `
+import { Component, Input } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { AppComponent } from './app.component';
+
+
+@Component({
+  selector: 'app-dummy',
+  standalone: true,
+  imports: [
+    RouterModule,
+    CommonModule,
+    AppComponent,
+  ],
+  providers: [],
+  template: '',
+})
+export class DummyComponent {}
+`;
+
+export const ComponentWithModulesWithoutSuffixModule = `
+import { Component, Input } from '@angular/core';
+import { NgClass } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { AppComponent } from './app.component';
+
+
+@Component({
+  selector: 'app-dummy',
+  standalone: true,
+  imports: [
+    AppComponent,
+    NgClass,
+    RouterLink,
+  ],
+  providers: [],
+  template: '',
+})
+export class DummyComponent {}
+`;
+
+export const ComponentWithModulesDirectivesPipesAndComponents = `
+import { Component, Input } from '@angular/core';
+import { NgClass, CommonModule, DatePipe } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { AppComponent } from './app.component';
+import { FormGroupDirective } from '@angular/forms';
+
+@Component({
+  selector: 'app-dummy',
+  standalone: true,
+  imports: [
+    AppComponent,
+    NgClass,
+    RouterLink,
+    CommonModule,
+    DatePipe,
+    FormGroupDirective,
+
+  ],
+  providers: [],
+  template: '',
+})
+export class DummyComponent {}
+`;

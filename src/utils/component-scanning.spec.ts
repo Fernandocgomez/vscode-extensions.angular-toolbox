@@ -1,5 +1,12 @@
-import { getComponentProviderDependencies } from './component-scanning';
 import {
+	getComponentModuleDependencies,
+	getComponentProviderDependencies,
+} from './component-scanning';
+import {
+	ComponentWithModulesDirectivesPipesAndComponents,
+	ComponentWithModulesEndingOnModule,
+	ComponentWithModulesWithoutSuffixModule,
+	ComponentWithNoModules,
 	ComponentWithoutAnyProviderFixture,
 	ComponentWithoutMultipleProvidersFixture,
 	ComponentWithSingleProviderFixture,
@@ -7,15 +14,11 @@ import {
 
 describe('getComponentProviderDependencies', () => {
 	test('should return an empty array when there are not providers being injected', () => {
-		expect(
-			getComponentProviderDependencies(ComponentWithoutAnyProviderFixture),
-		).toEqual([]);
+		expect(getComponentProviderDependencies(ComponentWithoutAnyProviderFixture)).toEqual([]);
 	});
 
 	test('should return an array with one element', () => {
-		expect(
-			getComponentProviderDependencies(ComponentWithSingleProviderFixture),
-		).toEqual([
+		expect(getComponentProviderDependencies(ComponentWithSingleProviderFixture)).toEqual([
 			{
 				className: 'CoolService',
 				importPath: './services',
@@ -24,11 +27,7 @@ describe('getComponentProviderDependencies', () => {
 	});
 
 	test('should return an array with all the providers', () => {
-		expect(
-			getComponentProviderDependencies(
-				ComponentWithoutMultipleProvidersFixture,
-			),
-		).toEqual([
+		expect(getComponentProviderDependencies(ComponentWithoutMultipleProvidersFixture)).toEqual([
 			{
 				className: 'CoolService',
 				importPath: './services/cool.service',
@@ -60,6 +59,57 @@ describe('getComponentProviderDependencies', () => {
 			{
 				className: 'ConstructorWithoutServiceSuffix',
 				importPath: './services/constructor-without-service-suffix.service',
+			},
+		]);
+	});
+});
+
+describe('getComponentModuleDependencies', () => {
+	test('should return an empty array when there is not modules present', () => {
+		expect(getComponentModuleDependencies(ComponentWithNoModules)).toEqual([]);
+	});
+
+	test('should return an array with two elements', () => {
+		expect(getComponentModuleDependencies(ComponentWithModulesEndingOnModule)).toEqual([
+			{
+				className: 'RouterModule',
+				importPath: '@angular/router',
+			},
+			{
+				className: 'CommonModule',
+				importPath: '@angular/common',
+			},
+		]);
+	});
+
+	test('should return an array with two elements', () => {
+		expect(getComponentModuleDependencies(ComponentWithModulesWithoutSuffixModule)).toEqual([
+			{
+				className: 'NgClass',
+				importPath: '@angular/common',
+			},
+			{
+				className: 'RouterLink',
+				importPath: '@angular/router',
+			},
+		]);
+	});
+
+	test('should return an array with three elements', () => {
+		expect(
+			getComponentModuleDependencies(ComponentWithModulesDirectivesPipesAndComponents),
+		).toEqual([
+			{
+				className: 'NgClass',
+				importPath: '@angular/common',
+			},
+			{
+				className: 'RouterLink',
+				importPath: '@angular/router',
+			},
+			{
+				className: 'CommonModule',
+				importPath: '@angular/common',
 			},
 		]);
 	});
