@@ -1,48 +1,87 @@
 {
-  "name": "gdlc-angular-toolbox",
-  "displayName": "Angular Toolbox",
-  "description": "Generate Angular elements (components, services, pipes, directives) using your own custom templates.",
-  "version": "0.0.1",
-  "engines": {
-    "vscode": "^1.99.0"
-  },
-  "repository": "https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox",
-  "categories": [
-    "Other"
-  ],
-  "activationEvents": [],
-  "main": "./dist/extension.js",
-  "contributes": {
-    "commands": [
-      {
-        "command": "gdlc-angular-extension.helloWorld",
-        "title": "Hello World"
-      }
-    ]
-  },
-  "scripts": {
-    "vscode:prepublish": "npm run package",
-    "compile": "webpack",
-    "watch": "webpack --watch",
-    "package": "webpack --mode production --devtool hidden-source-map",
-    "compile-tests": "tsc -p . --outDir out",
-    "watch-tests": "tsc -p . -w --outDir out",
-    "pretest": "npm run compile-tests && npm run compile && npm run lint",
-    "lint": "eslint src",
-    "test": "vscode-test"
-  },
-  "devDependencies": {
-    "@types/vscode": "^1.99.0",
-    "@types/mocha": "^10.0.10",
-    "@types/node": "20.x",
-    "@typescript-eslint/eslint-plugin": "^8.28.0",
-    "@typescript-eslint/parser": "^8.28.0",
-    "eslint": "^9.23.0",
-    "typescript": "^5.8.2",
-    "ts-loader": "^9.5.2",
-    "webpack": "^5.98.0",
-    "webpack-cli": "^6.0.1",
-    "@vscode/test-cli": "^0.0.10",
-    "@vscode/test-electron": "^2.4.1"
-  }
+	"name": "gdlc-angular-toolbox",
+	"displayName": "Angular Toolbox",
+	"description": "Generate Angular elements (components, services, pipes, directives) using your own custom templates.",
+	"version": "0.0.1",
+	"engines": {
+		"vscode": "^1.99.0"
+	},
+	"repository": "https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox",
+	"categories": [
+		"Other"
+	],
+	"activationEvents": [],
+	"main": "./dist/extension.js",
+	"contributes": {
+		"menus": {
+			"explorer/context": [
+				{
+					"submenu": "gdlc-angular-toolbox.menu",
+					"group": "navigation"
+				}
+			],
+			"gdlc-angular-toolbox.menu": [
+				{
+					"command": "gdlc-angular-toolbox.common-capabilities.generate-component",
+					"group": "1_generation"
+				},
+				{
+					"command": "gdlc-angular-toolbox.common-capabilities.generate-service",
+					"group": "1_generation"
+				}
+			]
+		},
+		"submenus": [
+			{
+				"id": "gdlc-angular-toolbox.menu",
+				"label": "Angular Toolbox"
+			}
+		],
+		"commands": [
+			{
+				"command": "gdlc-angular-toolbox.common-capabilities.generate-component",
+				"title": "Generate Component"
+			},
+			{
+				"command": "gdlc-angular-toolbox.common-capabilities.generate-service",
+				"title": "Generate Service"
+			}
+		]
+	},
+	"scripts": {
+		"vscode:prepublish": "npm run package",
+		"compile": "webpack",
+		"watch": "webpack --watch",
+		"package": "webpack --mode production --devtool hidden-source-map",
+		"compile-tests": "tsc -p . --outDir out",
+		"watch-tests": "tsc -p . -w --outDir out",
+		"pretest": "npm run compile-tests && npm run compile && npm run lint",
+		"lint": "eslint src",
+		"test": "vscode-test",
+		"test:jest": "jest --testMatch \"**/*.spec.ts\"",
+		"test:jest:watch": "jest --testMatch \"**/*.spec.ts\" --watch"
+	},
+	"devDependencies": {
+		"@types/ejs": "^3.1.5",
+		"@types/jest": "^29.5.14",
+		"@types/mocha": "^10.0.10",
+		"@types/node": "20.x",
+		"@types/vscode": "^1.99.0",
+		"@typescript-eslint/eslint-plugin": "^8.28.0",
+		"@typescript-eslint/parser": "^8.28.0",
+		"@vscode/test-cli": "^0.0.10",
+		"@vscode/test-electron": "^2.4.1",
+		"eslint": "^9.23.0",
+		"jest": "^29.7.0",
+		"prettier": "^3.5.3",
+		"ts-jest": "^29.3.2",
+		"ts-loader": "^9.5.2",
+		"ts-node": "^10.9.2",
+		"typescript": "^5.8.2",
+		"webpack": "^5.98.0",
+		"webpack-cli": "^6.0.1"
+	},
+	"dependencies": {
+		"ejs": "^3.1.10"
+	}
 }

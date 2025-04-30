@@ -1,0 +1,38 @@
+# Dependency directories
+node_modules/
+bower_components/
+
+# Build outputs
+dist/
+build/
+out/
+.next/
+.nuxt/
+.cache/
+
+# Coverage directories
+coverage/
+.nyc_output/
+
+# Miscellaneous
+.git/
+.DS_Store
+*.log
+*.min.js
+*.min.css
+.vscode-test
+.vscode
+.gitignore
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Generated files
+*.generated.*
+*.d.ts
+
+# Package files (often auto-generated)
+package-lock.json
+yarn.lock
