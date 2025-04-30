@@ -1,0 +1,8 @@
+import { Injectable } from '@angular/core';
+<% if (!isGlobal) { %>
+@Injectable()
+<% } else { %>
+@Injectable({
+  providedIn: 'root'
+})
+<% } %>export class <%= className %> {}

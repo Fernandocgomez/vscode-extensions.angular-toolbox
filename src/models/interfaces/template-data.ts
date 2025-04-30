@@ -18,3 +18,8 @@ export interface ComponentTemplateData {
 	selector: string; // my-cool
 	componentNameAsKebabCase: string; // my-cool
 }
+
+export interface ServiceTemplateData {
+	isGlobal: boolean;
+	className: string; // UserAuthService(HTTP) or Logger(None Http)
+}

@@ -1,4 +1,4 @@
-import { generateComponent } from '@commonCapabilities';
+import { generateComponent, generateService } from '@commonCapabilities';
 import * as vscode from 'vscode';
 
 export function activate(context: vscode.ExtensionContext) {
@@ -9,7 +9,14 @@ export function activate(context: vscode.ExtensionContext) {
 		},
 	);
 
-	context.subscriptions.push(generateComponentDisposable);
+	const generateServiceDisposable = vscode.commands.registerCommand(
+		'gdlc-angular-toolbox.common-capabilities.generate-service',
+		async (arg: vscode.Uri) => {
+			await generateService(arg.fsPath);
+		},
+	);
+
+	context.subscriptions.push(generateComponentDisposable, generateServiceDisposable);
 }
 
 export function deactivate() {}
