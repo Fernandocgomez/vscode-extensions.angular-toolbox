@@ -13,7 +13,6 @@ import { generateComponentSpec } from '../generate-component-spec/generate-compo
 import { ComponentTemplateData, TemplateFileNames } from '@models';
 
 /**
- *
  * @param folderRightClickedPath /home/fernando/test/src/app
  */
 export const generateComponent = async (folderRightClickedPath: string): Promise<void> => {

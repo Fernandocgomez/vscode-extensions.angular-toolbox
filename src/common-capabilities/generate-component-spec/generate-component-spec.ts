@@ -11,7 +11,6 @@ import { getTemplate, renderTemplate } from '@templates';
 import { showErrorMessage, showInformationMessage } from '@extensionFramework';
 
 /**
- *
  * @param componentFilePath /home/fernando/test/src/app/my-component.component.ts
  */
 export const generateComponentSpec = async (componentFilePath: string): Promise<void> => {
