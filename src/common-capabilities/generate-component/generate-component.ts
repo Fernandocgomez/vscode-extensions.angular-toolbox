@@ -8,7 +8,7 @@ import {
 	showInformationMessage,
 } from '@extensionFramework';
 import { isKebabCase, kebabCaseToPascal } from '@utils';
-import { getTemplate, renderTemplate } from '@templates';
+import { getTemplatePath, renderTemplate } from '@templates';
 import { generateComponentSpec } from '../generate-component-spec/generate-component-spec';
 import { ComponentTemplateData, TemplateFileNames } from '@models';
 
@@ -30,7 +30,7 @@ export const generateComponent = async (folderRightClickedPath: string): Promise
 		fs.writeFileSync(
 			componentFilePath,
 			renderTemplate(
-				getTemplate(TemplateFileNames.COMPONENT),
+				getTemplatePath(TemplateFileNames.COMPONENT),
 				getComponentTemplateData(nameInKebabCase, componentSelectorPrefix),
 			),
 		);

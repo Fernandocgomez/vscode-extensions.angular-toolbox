@@ -7,14 +7,15 @@ import {
 	getComponentStandaloneComponentDependencies,
 } from '@utils';
 import { ComponentSpecTemplateData, TemplateFileNames } from '@models';
-import { getTemplate, renderTemplate } from '@templates';
+import { getTemplatePath, renderTemplate } from '@templates';
 import { showErrorMessage, showInformationMessage } from '@extensionFramework';
+import { existsSync, readFileSync } from '@fileSystem';
 
 /**
  * @param componentFilePath /home/fernando/test/src/app/my-component.component.ts
  */
 export const generateComponentSpec = async (componentFilePath: string): Promise<void> => {
-	if (!fs.existsSync(componentFilePath)) {
+	if (!existsSync(componentFilePath)) {
 		return;
 	}
 
@@ -27,7 +28,7 @@ export const generateComponentSpec = async (componentFilePath: string): Promise<
 		fs.writeFileSync(
 			componentSpecFilePath,
 			renderTemplate(
-				getTemplate(TemplateFileNames.COMPONENT_SPEC),
+				getTemplatePath(TemplateFileNames.COMPONENT_SPEC),
 				getComponentSpecTemplateData(componentFilePath),
 			),
 		);
@@ -60,7 +61,7 @@ const filePathToComponentNameAsKebabCase = (filePath: string): string => {
 };
 
 const getComponentSpecTemplateData = (componentFilePath: string): ComponentSpecTemplateData => {
-	const fileContent = fs.readFileSync(componentFilePath, 'utf-8');
+	const fileContent = readFileSync(componentFilePath);
 
 	return {
 		className: filePathToClassName(componentFilePath),

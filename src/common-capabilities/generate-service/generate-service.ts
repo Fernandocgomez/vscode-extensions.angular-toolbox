@@ -8,8 +8,10 @@ import {
 import { isKebabCase, kebabCaseToPascal } from '@utils';
 import * as path from 'path';
 import * as fs from 'fs';
-import { getTemplate, renderTemplate } from '@templates';
+import { getTemplatePath, renderTemplate } from '@templates';
 import { ServiceTemplateData, TemplateFileNames } from '@models';
+import { generateServiceSpec } from '../generate-service-spec/generate-service-spec';
+import { throwExceptionWhenFileExist } from '@fileSystem';
 
 /**
  * @param folderRightClickedPath /home/fernando/test/src/app
@@ -35,15 +37,26 @@ export const generateService = async (folderRightClickedPath: string): Promise<v
 				: kebabCaseToPascal(serviceName),
 		};
 
+		throwExceptionWhenFileExist(serviceFilePath);
+
 		fs.writeFileSync(
 			serviceFilePath,
 			renderTemplate(
-				getTemplate(isHttpService ? TemplateFileNames.HTTP_SERVICE : TemplateFileNames.SERVICE),
+				getTemplatePath(isHttpService ? TemplateFileNames.HTTP_SERVICE : TemplateFileNames.SERVICE),
 				serviceTemplateData,
 			),
 		);
 
 		showInformationMessage('Service was generated successfully.');
+
+		const shouldGenerateSpecFile = await promptBoolean({
+			prompt: 'Do you want to generate the spec file?',
+			options: ['Yes', 'No'],
+		});
+
+		if (shouldGenerateSpecFile) {
+			await generateServiceSpec(serviceFilePath);
+		}
 
 		await openTextFile(serviceFilePath);
 	} catch (error: any) {
