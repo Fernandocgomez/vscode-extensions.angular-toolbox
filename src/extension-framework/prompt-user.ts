@@ -52,10 +52,7 @@ export const promptInput = async (config: {
  *   options: ['Include', 'Skip']
  * });
  */
-export const promptBoolean = async (config: {
-	prompt: string;
-	options: [string, string];
-}) => {
+export const promptBoolean = async (config: { prompt: string; options: [string, string] }) => {
 	const { prompt, options } = config;
 
 	const result = await vscode.window.showQuickPick(options, {

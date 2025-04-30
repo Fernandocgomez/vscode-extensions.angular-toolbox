@@ -1,9 +1,7 @@
 import * as vscode from 'vscode';
 
 export const openTextFile = async (filePath: string): Promise<void> => {
-	await vscode.window.showTextDocument(
-		await vscode.workspace.openTextDocument(filePath),
-	);
+	await vscode.window.showTextDocument(await vscode.workspace.openTextDocument(filePath));
 };
 
 export const getUserRootPath = (): string => {

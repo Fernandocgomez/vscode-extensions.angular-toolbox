@@ -5,7 +5,5 @@ export const showErrorMessage = (message?: string): void => {
 };
 
 export const showInformationMessage = (message?: string): void => {
-	vscode.window.showInformationMessage(
-		message ? message : 'Message was not provided.',
-	);
+	vscode.window.showInformationMessage(message ? message : 'Message was not provided.');
 };
