@@ -2,7 +2,6 @@
 
 Generate Angular elements (components, services, pipes, directives) using your own custom templates. This extension streamlines your Angular development workflow by providing:
 
-
 ## Features
 
 - Custom template-based generation of Angular elements
@@ -16,7 +15,7 @@ Save time and maintain consistency across your Angular projects by standardizing
 
 ## Requirements
 
-None.
+- Angular 14+
 
 ## Known Issues
 
@@ -26,8 +25,8 @@ None.
 
 Users appreciate release notes as you update your extension.
 
-### 1.0.0
+### 0.1.0
 
-Initial release of 
+Initial release of
 
 ---
