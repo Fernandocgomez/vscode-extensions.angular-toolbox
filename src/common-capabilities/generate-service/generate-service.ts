@@ -7,11 +7,10 @@ import {
 } from '@extensionFramework';
 import { isKebabCase, kebabCaseToPascal } from '@utils';
 import * as path from 'path';
-import * as fs from 'fs';
 import { getTemplatePath, renderTemplate } from '@templates';
 import { ServiceTemplateData, TemplateFileNames } from '@models';
 import { generateServiceSpec } from '../generate-service-spec/generate-service-spec';
-import { throwExceptionWhenFileExist } from '@fileSystem';
+import { throwExceptionWhenFileExist, writeFileSync } from '@fileSystem';
 
 /**
  * @param folderRightClickedPath /home/fernando/test/src/app
@@ -39,7 +38,7 @@ export const generateService = async (folderRightClickedPath: string): Promise<v
 
 		throwExceptionWhenFileExist(serviceFilePath);
 
-		fs.writeFileSync(
+		writeFileSync(
 			serviceFilePath,
 			renderTemplate(
 				getTemplatePath(isHttpService ? TemplateFileNames.HTTP_SERVICE : TemplateFileNames.SERVICE),

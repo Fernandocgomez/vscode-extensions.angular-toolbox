@@ -1,4 +1,3 @@
-import * as fs from 'fs';
 import {
 	getComponentDirectivesDependencies,
 	getComponentModuleDependencies,
@@ -9,7 +8,7 @@ import {
 import { ComponentSpecTemplateData, TemplateFileNames } from '@models';
 import { getTemplatePath, renderTemplate } from '@templates';
 import { showErrorMessage, showInformationMessage } from '@extensionFramework';
-import { existsSync, readFileSync } from '@fileSystem';
+import { existsSync, readFileSync, writeFileSync } from '@fileSystem';
 
 /**
  * @param componentFilePath /home/fernando/test/src/app/my-component.component.ts
@@ -25,7 +24,7 @@ export const generateComponentSpec = async (componentFilePath: string): Promise<
 			'.component.spec.ts',
 		);
 
-		fs.writeFileSync(
+		writeFileSync(
 			componentSpecFilePath,
 			renderTemplate(
 				getTemplatePath(TemplateFileNames.COMPONENT_SPEC),

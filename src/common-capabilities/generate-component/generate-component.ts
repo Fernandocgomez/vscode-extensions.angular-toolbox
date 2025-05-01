@@ -1,5 +1,4 @@
 import * as path from 'path';
-import * as fs from 'fs';
 import {
 	openTextFile,
 	promptBoolean,
@@ -11,6 +10,7 @@ import { isKebabCase, kebabCaseToPascal } from '@utils';
 import { getTemplatePath, renderTemplate } from '@templates';
 import { generateComponentSpec } from '../generate-component-spec/generate-component-spec';
 import { ComponentTemplateData, TemplateFileNames } from '@models';
+import { writeFileSync } from '@fileSystem';
 
 /**
  * @param folderRightClickedPath /home/fernando/test/src/app
@@ -27,7 +27,7 @@ export const generateComponent = async (folderRightClickedPath: string): Promise
 		const nameInKebabCase = await promptForNameAsKebabCase();
 		const componentFilePath = path.join(folderRightClickedPath, `${nameInKebabCase}.component.ts`);
 
-		fs.writeFileSync(
+		writeFileSync(
 			componentFilePath,
 			renderTemplate(
 				getTemplatePath(TemplateFileNames.COMPONENT),
