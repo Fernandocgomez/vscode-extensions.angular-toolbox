@@ -16,6 +16,8 @@ Save time and maintain consistency across your Angular projects by standardizing
 ## Requirements
 
 - Angular 14+
+- Follow Angular best practice on file and class naming.
+  - [Angular coding style guide](https://angular.dev/style-guide)
 
 ## Known Issues
 
