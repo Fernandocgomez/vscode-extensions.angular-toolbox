@@ -4,25 +4,23 @@ import {
 	getComponentPipesDependencies,
 	getComponentProviderDependencies,
 	getComponentStandaloneComponentDependencies,
-} from '@utils';
+} from '@angularDependencyExtractor';
 import { ComponentSpecTemplateData, TemplateFileNames } from '@models';
 import { getTemplatePath, renderTemplate } from '@templates';
 import { showErrorMessage, showInformationMessage } from '@extensionFramework';
-import { existsSync, readFileSync, writeFileSync } from '@fileSystem';
+import { readFileSync, throwExceptionWhenFileExist, writeFileSync } from '@fileSystem';
 
 /**
  * @param componentFilePath /home/fernando/test/src/app/my-component.component.ts
  */
 export const generateComponentSpec = async (componentFilePath: string): Promise<void> => {
-	if (!existsSync(componentFilePath)) {
-		return;
-	}
-
 	try {
 		const componentSpecFilePath = componentFilePath.replace(
 			/\.component\.ts$/,
 			'.component.spec.ts',
 		);
+
+		throwExceptionWhenFileExist(componentSpecFilePath);
 
 		writeFileSync(
 			componentSpecFilePath,

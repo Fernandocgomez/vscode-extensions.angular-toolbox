@@ -12,7 +12,7 @@ export const existsSync = (filePath: string): boolean => {
  * @param filePath - absolute path  - /home/fernando/test/src/app/user-auth.service.ts
  */
 export const throwExceptionWhenFileExist = (filePath: string): void => {
-	if (!existsSync(filePath)) {
+	if (existsSync(filePath)) {
 		throw new Error('File already exist');
 	}
 };
