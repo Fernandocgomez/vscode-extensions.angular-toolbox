@@ -1,22 +1,33 @@
 import { getUserRootPath } from '@extensionFramework';
 import * as path from 'path';
 import * as ejs from 'ejs';
-import * as fs from 'fs';
+import { readFileSync, existsSync } from '@fileSystem';
 
-export const getTemplate = (templateName: string): string => {
+/**
+ * Get template absolute path.
+ * If user has not provide a directory with custom templates,
+ * it uses the default ones under src/template
+ * Throws an exception if the extension does not have access to read user files.
+ * @param templateName - file name without .ejs extension.
+ */
+export const getTemplatePath = (templateName: string): string => {
 	const customTemplatePath = getCustomTemplatePath(templateName);
 
-	if (fs.existsSync(customTemplatePath)) {
+	if (existsSync(customTemplatePath)) {
 		return customTemplatePath;
 	} else {
 		return getDefaultTemplatePath(templateName);
 	}
 };
 
-export const renderTemplate = (templatePath: string, templateData: ejs.Data): string => {
-	const templateContent = fs.readFileSync(templatePath, 'utf-8');
-
-	return ejs.render(templateContent, templateData);
+/**
+ * Return rendered dynamic template.
+ * Throws an exception when there an issue reading the template.
+ * @param templatePath - Absolute path to template file.
+ * @param templateData - object used to populate the template.
+ */
+export const renderTemplate = (templatePath: string, templateData: object): string => {
+	return ejs.render(readFileSync(templatePath), templateData);
 };
 
 const getCustomTemplatePath = (templateName: string): string => {

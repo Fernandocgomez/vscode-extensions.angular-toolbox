@@ -8,7 +8,9 @@
 			"@theming": ["./src/theming"],
 			"@utils": ["./src/utils"],
 			"@templates": ["./src/templates"],
-			"@models": ["./src/models"]
+			"@models": ["./src/models"],
+			"@fileSystem": ["./src/file-system"],
+			"@angularDependencyExtractor": ["./src/angular-dependency-extractor"]
 		},
 		"module": "Node16",
 		"target": "ES2022",

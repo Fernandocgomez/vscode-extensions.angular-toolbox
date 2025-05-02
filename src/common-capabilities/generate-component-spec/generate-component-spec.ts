@@ -1,34 +1,31 @@
-import * as fs from 'fs';
 import {
 	getComponentDirectivesDependencies,
 	getComponentModuleDependencies,
 	getComponentPipesDependencies,
 	getComponentProviderDependencies,
 	getComponentStandaloneComponentDependencies,
-} from '@utils';
+} from '@angularDependencyExtractor';
 import { ComponentSpecTemplateData, TemplateFileNames } from '@models';
-import { getTemplate, renderTemplate } from '@templates';
+import { getTemplatePath, renderTemplate } from '@templates';
 import { showErrorMessage, showInformationMessage } from '@extensionFramework';
+import { readFileSync, throwExceptionWhenFileExist, writeFileSync } from '@fileSystem';
 
 /**
- *
  * @param componentFilePath /home/fernando/test/src/app/my-component.component.ts
  */
 export const generateComponentSpec = async (componentFilePath: string): Promise<void> => {
-	if (!fs.existsSync(componentFilePath)) {
-		return;
-	}
-
 	try {
 		const componentSpecFilePath = componentFilePath.replace(
 			/\.component\.ts$/,
 			'.component.spec.ts',
 		);
 
-		fs.writeFileSync(
+		throwExceptionWhenFileExist(componentSpecFilePath);
+
+		writeFileSync(
 			componentSpecFilePath,
 			renderTemplate(
-				getTemplate(TemplateFileNames.COMPONENT_SPEC),
+				getTemplatePath(TemplateFileNames.COMPONENT_SPEC),
 				getComponentSpecTemplateData(componentFilePath),
 			),
 		);
@@ -61,7 +58,7 @@ const filePathToComponentNameAsKebabCase = (filePath: string): string => {
 };
 
 const getComponentSpecTemplateData = (componentFilePath: string): ComponentSpecTemplateData => {
-	const fileContent = fs.readFileSync(componentFilePath, 'utf-8');
+	const fileContent = readFileSync(componentFilePath);
 
 	return {
 		className: filePathToClassName(componentFilePath),

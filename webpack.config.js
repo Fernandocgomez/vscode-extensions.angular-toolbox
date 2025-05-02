@@ -38,6 +38,8 @@ const extensionConfig = {
 			'@utils': path.resolve(__dirname, 'src/utils'),
 			'@templates': path.resolve(__dirname, 'src/templates'),
 			'@models': path.resolve(__dirname, 'src/models'),
+			'@fileSystem': path.resolve(__dirname, 'src/file-system'),
+			'@angularDependencyExtractor': path.resolve(__dirname, 'src/angular-dependency-extractor'),
 		},
 	},
 	module: {
