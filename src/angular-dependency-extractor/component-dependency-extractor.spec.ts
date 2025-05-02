@@ -5,7 +5,7 @@ import {
 	getComponentPipesDependencies,
 	getComponentProviderDependencies,
 	getComponentStandaloneComponentDependencies,
-} from './component-scanning';
+} from './component-dependency-extractor';
 import {
 	ComponentWithModulesDirectivesPipesAndComponentsFixture,
 	ComponentWithModulesEndingOnModuleFixture,
