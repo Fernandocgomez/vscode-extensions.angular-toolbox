@@ -1,22 +1,45 @@
 import { generateComponent, generateService } from '@commonCapabilities';
+import { showErrorMessage, showInformationMessage } from '@extensionFramework';
 import * as vscode from 'vscode';
 
 export function activate(context: vscode.ExtensionContext) {
 	const generateComponentDisposable = vscode.commands.registerCommand(
 		'gdlc-angular-toolbox.common-capabilities.generate-component',
 		async (arg: vscode.Uri) => {
-			await generateComponent(arg.fsPath);
+			try {
+				await generateComponent(arg.fsPath);
+			} catch (error: any) {
+				showErrorMessage(error.message);
+			}
 		},
 	);
 
 	const generateServiceDisposable = vscode.commands.registerCommand(
 		'gdlc-angular-toolbox.common-capabilities.generate-service',
 		async (arg: vscode.Uri) => {
-			await generateService(arg.fsPath);
+			try {
+				await generateService(arg.fsPath);
+			} catch (error: any) {
+				showErrorMessage(error.message);
+			}
 		},
 	);
 
-	context.subscriptions.push(generateComponentDisposable, generateServiceDisposable);
+	const generatePipeDisposable = vscode.commands.registerCommand(
+		'gdlc-angular-toolbox.common-capabilities.generate-pipe',
+		async (arg: vscode.Uri) => {
+			try {
+			} catch (error: any) {
+				showErrorMessage(error.message);
+			}
+		},
+	);
+
+	context.subscriptions.push(
+		generateComponentDisposable,
+		generateServiceDisposable,
+		generatePipeDisposable,
+	);
 }
 
 export function deactivate() {}

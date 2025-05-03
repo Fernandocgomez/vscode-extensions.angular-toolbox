@@ -28,6 +28,10 @@
 				{
 					"command": "gdlc-angular-toolbox.common-capabilities.generate-service",
 					"group": "1_generation"
+				},
+				{
+					"command": "gdlc-angular-toolbox.common-capabilities.generate-pipe",
+					"group": "1_generation"
 				}
 			]
 		},
@@ -45,6 +49,10 @@
 			{
 				"command": "gdlc-angular-toolbox.common-capabilities.generate-service",
 				"title": "Generate Service"
+			},
+			{
+				"command": "gdlc-angular-toolbox.common-capabilities.generate-pipe",
+				"title": "Generate Pipe"
 			}
 		]
 	},
