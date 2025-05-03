@@ -23,35 +23,31 @@ export const generateComponent = async (folderRightClickedPath: string): Promise
 
 	const componentSelectorPrefix = needSelectorPrefix ? await promptForPrefix() : null;
 
-	try {
-		const nameInKebabCase = await promptForNameAsKebabCase();
-		const componentFilePath = path.join(folderRightClickedPath, `${nameInKebabCase}.component.ts`);
+	const nameInKebabCase = await promptForNameAsKebabCase();
+	const componentFilePath = path.join(folderRightClickedPath, `${nameInKebabCase}.component.ts`);
 
-		throwExceptionWhenFileExist(componentFilePath);
+	throwExceptionWhenFileExist(componentFilePath);
 
-		writeFileSync(
-			componentFilePath,
-			renderTemplate(
-				getTemplatePath(TemplateFileNames.COMPONENT),
-				getComponentTemplateData(nameInKebabCase, componentSelectorPrefix),
-			),
-		);
+	writeFileSync(
+		componentFilePath,
+		renderTemplate(
+			getTemplatePath(TemplateFileNames.COMPONENT),
+			getComponentTemplateData(nameInKebabCase, componentSelectorPrefix),
+		),
+	);
 
-		showInformationMessage('Component was generated successfully.');
+	showInformationMessage('Component was generated successfully.');
 
-		const shouldGenerateSpecFile = await promptBoolean({
-			prompt: 'Do you want to generate the spec file?',
-			options: ['Yes', 'No'],
-		});
+	const shouldGenerateSpecFile = await promptBoolean({
+		prompt: 'Do you want to generate the spec file?',
+		options: ['Yes', 'No'],
+	});
 
-		if (shouldGenerateSpecFile) {
-			await generateComponentSpec(componentFilePath);
-		}
-
-		await openTextFile(componentFilePath);
-	} catch (error: any) {
-		showErrorMessage(error.message);
+	if (shouldGenerateSpecFile) {
+		await generateComponentSpec(componentFilePath);
 	}
+
+	await openTextFile(componentFilePath);
 };
 
 const promptForPrefix = async (): Promise<string | null> => {
@@ -64,22 +60,13 @@ const promptForPrefix = async (): Promise<string | null> => {
 	});
 };
 
-/**
- * prompt user for component name in Kebab case if not name is provide or if the user type the esc key a error is thrown.
- */
 const promptForNameAsKebabCase = async (): Promise<string> => {
-	const nameInKebabCase = await promptInput({
+	return await promptInput({
 		prompt: 'Enter component name (kebab-case)',
 		placeHolder: 'e.g. user-profile',
 		validationFn: value =>
 			isKebabCase(value) ? null : 'Component name must be in kebab-case format',
 	});
-
-	if (!nameInKebabCase) {
-		throw new Error('Error collecting component name');
-	}
-
-	return nameInKebabCase;
 };
 
 const getComponentTemplateData = (
