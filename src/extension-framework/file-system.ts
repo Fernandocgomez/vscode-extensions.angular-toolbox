@@ -6,7 +6,7 @@ export const openTextFile = async (filePath: string): Promise<void> => {
 
 /**
  * Get the user roo path.
- * Throws an exception if the extension does not have access to read user files.
+ * @throws {Error} - Throws an exception if the extension does not have access to read user files.
  */
 export const getUserRootPath = (): string => {
 	const workspaceFolders = vscode.workspace.workspaceFolders;
