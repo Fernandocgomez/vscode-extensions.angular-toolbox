@@ -21,13 +21,13 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
   - Ask if service should global or not ✅
   - Ask if the service is an HTTP service or not ✅
   - Check if file and spec file with the same name exist ✅
-- Generate Pipe
+- Generate Pipe 🔄
   - With custom template 🔄
   - With custom spec template 🔄
   - Ask if spec should be generated or not 🔄
   - Ask if pipe should be pure 🔄
   - Check if file and spec file with the same name exist 🔄
-- Generate Directive
+- Generate Directive 🔄
   - With custom template 🔄
   - With custom spec template 🔄
   - Ask if spec should be generated or not 🔄
