@@ -17,7 +17,8 @@
 			"explorer/context": [
 				{
 					"submenu": "gdlc-angular-toolbox.menu",
-					"group": "navigation"
+					"group": "navigation",
+					"when": "explorerResourceIsFolder"
 				}
 			],
 			"gdlc-angular-toolbox.menu": [
