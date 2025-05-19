@@ -1,5 +1,5 @@
-import { generateComponent, generateService } from '@commonCapabilities';
-import { showErrorMessage, showInformationMessage } from '@extensionFramework';
+import { generateComponent, generatePipe, generateService } from '@commonCapabilities';
+import { showErrorMessage } from '@extensionFramework';
 import * as vscode from 'vscode';
 
 export function activate(context: vscode.ExtensionContext) {
@@ -29,6 +29,7 @@ export function activate(context: vscode.ExtensionContext) {
 		'gdlc-angular-toolbox.common-capabilities.generate-pipe',
 		async (arg: vscode.Uri) => {
 			try {
+				await generatePipe(arg.fsPath);
 			} catch (error: any) {
 				showErrorMessage(error.message);
 			}
