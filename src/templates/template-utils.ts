@@ -35,7 +35,5 @@ const getCustomTemplatePath = (templateName: string): string => {
 };
 
 const getDefaultTemplatePath = (templateName: string): string => {
-	const extensionPath = path.dirname(require.main?.filename || '');
-
-	return path.join(extensionPath, 'src', 'templates', `${templateName}.ejs`);
+	return path.join(__dirname, `${templateName}.ejs`);
 };
