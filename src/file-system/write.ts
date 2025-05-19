@@ -8,7 +8,7 @@ import * as fs from 'fs';
 export const writeFileSync = (filePath: string, content: string): void => {
 	try {
 		fs.writeFileSync(filePath, content);
-	} catch (error) {
-		throw new Error('An error has occurred creating file.');
+	} catch (error: any) {
+		throw new Error(`Failed to write file '${filePath}': ${error.message}`);
 	}
 };
