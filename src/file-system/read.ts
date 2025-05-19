@@ -26,7 +26,7 @@ export const throwExceptionWhenFileExist = (filePath: string): void => {
 export const readFileSync = (filePath: string): string => {
 	try {
 		return fs.readFileSync(filePath, 'utf-8');
-	} catch (error) {
-		throw new Error('Error when trying to read file content');
+	} catch (error: any) {
+		throw new Error(`Failed to read file '${filePath}': ${error.message}`);
 	}
 };

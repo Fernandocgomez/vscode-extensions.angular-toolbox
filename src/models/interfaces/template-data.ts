@@ -20,7 +20,7 @@ export interface ComponentTemplateData {
 }
 
 export interface ServiceTemplateData {
-	isGlobal: boolean;
+	isGlobal: boolean; // true or false
 	className: string; // UserAuthService(HTTP) or Logger(None Http)
 }
 
@@ -29,3 +29,11 @@ export interface ServiceSpecTemplateData {
 	serviceFileName: string; // user-auth.service.ts or logger.service.ts
 	providers: Dependency[];
 }
+
+export interface PipeTemplateData {
+	className: string; // SimpleFormatPipe
+	pipeNameAsKebabCase: string; // simple-format
+	selector: string; // appSimpleFormat
+}
+
+export interface PipeSpecTemplateData {}
