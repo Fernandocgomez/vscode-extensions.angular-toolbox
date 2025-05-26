@@ -7,7 +7,7 @@ import {
 } from '@angularDependencyExtractor';
 import { ComponentSpecTemplateData, TemplateFileNames } from '@models';
 import { getTemplatePath, renderTemplate } from '@templates';
-import { showErrorMessage, showInformationMessage } from '@extensionFramework';
+import { showInformationMessage } from '@extensionFramework';
 import { readFileSync, throwExceptionWhenFileExist, writeFileSync } from '@fileSystem';
 
 /**
