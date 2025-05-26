@@ -2,7 +2,6 @@ import {
 	openTextFile,
 	promptBoolean,
 	promptInput,
-	showErrorMessage,
 	showInformationMessage,
 } from '@extensionFramework';
 import { isKebabCase, kebabCaseToPascal } from '@utils';
