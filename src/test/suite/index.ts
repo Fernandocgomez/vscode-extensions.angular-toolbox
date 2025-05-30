@@ -1,12 +1,26 @@
 import * as path from 'path';
 import Mocha = require('mocha');
 import { glob } from 'glob';
+import { ensureExtensionActivated, cleanupSrcDirectory } from '../util';
 
 export function run(): Promise<void> {
 	// Create the mocha test
 	const mocha = new Mocha({
 		ui: 'tdd',
 		color: true,
+		parallel: true,
+	});
+
+	mocha.suite.beforeAll(async function () {
+		this.timeout(0);
+
+		await ensureExtensionActivated();
+		await cleanupSrcDirectory();
+	});
+
+	mocha.suite.afterAll(async function () {
+		this.timeout(0);
+		await cleanupSrcDirectory();
 	});
 
 	const testsRoot = path.resolve(__dirname, '..');
