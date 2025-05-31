@@ -2,22 +2,26 @@ import * as assert from 'assert';
 import * as vscode from 'vscode';
 import * as sinon from 'sinon';
 import {
-	cleanupSrcDirectory,
+	removeSrcDirectory,
 	createPromptStub,
-	ensureExtensionActivated,
 	executeCommand,
 	getSrcDirectoryPath,
 	makeSrcDirectory,
+	makeAngularCustomTemplatesDirectory,
+	createTemplateFile,
+	removeAngularCustomTemplatesDirectory,
 } from '../util';
 import * as fs from 'fs';
 import * as path from 'path';
 import {
 	componentSpecFixture,
 	componentWithoutPrefixFixture,
+	componentWithoutPrefixGeneratedUsingCustomTemplateFixture,
 	componentWithPrefixFixture,
 } from './fixtures';
+import { customComponentTemplateTestingData } from './custom-templates-testing-data';
 
-suite('Extension Interaction Tests', () => {
+suite('Generate Component', () => {
 	let sandbox: sinon.SinonSandbox;
 
 	setup(async () => {
@@ -29,7 +33,7 @@ suite('Extension Interaction Tests', () => {
 	teardown(async () => {
 		sandbox.restore();
 
-		await cleanupSrcDirectory();
+		await removeSrcDirectory();
 	});
 
 	test('should generate a component and spec file when running the "gdlc-angular-toolbox.common-capabilities.generate-component" command', async () => {
@@ -119,5 +123,31 @@ suite('Extension Interaction Tests', () => {
 			componentWithoutPrefixFixture.replace(/\r\n/g, '\n'),
 			'Generated component content does not match fixture.',
 		);
+	});
+
+	test('should generate a component file only, but using a custom template when the user provide it', async () => {
+		await makeAngularCustomTemplatesDirectory();
+		await createTemplateFile('component', customComponentTemplateTestingData);
+		createPromptStub(sandbox)
+			.quickPick('No') // 1. "Do you want to prefix your component selector?"
+			.inputBox('dummy') // 2. "Enter component name (kebab-case)"
+			.quickPick('No') // 3. "Do you want to generate the spec file?"
+			.apply();
+
+		await executeCommand(
+			'gdlc-angular-toolbox.common-capabilities.generate-component',
+			vscode.Uri.file(getSrcDirectoryPath()),
+		);
+
+		const componentPath = path.join(getSrcDirectoryPath(), 'dummy.component.ts');
+		const generatedComponentContent = fs.readFileSync(componentPath, 'utf-8');
+
+		assert.strictEqual(
+			generatedComponentContent.replace(/\r\n/g, '\n'),
+			componentWithoutPrefixGeneratedUsingCustomTemplateFixture.replace(/\r\n/g, '\n'),
+			'Generated component content does not match fixture.',
+		);
+
+		await removeAngularCustomTemplatesDirectory();
 	});
 });
