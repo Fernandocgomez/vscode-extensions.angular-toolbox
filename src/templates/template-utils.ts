@@ -31,7 +31,7 @@ export const renderTemplate = (templatePath: string, templateData: object): stri
 };
 
 const getCustomTemplatePath = (templateName: string): string => {
-	return path.join(getUserRootPath(), '.angular-toolbox-templates', `${templateName}.ejs`);
+	return path.join(getUserRootPath(), '.angular-custom-templates', `${templateName}.ejs`);
 };
 
 const getDefaultTemplatePath = (templateName: string): string => {
