@@ -1,7 +1,8 @@
 import * as path from 'path';
 import Mocha = require('mocha');
 import { glob } from 'glob';
-import { ensureExtensionActivated, cleanupSrcDirectory } from '../util';
+import { ensureExtensionActivated, getSrcDirectoryPath, removeSrcDirectory } from '../util';
+import { existsSync } from '@fileSystem';
 
 export function run(): Promise<void> {
 	// Create the mocha test
@@ -15,12 +16,18 @@ export function run(): Promise<void> {
 		this.timeout(0);
 
 		await ensureExtensionActivated();
-		await cleanupSrcDirectory();
+
+		if (existsSync(getSrcDirectoryPath())) {
+			await removeSrcDirectory();
+		}
 	});
 
 	mocha.suite.afterAll(async function () {
 		this.timeout(0);
-		await cleanupSrcDirectory();
+
+		if (existsSync(getSrcDirectoryPath())) {
+			await removeSrcDirectory();
+		}
 	});
 
 	const testsRoot = path.resolve(__dirname, '..');
