@@ -22,6 +22,20 @@ export const componentWithoutPrefixFixture = `import { Component, ChangeDetectio
 })
 export class DummyComponent {}`;
 
+export const componentWithoutPrefixGeneratedUsingCustomTemplateFixture = `import { Component, ChangeDetectionStrategy } from '@angular/core';
+
+// I am a custom template
+
+@Component({
+  selector: 'dummy',
+  standalone: true,
+  imports: [],
+  template: '',
+  styles: [],
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class DummyComponent {}`;
+
 export const componentSpecFixture = `import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { DummyComponent } from './dummy.component';
 
