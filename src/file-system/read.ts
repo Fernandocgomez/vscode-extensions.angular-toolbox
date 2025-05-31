@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 
 /**
- * Return true when the file exist on the path provided.
+ * Return true when the file or directory exist on the path provided.
  * @param filePath - absolute path  - /home/fernando/test/src/app/user-auth.service.ts
  */
 export const existsSync = (filePath: string): boolean => {
