@@ -2,7 +2,7 @@ import {
 	getComponentDirectivesDependencies,
 	getComponentModuleDependencies,
 	getComponentPipesDependencies,
-	getComponentProviderDependencies,
+	getProviderDependencies,
 	getComponentStandaloneComponentDependencies,
 } from '@angularDependencyExtractor';
 import { ComponentSpecTemplateData, TemplateFileNames } from '@models';
@@ -56,7 +56,7 @@ const getComponentSpecTemplateData = (componentFilePath: string): ComponentSpecT
 	return {
 		className: filePathToClassName(componentFilePath),
 		componentNameAsKebabCase: filePathToComponentNameAsKebabCase(componentFilePath),
-		providers: getComponentProviderDependencies(fileContent),
+		providers: getProviderDependencies(fileContent),
 		modules: getComponentModuleDependencies(fileContent),
 		components: getComponentStandaloneComponentDependencies(fileContent),
 		pipes: getComponentPipesDependencies(fileContent),

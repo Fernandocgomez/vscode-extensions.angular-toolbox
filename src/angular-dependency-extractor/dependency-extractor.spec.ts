@@ -3,9 +3,9 @@ import {
 	getComponentDirectivesDependencies,
 	getComponentModuleDependencies,
 	getComponentPipesDependencies,
-	getComponentProviderDependencies,
+	getProviderDependencies,
 	getComponentStandaloneComponentDependencies,
-} from './component-dependency-extractor';
+} from './dependency-extractor';
 import {
 	ComponentWithModulesDirectivesPipesAndComponentsFixture,
 	ComponentWithModulesEndingOnModuleFixture,
@@ -23,17 +23,13 @@ import {
 	ComponentWithTwoPipesFixture,
 } from './fixtures';
 
-describe('getComponentProviderDependencies', () => {
+describe('getProviderDependencies', () => {
 	test('should return an empty array when there are not providers being injected', () => {
-		expect(getComponentProviderDependencies(ComponentWithoutAnyProviderFixture)).toEqual<
-			Dependency[]
-		>([]);
+		expect(getProviderDependencies(ComponentWithoutAnyProviderFixture)).toEqual<Dependency[]>([]);
 	});
 
 	test('should return an array with one element', () => {
-		expect(getComponentProviderDependencies(ComponentWithSingleProviderFixture)).toEqual<
-			Dependency[]
-		>([
+		expect(getProviderDependencies(ComponentWithSingleProviderFixture)).toEqual<Dependency[]>([
 			{
 				className: 'CoolService',
 				importPath: './services',
@@ -42,42 +38,42 @@ describe('getComponentProviderDependencies', () => {
 	});
 
 	test('should return an array with all the providers', () => {
-		expect(getComponentProviderDependencies(ComponentWithoutMultipleProvidersFixture)).toEqual<
-			Dependency[]
-		>([
-			{
-				className: 'CoolService',
-				importPath: './services/cool.service',
-			},
-			{
-				className: 'GlobalService',
-				importPath: '@globalServices',
-			},
-			{
-				className: 'PublicService',
-				importPath: './services/public.service',
-			},
-			{
-				className: 'WithoutServiceSuffix',
-				importPath: './services/without-service-suffix.service',
-			},
-			{
-				className: 'ConstructorPrivateService',
-				importPath: './services/constructor-private.service',
-			},
-			{
-				className: 'ConstructorImmutablePublicService',
-				importPath: './services/constructor-immutable-public.service',
-			},
-			{
-				className: 'ConstructorMutablePublicService',
-				importPath: './services/constructor-mutable-public.service',
-			},
-			{
-				className: 'ConstructorWithoutServiceSuffix',
-				importPath: './services/constructor-without-service-suffix.service',
-			},
-		]);
+		expect(getProviderDependencies(ComponentWithoutMultipleProvidersFixture)).toEqual<Dependency[]>(
+			[
+				{
+					className: 'CoolService',
+					importPath: './services/cool.service',
+				},
+				{
+					className: 'GlobalService',
+					importPath: '@globalServices',
+				},
+				{
+					className: 'PublicService',
+					importPath: './services/public.service',
+				},
+				{
+					className: 'WithoutServiceSuffix',
+					importPath: './services/without-service-suffix.service',
+				},
+				{
+					className: 'ConstructorPrivateService',
+					importPath: './services/constructor-private.service',
+				},
+				{
+					className: 'ConstructorImmutablePublicService',
+					importPath: './services/constructor-immutable-public.service',
+				},
+				{
+					className: 'ConstructorMutablePublicService',
+					importPath: './services/constructor-mutable-public.service',
+				},
+				{
+					className: 'ConstructorWithoutServiceSuffix',
+					importPath: './services/constructor-without-service-suffix.service',
+				},
+			],
+		);
 	});
 });
 
