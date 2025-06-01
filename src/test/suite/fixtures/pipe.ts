@@ -61,3 +61,16 @@ describe('FormatDatePipe', () => {
     expect(pipe).toBeTruthy();
   });
 });`;
+
+export const customTemplatePipeFixture = `import { Pipe, PipeTransform } from "@angular/core";
+
+// I am a custom template
+
+@Pipe({
+  name: 'dummy',
+})
+export class DummyPipe implements PipeTransform {
+  transform(value: number): string {
+    return '';
+  }
+}`;
