@@ -2,7 +2,6 @@ import {
 	openTextFile,
 	promptBoolean,
 	promptInput,
-	showErrorMessage,
 	showInformationMessage,
 } from '@extensionFramework';
 import { isKebabCase, kebabCaseToPascal } from '@utils';
@@ -26,54 +25,45 @@ export const generateService = async (folderRightClickedPath: string): Promise<v
 		options: ['Yes', 'No'],
 	});
 
-	try {
-		const serviceName = await askForServiceName();
-		const serviceFilePath = path.join(folderRightClickedPath, `${serviceName}.service.ts`);
-		const serviceTemplateData: ServiceTemplateData = {
-			isGlobal: isServiceGlobal,
-			className: isHttpService
-				? `${kebabCaseToPascal(serviceName)}Service`
-				: kebabCaseToPascal(serviceName),
-		};
+	const serviceName = await askForServiceName();
+	const serviceFilePath = path.join(folderRightClickedPath, `${serviceName}.service.ts`);
+	const serviceTemplateData: ServiceTemplateData = {
+		isGlobal: isServiceGlobal,
+		className: isHttpService
+			? `${kebabCaseToPascal(serviceName)}Service`
+			: kebabCaseToPascal(serviceName),
+	};
 
-		throwExceptionWhenFileExist(serviceFilePath);
+	throwExceptionWhenFileExist(serviceFilePath);
 
-		writeFileSync(
-			serviceFilePath,
-			renderTemplate(
-				getTemplatePath(isHttpService ? TemplateFileNames.HTTP_SERVICE : TemplateFileNames.SERVICE),
-				serviceTemplateData,
-			),
-		);
+	writeFileSync(
+		serviceFilePath,
+		renderTemplate(
+			getTemplatePath(isHttpService ? TemplateFileNames.HTTP_SERVICE : TemplateFileNames.SERVICE),
+			serviceTemplateData,
+		),
+	);
 
-		showInformationMessage('Service was generated successfully.');
+	showInformationMessage('Service was generated successfully.');
 
-		const shouldGenerateSpecFile = await promptBoolean({
-			prompt: 'Do you want to generate the spec file?',
-			options: ['Yes', 'No'],
-		});
+	const shouldGenerateSpecFile = await promptBoolean({
+		prompt: 'Do you want to generate the spec file?',
+		options: ['Yes', 'No'],
+	});
 
-		if (shouldGenerateSpecFile) {
-			await generateServiceSpec(serviceFilePath);
-		}
-
-		await openTextFile(serviceFilePath);
-	} catch (error: any) {
-		showErrorMessage(error.message);
+	if (shouldGenerateSpecFile) {
+		await generateServiceSpec(serviceFilePath);
 	}
+
+	await openTextFile(serviceFilePath);
 };
 
 const askForServiceName = async (): Promise<string> => {
-	const nameInKebabCase = await promptInput({
+	return await promptInput({
 		prompt: 'Enter service name (kebab-case)',
 		placeHolder: 'e.g. user-auth',
 		validationFn: value =>
 			isKebabCase(value) ? null : 'Service name must be in kebab-case format',
+		errorMessage: 'Error collecting service name',
 	});
-
-	if (!nameInKebabCase) {
-		throw new Error('Error collecting service name');
-	}
-
-	return nameInKebabCase;
 };

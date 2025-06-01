@@ -5,7 +5,7 @@ import {
 	getAllImportStatements,
 } from './shared';
 
-export const getComponentProviderDependencies = (fileContent: string): Dependency[] => {
+export const getProviderDependencies = (fileContent: string): Dependency[] => {
 	return combineImportStatementsWithClassnames(
 		getAllImportStatements(fileContent),
 		getAllClassNamesBeingInjected(fileContent),

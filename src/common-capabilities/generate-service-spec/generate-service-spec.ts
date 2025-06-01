@@ -8,37 +8,33 @@ import { getTemplatePath, renderTemplate } from '@templates';
  * @param serviceFilePath /home/fernando/test/src/app/user-auth.service.ts
  */
 export const generateServiceSpec = async (serviceFilePath: string): Promise<void> => {
-	try {
-		const serviceSpecFilePath = serviceFilePath.replace(/\.service\.ts$/, '.service.spec.ts');
+	const serviceSpecFilePath = serviceFilePath.replace(/\.service\.ts$/, '.service.spec.ts');
 
-		throwExceptionWhenFileExist(serviceSpecFilePath);
+	throwExceptionWhenFileExist(serviceSpecFilePath);
 
-		const serviceFileContent = readFileSync(serviceFilePath);
-		const serviceDependencies = getServiceDependenciesBeingInjected(serviceFileContent);
-		const isHttpService = serviceDependencies.some(
-			dependency => dependency.className === 'HttpClient',
-		);
+	const serviceFileContent = readFileSync(serviceFilePath);
+	const serviceDependencies = getServiceDependenciesBeingInjected(serviceFileContent);
+	const isHttpService = serviceDependencies.some(
+		dependency => dependency.className === 'HttpClient',
+	);
 
-		const templateData: ServiceSpecTemplateData = {
-			className: extractServiceClassName(serviceFileContent),
-			serviceFileName: extractFilename(serviceFilePath),
-			providers: serviceDependencies,
-		};
+	const templateData: ServiceSpecTemplateData = {
+		className: extractServiceClassName(serviceFileContent),
+		serviceFileName: extractFilename(serviceFilePath),
+		providers: serviceDependencies,
+	};
 
-		writeFileSync(
-			serviceSpecFilePath,
-			renderTemplate(
-				getTemplatePath(
-					isHttpService ? TemplateFileNames.HTTP_SERVICE_SPEC : TemplateFileNames.SERVICE_SPEC,
-				),
-				templateData,
+	writeFileSync(
+		serviceSpecFilePath,
+		renderTemplate(
+			getTemplatePath(
+				isHttpService ? TemplateFileNames.HTTP_SERVICE_SPEC : TemplateFileNames.SERVICE_SPEC,
 			),
-		);
+			templateData,
+		),
+	);
 
-		showInformationMessage('Spec was generated successfully.');
-	} catch (error: any) {
-		showInformationMessage(error.message);
-	}
+	showInformationMessage('Spec was generated successfully.');
 };
 
 const extractServiceClassName = (serviceFileContent: string): string => {

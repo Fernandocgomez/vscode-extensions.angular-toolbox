@@ -2,38 +2,31 @@ import {
 	getComponentDirectivesDependencies,
 	getComponentModuleDependencies,
 	getComponentPipesDependencies,
-	getComponentProviderDependencies,
+	getProviderDependencies,
 	getComponentStandaloneComponentDependencies,
 } from '@angularDependencyExtractor';
 import { ComponentSpecTemplateData, TemplateFileNames } from '@models';
 import { getTemplatePath, renderTemplate } from '@templates';
-import { showErrorMessage, showInformationMessage } from '@extensionFramework';
+import { showInformationMessage } from '@extensionFramework';
 import { readFileSync, throwExceptionWhenFileExist, writeFileSync } from '@fileSystem';
 
 /**
  * @param componentFilePath /home/fernando/test/src/app/my-component.component.ts
  */
 export const generateComponentSpec = async (componentFilePath: string): Promise<void> => {
-	try {
-		const componentSpecFilePath = componentFilePath.replace(
-			/\.component\.ts$/,
-			'.component.spec.ts',
-		);
+	const componentSpecFilePath = componentFilePath.replace(/\.component\.ts$/, '.component.spec.ts');
 
-		throwExceptionWhenFileExist(componentSpecFilePath);
+	throwExceptionWhenFileExist(componentSpecFilePath);
 
-		writeFileSync(
-			componentSpecFilePath,
-			renderTemplate(
-				getTemplatePath(TemplateFileNames.COMPONENT_SPEC),
-				getComponentSpecTemplateData(componentFilePath),
-			),
-		);
+	writeFileSync(
+		componentSpecFilePath,
+		renderTemplate(
+			getTemplatePath(TemplateFileNames.COMPONENT_SPEC),
+			getComponentSpecTemplateData(componentFilePath),
+		),
+	);
 
-		showInformationMessage('Spec was generated successfully.');
-	} catch (error: any) {
-		showErrorMessage(error.message);
-	}
+	showInformationMessage('Spec was generated successfully.');
 };
 
 /**
@@ -63,7 +56,7 @@ const getComponentSpecTemplateData = (componentFilePath: string): ComponentSpecT
 	return {
 		className: filePathToClassName(componentFilePath),
 		componentNameAsKebabCase: filePathToComponentNameAsKebabCase(componentFilePath),
-		providers: getComponentProviderDependencies(fileContent),
+		providers: getProviderDependencies(fileContent),
 		modules: getComponentModuleDependencies(fileContent),
 		components: getComponentStandaloneComponentDependencies(fileContent),
 		pipes: getComponentPipesDependencies(fileContent),

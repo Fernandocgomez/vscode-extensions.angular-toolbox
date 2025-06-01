@@ -3,6 +3,7 @@
 'use strict';
 
 const path = require('path');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 //@ts-check
 /** @typedef {import('webpack').Configuration} WebpackConfig **/
@@ -59,5 +60,18 @@ const extensionConfig = {
 	infrastructureLogging: {
 		level: 'log', // enables logging required for problem matchers
 	},
+	plugins: [
+		new CopyWebpackPlugin({
+			patterns: [
+				{
+					from: path.resolve(__dirname, 'src', 'templates'), // Source: /home/fernando/gdlc-angular-extension/src/templates/
+					to: path.resolve(__dirname, 'dist'), // Destination: /home/fernando/gdlc-angular-extension/dist/
+					globOptions: {
+						ignore: ['**/*.ts'],
+					},
+				},
+			],
+		}),
+	],
 };
 module.exports = [extensionConfig];
