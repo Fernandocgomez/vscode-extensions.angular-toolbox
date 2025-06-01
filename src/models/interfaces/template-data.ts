@@ -32,8 +32,11 @@ export interface ServiceSpecTemplateData {
 
 export interface PipeTemplateData {
 	className: string; // SimpleFormatPipe
-	pipeNameAsKebabCase: string; // simple-format
 	selector: string; // appSimpleFormat
 }
 
-export interface PipeSpecTemplateData {}
+export interface PipeSpecTemplateData {
+	className: string; // SimpleFormatPipe
+	pipeNameAsKebabCase: string; // simple-format
+	providers: Dependency[];
+}

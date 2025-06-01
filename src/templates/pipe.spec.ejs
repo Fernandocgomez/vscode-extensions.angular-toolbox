@@ -1,0 +1,18 @@
+import { <%= className %> } from './<%= pipeNameAsKebabCase %>.pipe';
+import { TestBed } from '@angular/core/testing';
+
+describe('<%= className %>', () => {
+  let pipe: <%= className %>;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [<%= className %>],
+    });
+    
+    pipe = TestBed.inject(<%= className %>);
+  });
+
+  it('should create an instance', () => {
+    expect(pipe).toBeTruthy();
+  });
+});

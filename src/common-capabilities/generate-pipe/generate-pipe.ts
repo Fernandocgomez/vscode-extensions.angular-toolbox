@@ -1,9 +1,15 @@
-import { promptBoolean, promptInput, showInformationMessage } from '@extensionFramework';
+import {
+	openTextFile,
+	promptBoolean,
+	promptInput,
+	showInformationMessage,
+} from '@extensionFramework';
 import { throwExceptionWhenFileExist, writeFileSync } from '@fileSystem';
 import { PipeTemplateData, TemplateFileNames } from '@models';
 import { getTemplatePath, renderTemplate } from '@templates';
 import { camelCaseToKebabCase, isCamelCase } from '@utils';
 import * as path from 'path';
+import { generatePipeSpec } from '../generate-pipe-spec/generate-pipe-spec';
 
 /**
  * @param folderRightClickedPath /home/fernando/test/src/app
@@ -33,8 +39,16 @@ export const generatePipe = async (folderRightClickedPath: string): Promise<void
 
 	showInformationMessage('Pipe was generated successfully.');
 
-	// There is a bug when creating a pipe.
-	// We are getting the error "Default template does not exist."
+	const shouldGenerateSpecFile = await promptBoolean({
+		prompt: 'Do you want to generate the spec file?',
+		options: ['Yes', 'No'],
+	});
+
+	if (shouldGenerateSpecFile) {
+		await generatePipeSpec(pipeFilePath);
+	}
+
+	await openTextFile(pipeFilePath);
 };
 
 const promptForPrefix = async (): Promise<string | null> => {
@@ -59,12 +73,12 @@ const getPipeTemplateData = (
 	prefix: string | null,
 	pipeNameInCamelCase: string,
 ): PipeTemplateData => {
-	const selector = prefix ? `${prefix}${pipeNameInCamelCase}` : pipeNameInCamelCase;
-	const pipeNameAsKebabCase = camelCaseToKebabCase(pipeNameInCamelCase);
+	const selector = prefix
+		? `${prefix}${pipeNameInCamelCase.charAt(0).toUpperCase() + pipeNameInCamelCase.slice(1)}`
+		: pipeNameInCamelCase;
 
 	return {
-		className: `${pipeNameInCamelCase}Pipe`,
-		pipeNameAsKebabCase,
+		className: `${pipeNameInCamelCase.charAt(0).toUpperCase() + pipeNameInCamelCase.slice(1)}Pipe`,
 		selector,
 	};
 };
