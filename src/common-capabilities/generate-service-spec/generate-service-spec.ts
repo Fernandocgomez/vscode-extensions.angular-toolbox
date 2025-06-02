@@ -1,40 +1,19 @@
 import { getServiceDependenciesBeingInjected } from '@angularDependencyExtractor';
-import { showInformationMessage } from '@extensionFramework';
-import { readFileSync, throwExceptionWhenFileExist, writeFileSync } from '@fileSystem';
+import { readFileSync } from '@fileSystem';
 import { ServiceSpecTemplateData, TemplateFileNames } from '@models';
-import { getTemplatePath, renderTemplate } from '@templates';
+import { generateSpec } from '../generate-spec/generate-spec';
 
 /**
  * @param serviceFilePath /home/fernando/test/src/app/user-auth.service.ts
  */
 export const generateServiceSpec = async (serviceFilePath: string): Promise<void> => {
-	const serviceSpecFilePath = serviceFilePath.replace(/\.service\.ts$/, '.service.spec.ts');
+	const { templateData, templateName } = getTemplateNameAndTemplateData(serviceFilePath);
 
-	throwExceptionWhenFileExist(serviceSpecFilePath);
-
-	const serviceFileContent = readFileSync(serviceFilePath);
-	const serviceDependencies = getServiceDependenciesBeingInjected(serviceFileContent);
-	const isHttpService = serviceDependencies.some(
-		dependency => dependency.className === 'HttpClient',
+	generateSpec(
+		serviceFilePath.replace(/\.service\.ts$/, '.service.spec.ts'),
+		templateName,
+		templateData,
 	);
-
-	const templateData: ServiceSpecTemplateData = {
-		className: extractServiceClassName(serviceFileContent),
-		serviceFileName: extractFilename(serviceFilePath),
-		providers: serviceDependencies,
-	};
-
-	writeFileSync(
-		serviceSpecFilePath,
-		renderTemplate(
-			getTemplatePath(
-				isHttpService ? TemplateFileNames.HTTP_SERVICE_SPEC : TemplateFileNames.SERVICE_SPEC,
-			),
-			templateData,
-		),
-	);
-
-	showInformationMessage('Spec was generated successfully.');
 };
 
 const extractServiceClassName = (serviceFileContent: string): string => {
@@ -49,4 +28,22 @@ const extractServiceClassName = (serviceFileContent: string): string => {
 
 const extractFilename = (serviceFilePath: string): string => {
 	return (serviceFilePath.split('/').pop() || '').replace(/\.service\.ts$/, '.service');
+};
+
+const getTemplateNameAndTemplateData = (
+	serviceFilePath: string,
+): { templateName: string; templateData: ServiceSpecTemplateData } => {
+	const serviceFileContent = readFileSync(serviceFilePath);
+	const serviceDependencies = getServiceDependenciesBeingInjected(serviceFileContent);
+
+	return {
+		templateName: serviceDependencies.some(dependency => dependency.className === 'HttpClient')
+			? TemplateFileNames.HTTP_SERVICE_SPEC
+			: TemplateFileNames.SERVICE_SPEC,
+		templateData: {
+			className: extractServiceClassName(serviceFileContent),
+			serviceFileName: extractFilename(serviceFilePath),
+			providers: serviceDependencies,
+		},
+	};
 };
