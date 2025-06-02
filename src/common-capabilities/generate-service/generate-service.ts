@@ -1,15 +1,9 @@
-import {
-	openTextFile,
-	promptBoolean,
-	promptInput,
-	showInformationMessage,
-} from '@extensionFramework';
+import { promptBoolean, promptInput } from '@extensionFramework';
 import { isKebabCase, kebabCaseToPascal } from '@utils';
 import * as path from 'path';
-import { getTemplatePath, renderTemplate } from '@templates';
 import { ServiceTemplateData, TemplateFileNames } from '@models';
 import { generateServiceSpec } from '../generate-service-spec/generate-service-spec';
-import { throwExceptionWhenFileExist, writeFileSync } from '@fileSystem';
+import { generateElement } from '../generate-element/generate-element';
 
 /**
  * @param folderRightClickedPath /home/fernando/test/src/app
@@ -26,7 +20,6 @@ export const generateService = async (folderRightClickedPath: string): Promise<v
 	});
 
 	const serviceName = await askForServiceName();
-	const serviceFilePath = path.join(folderRightClickedPath, `${serviceName}.service.ts`);
 	const serviceTemplateData: ServiceTemplateData = {
 		isGlobal: isServiceGlobal,
 		className: isHttpService
@@ -34,28 +27,12 @@ export const generateService = async (folderRightClickedPath: string): Promise<v
 			: kebabCaseToPascal(serviceName),
 	};
 
-	throwExceptionWhenFileExist(serviceFilePath);
-
-	writeFileSync(
-		serviceFilePath,
-		renderTemplate(
-			getTemplatePath(isHttpService ? TemplateFileNames.HTTP_SERVICE : TemplateFileNames.SERVICE),
-			serviceTemplateData,
-		),
+	await generateElement(
+		path.join(folderRightClickedPath, `${serviceName}.service.ts`),
+		isHttpService ? TemplateFileNames.HTTP_SERVICE : TemplateFileNames.SERVICE,
+		serviceTemplateData,
+		generateServiceSpec,
 	);
-
-	showInformationMessage('Service was generated successfully.');
-
-	const shouldGenerateSpecFile = await promptBoolean({
-		prompt: 'Do you want to generate the spec file?',
-		options: ['Yes', 'No'],
-	});
-
-	if (shouldGenerateSpecFile) {
-		await generateServiceSpec(serviceFilePath);
-	}
-
-	await openTextFile(serviceFilePath);
 };
 
 const askForServiceName = async (): Promise<string> => {
