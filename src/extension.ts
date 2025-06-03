@@ -45,7 +45,7 @@ export function activate(context: vscode.ExtensionContext) {
 		'gdlc-angular-toolbox.common-capabilities.generate-directive',
 		async (arg: vscode.Uri) => {
 			try {
-				generateDirective(arg.fsPath);
+				await generateDirective(arg.fsPath);
 			} catch (error: any) {
 				showErrorMessage(error.message);
 			}
