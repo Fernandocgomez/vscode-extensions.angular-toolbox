@@ -8,16 +8,25 @@ import {
 	assertItExists,
 	assertStrictEqual,
 	createPromptStub,
+	createTemplateFile,
 	executeCommand,
 	getSrcDirectoryPath,
+	makeAngularCustomTemplatesDirectory,
 	makeSrcDirectory,
+	removeAngularCustomTemplatesDirectory,
 	removeSrcDirectory,
 } from '../util';
 import {
 	directiveSpecFixture,
+	directiveWithCustomTemplateFixture,
+	directiveWithCustomTemplateSpecFixture,
 	directiveWithoutPrefix,
 	directiveWithPrefixFixture,
 } from './fixtures';
+import {
+	customDirectiveSpecTemplateTestingData,
+	customDirectiveTemplateTestingData,
+} from './custom-templates-testing-data';
 
 suite('Generate Directive Test Suite', () => {
 	let sandbox: sinon.SinonSandbox;
@@ -93,7 +102,25 @@ suite('Generate Directive Test Suite', () => {
 				);
 			});
 
-			// test('should generate a directive using the custom directive template when the user provides one', async () => {});
+			test('should generate a directive using the custom directive template when the user provides one', async () => {
+				await makeAngularCustomTemplatesDirectory();
+				await createTemplateFile('directive', customDirectiveTemplateTestingData);
+				createPromptStub(sandbox)
+					.quickPick('No') // 1. "Do you want to prefix your directive selector?"
+					.inputBox('highlightContentOnHover') // 2. "Enter directive name (camel-case)"
+					.quickPick('No') // 3. "Do you want to generate the spec file?"
+					.apply();
+
+				await runCommand();
+
+				assertStrictEqual(
+					path.join(getSrcDirectoryPath(), 'highlight-content-on-hover.directive.ts'),
+					directiveWithCustomTemplateFixture,
+					'Generated directive content does not match fixture.',
+				);
+
+				await removeAngularCustomTemplatesDirectory();
+			});
 
 			test('should generate a directive spec using the default directive spec template when the user does not provide a custom one', async () => {
 				createPromptStub(sandbox)
@@ -112,7 +139,25 @@ suite('Generate Directive Test Suite', () => {
 				);
 			});
 
-			// test('should generate a directive spec using the custom directive spec template when the user provides one', async () => {});
+			test('should generate a directive spec using the custom directive spec template when the user provides one', async () => {
+				await makeAngularCustomTemplatesDirectory();
+				await createTemplateFile('directive.spec', customDirectiveSpecTemplateTestingData);
+				createPromptStub(sandbox)
+					.quickPick('No') // 1. "Do you want to prefix your directive selector?"
+					.inputBox('highlightContentOnHover') // 2. "Enter directive name (camel-case)"
+					.quickPick('Yes') // 3. "Do you want to generate the spec file?"
+					.apply();
+
+				await runCommand();
+
+				assertStrictEqual(
+					path.join(getSrcDirectoryPath(), 'highlight-content-on-hover.directive.spec.ts'),
+					directiveWithCustomTemplateSpecFixture,
+					'Generated directive content does not match fixture.',
+				);
+
+				await removeAngularCustomTemplatesDirectory();
+			});
 
 			test('should generate a directive without prefix if the user select "No" to the question "Do you want to prefix your directive selector?', async () => {
 				createPromptStub(sandbox)
