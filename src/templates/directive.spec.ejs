@@ -1,0 +1,26 @@
+import { TestBed, Component } from '@angular/core/testing';
+import { <%= className %> } from './<%= directiveFileName %>';
+
+@Component({
+  template: `<div [<%= selector %>]>Host Element</div>`,
+  standalone: true,
+  imports: [<%= className %>]
+})
+class TestHostComponent {}
+
+describe('<%= className %>', () => {
+  let fixture: ComponentFixture<TestHostComponent>;
+
+  beforeEach(() => {
+    fixture = TestBed.configureTestingModule({
+      imports: [<%= className %>, TestHostComponent]
+    });
+
+    fixture = TestBed.createComponent(TestHostComponent);
+    fixture.detectChanges();
+  });
+
+  it('should ', () => {
+    expect(fixture).toBeTruthy();
+  });
+});
