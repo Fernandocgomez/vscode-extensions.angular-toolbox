@@ -4,6 +4,8 @@ import { generateElement } from '../generate-element/generate-element';
 import * as path from 'path';
 import { DirectiveSpecTemplateData, DirectiveTemplateData, TemplateFileNames } from '@models';
 import { generateSpec } from '../generate-spec/generate-spec';
+import { readFileSync } from '@fileSystem';
+import { getProviderDependencies } from '@angularDependencyExtractor';
 
 /**
  * @param folderRightClickedPath /home/fernando/test/src/app
@@ -20,7 +22,7 @@ export const generateDirective = async (folderRightClickedPath: string): Promise
 	await generateElement(
 		path.join(folderRightClickedPath, `${camelCaseToKebabCase(nameInCamelCase)}.directive.ts`),
 		TemplateFileNames.DIRECTIVE,
-		getTemplateData(),
+		getTemplateData(prefix, nameInCamelCase),
 		generateDirectiveSpec,
 	);
 };
@@ -45,10 +47,14 @@ const promptForName = async (): Promise<string> => {
 	});
 };
 
-const getTemplateData = (): DirectiveTemplateData => {
+const getTemplateData = (prefix: string | null, nameInCamelCase: string): DirectiveTemplateData => {
+	const selector = prefix
+		? `${prefix}${nameInCamelCase.charAt(0).toUpperCase() + nameInCamelCase.slice(1)}`
+		: nameInCamelCase;
+
 	return {
-		className: 'HighlightContentOnHoverDirective',
-		selector: 'app-highlight-content-on-hover',
+		className: `${nameInCamelCase.charAt(0).toUpperCase() + nameInCamelCase.slice(1)}Directive`,
+		selector,
 	};
 };
 
@@ -61,9 +67,40 @@ const generateDirectiveSpec = async (directiveFilePath: string): Promise<void> =
 };
 
 const getSpecTemplateDate = (directiveFilePath: string): DirectiveSpecTemplateData => {
+	const fileContent = readFileSync(directiveFilePath);
+
 	return {
-		className: 'HighlightContentOnHoverDirective',
-		directiveFileName: '',
-		providers: [],
+		className: filePathToClassName(directiveFilePath),
+		directiveFileName: `${filePathToNameAsKebabCase(directiveFilePath)}.directive`,
+		providers: getProviderDependencies(fileContent),
+		selector: extractSelectorName(fileContent),
 	};
+};
+
+const filePathToNameAsKebabCase = (filePath: string): string => {
+	return (filePath.split('/').pop() || '').replace(/\.directive\.ts$/, '');
+};
+
+const extractSelectorName = (directiveContent: string): string => {
+	const selectorRegex = /selector:\s*['"`]([^'"`]+)['"`]/;
+	const match = directiveContent.match(selectorRegex);
+
+	if (match && match[1]) {
+		let selector = match[1];
+		if (selector.startsWith('[') && selector.endsWith(']')) {
+			selector = selector.substring(1, selector.length - 1);
+		}
+		return selector;
+	}
+
+	return '';
+};
+
+const filePathToClassName = (filePath: string): string => {
+	return (
+		filePathToNameAsKebabCase(filePath)
+			.split('-')
+			.map(part => part.charAt(0).toUpperCase() + part.slice(1))
+			.join('') + 'Directive'
+	);
 };
