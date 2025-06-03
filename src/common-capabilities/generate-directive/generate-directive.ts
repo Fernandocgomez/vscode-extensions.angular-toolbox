@@ -1,5 +1,9 @@
 import { promptBoolean, promptInput } from '@extensionFramework';
-import { isCamelCase } from '@utils';
+import { camelCaseToKebabCase, isCamelCase } from '@utils';
+import { generateElement } from '../generate-element/generate-element';
+import * as path from 'path';
+import { DirectiveSpecTemplateData, DirectiveTemplateData, TemplateFileNames } from '@models';
+import { generateSpec } from '../generate-spec/generate-spec';
 
 /**
  * @param folderRightClickedPath /home/fernando/test/src/app
@@ -12,6 +16,13 @@ export const generateDirective = async (folderRightClickedPath: string): Promise
 
 	const prefix = needPrefix ? await promptForPrefix() : null;
 	const nameInCamelCase = await promptForName();
+
+	await generateElement(
+		path.join(folderRightClickedPath, `${camelCaseToKebabCase(nameInCamelCase)}.directive.ts`),
+		TemplateFileNames.DIRECTIVE,
+		getTemplateData(),
+		generateDirectiveSpec,
+	);
 };
 
 const promptForPrefix = async (): Promise<string | null> => {
@@ -32,4 +43,27 @@ const promptForName = async (): Promise<string> => {
 			isCamelCase(value) ? null : 'Directive name must be in camel-case format',
 		errorMessage: 'Error collecting directive name',
 	});
+};
+
+const getTemplateData = (): DirectiveTemplateData => {
+	return {
+		className: 'HighlightContentOnHoverDirective',
+		selector: 'app-highlight-content-on-hover',
+	};
+};
+
+const generateDirectiveSpec = async (directiveFilePath: string): Promise<void> => {
+	await generateSpec(
+		directiveFilePath.replace(/\.directive\.ts$/, '.directive.spec.ts'),
+		TemplateFileNames.DIRECTIVE_SPEC,
+		getSpecTemplateDate(directiveFilePath),
+	);
+};
+
+const getSpecTemplateDate = (directiveFilePath: string): DirectiveSpecTemplateData => {
+	return {
+		className: 'HighlightContentOnHoverDirective',
+		directiveFileName: '',
+		providers: [],
+	};
 };
