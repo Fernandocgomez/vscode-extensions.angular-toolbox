@@ -51,8 +51,9 @@ export interface DirectiveTemplateData {
 // TODO: support to extract component, modules, pipes, and directives
 export interface DirectiveSpecTemplateData {
 	className: string; // HighlightContentOnHoverDirective
-	directiveFileName: string; // highlight-content-on-hover.directive.ts
+	directiveFileName: string; // highlight-content-on-hover.directive
 	providers: Dependency[];
+	selector: string; // appHighlightContentOnHover
 	// components: Dependency[];
 	// pipes: Dependency[];
 	// directives: Dependency[];
