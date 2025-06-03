@@ -34,6 +34,10 @@
 				{
 					"command": "gdlc-angular-toolbox.common-capabilities.generate-pipe",
 					"group": "1_generation"
+				},
+				{
+					"command": "gdlc-angular-toolbox.common-capabilities.generate-directive",
+					"group": "1_generation"
 				}
 			]
 		},
@@ -55,6 +59,10 @@
 			{
 				"command": "gdlc-angular-toolbox.common-capabilities.generate-pipe",
 				"title": "Generate Pipe"
+			},
+			{
+				"command": "gdlc-angular-toolbox.common-capabilities.generate-directive",
+				"title": "Generate Directive"
 			}
 		]
 	},
