@@ -4,6 +4,9 @@ import * as assert from 'assert';
 import * as fs from 'fs';
 import * as path from 'path';
 import {
+	assertItDoesNotExists,
+	assertItExists,
+	assertStrictEqual,
 	createPromptStub,
 	createTemplateFile,
 	executeCommand,
@@ -46,26 +49,18 @@ suite('Generate Pipe', () => {
 				.quickPick('Yes') // 4. "Do you want to generate the spec file?"
 				.apply();
 
-			await executeCommand(
-				'gdlc-angular-toolbox.common-capabilities.generate-pipe',
-				vscode.Uri.file(getSrcDirectoryPath()),
-			);
+			await runCommand();
 
 			const pipePath = path.join(getSrcDirectoryPath(), 'format-number.pipe.ts');
 			const specPath = path.join(getSrcDirectoryPath(), 'format-number.pipe.spec.ts');
-
-			assert.ok(fs.existsSync(pipePath), `Pipe file should exist at ${pipePath}`);
-			assert.ok(fs.existsSync(specPath), `Spec file should exist at ${specPath}`);
-			assert.strictEqual(
-				fs.readFileSync(pipePath, 'utf-8').replace(/\r\n/g, '\n'),
-				pipeWithPrefixFixture.replace(/\r\n/g, '\n'),
-				'Generated pipe content does not match fixture.',
+			assertItExists(pipePath, `Pipe file should exist at ${pipePath}`);
+			assertItExists(specPath, `Spec file should exist at ${specPath}`);
+			assertStrictEqual(
+				pipePath,
+				pipeWithPrefixFixture,
+				'Generated pipe content does not match fixture',
 			);
-			assert.strictEqual(
-				fs.readFileSync(specPath, 'utf-8').replace(/\r\n/g, '\n'),
-				pipeSpecFixture.replace(/\r\n/g, '\n'),
-				'Generated spec content does not match fixture.',
-			);
+			assertStrictEqual(specPath, pipeSpecFixture, 'Generated spec content does not match fixture');
 		});
 
 		test('should generate a pipe file without prefix and spec file if the user select "No" to the question "Do you want to prefix your pipe selector?"', async () => {
@@ -75,25 +70,20 @@ suite('Generate Pipe', () => {
 				.quickPick('Yes') // 3. "Do you want to generate the spec file?"
 				.apply(); // 4. No prefix, no spec
 
-			await executeCommand(
-				'gdlc-angular-toolbox.common-capabilities.generate-pipe',
-				vscode.Uri.file(getSrcDirectoryPath()),
-			);
+			await runCommand();
 
 			const pipePath = path.join(getSrcDirectoryPath(), 'format-date.pipe.ts');
 			const specPath = path.join(getSrcDirectoryPath(), 'format-date.pipe.spec.ts');
-
-			assert.ok(fs.existsSync(pipePath), `Pipe file should exist at ${pipePath}`);
-			assert.ok(fs.existsSync(specPath), `Spec file should exist at ${specPath}`);
-
-			assert.strictEqual(
-				fs.readFileSync(pipePath, 'utf-8').replace(/\r\n/g, '\n'),
-				pipeWithoutPrefixFixture.replace(/\r\n/g, '\n'),
+			assertItExists(pipePath, `Pipe file should exist at ${pipePath}`);
+			assertItExists(specPath, `Spec file should exist at ${specPath}`);
+			assertStrictEqual(
+				pipePath,
+				pipeWithoutPrefixFixture,
 				'Generated pipe content does not match fixture.',
 			);
-			assert.strictEqual(
-				fs.readFileSync(specPath, 'utf-8').replace(/\r\n/g, '\n'),
-				pipeSpecWithoutPrefixFixture.replace(/\r\n/g, '\n'),
+			assertStrictEqual(
+				specPath,
+				pipeSpecWithoutPrefixFixture,
 				'Generated spec content does not match fixture.',
 			);
 		});
@@ -106,20 +96,12 @@ suite('Generate Pipe', () => {
 				.quickPick('No') // 4. "Do you want to generate the spec file?"
 				.apply();
 
-			await executeCommand(
-				'gdlc-angular-toolbox.common-capabilities.generate-pipe',
-				vscode.Uri.file(getSrcDirectoryPath()),
-			);
+			await runCommand();
 
 			const pipePath = path.join(getSrcDirectoryPath(), 'format-currency.pipe.ts');
 			const specPath = path.join(getSrcDirectoryPath(), 'format-currency.pipe.spec.ts');
-
-			assert.ok(fs.existsSync(pipePath), `Pipe file should exist at ${pipePath}`);
-			assert.strictEqual(
-				fs.existsSync(specPath),
-				false,
-				`Spec file should NOT exist at ${specPath}`,
-			);
+			assertItExists(pipePath, `Pipe file should exist at ${pipePath}`);
+			assertItDoesNotExists(specPath, `Spec file should NOT exist at ${specPath}`);
 		});
 
 		test('should generate a pipe file using the custom template if the user has a pipe template on the .angular-custom-templates folder', async () => {
@@ -131,16 +113,11 @@ suite('Generate Pipe', () => {
 				.quickPick('No') // 3. "Do you want to generate the spec file?"
 				.apply();
 
-			await executeCommand(
-				'gdlc-angular-toolbox.common-capabilities.generate-pipe',
-				vscode.Uri.file(getSrcDirectoryPath()),
-			);
+			await runCommand();
 
-			assert.strictEqual(
-				fs
-					.readFileSync(path.join(getSrcDirectoryPath(), 'dummy.pipe.ts'), 'utf-8')
-					.replace(/\r\n/g, '\n'),
-				customTemplatePipeFixture.replace(/\r\n/g, '\n'),
+			assertStrictEqual(
+				path.join(getSrcDirectoryPath(), 'dummy.pipe.ts'),
+				customTemplatePipeFixture,
 				'Generated pipe content does not match fixture.',
 			);
 
@@ -156,11 +133,16 @@ suite('Generate Pipe', () => {
 				.quickPick('No') // 3. "Do you want to generate the spec file?"
 				.apply();
 
-			await executeCommand(
-				'gdlc-angular-toolbox.common-capabilities.generate-pipe',
-				vscode.Uri.file(getSrcDirectoryPath()),
-			);
+			await runCommand();
+
 			assert.ok(showErrorMessageStub.calledOnce, 'Should call the showErrorMessage function once');
 		});
 	});
 });
+
+const runCommand = async () => {
+	await executeCommand(
+		'gdlc-angular-toolbox.common-capabilities.generate-pipe',
+		vscode.Uri.file(getSrcDirectoryPath()),
+	);
+};
