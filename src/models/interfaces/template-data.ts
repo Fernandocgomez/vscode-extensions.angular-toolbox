@@ -1,3 +1,5 @@
+// TODO: Normalize interfaces
+
 export interface Dependency {
 	className: string;
 	importPath: string;
@@ -39,4 +41,21 @@ export interface PipeSpecTemplateData {
 	className: string; // SimpleFormatPipe
 	pipeNameAsKebabCase: string; // simple-format
 	providers: Dependency[];
+}
+
+export interface DirectiveTemplateData {
+	className: string; // HighlightContentOnHoverDirective
+	selector: string; // appHighlightContentOnHover
+}
+
+// TODO: support to extract component, modules, pipes, and directives
+export interface DirectiveSpecTemplateData {
+	className: string; // HighlightContentOnHoverDirective
+	directiveFileName: string; // highlight-content-on-hover.directive
+	providers: Dependency[];
+	selector: string; // appHighlightContentOnHover
+	// components: Dependency[];
+	// pipes: Dependency[];
+	// directives: Dependency[];
+	// modules: Dependency[];
 }

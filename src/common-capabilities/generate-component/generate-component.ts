@@ -1,15 +1,9 @@
 import * as path from 'path';
-import {
-	openTextFile,
-	promptBoolean,
-	promptInput,
-	showInformationMessage,
-} from '@extensionFramework';
+import { promptBoolean, promptInput } from '@extensionFramework';
 import { isKebabCase, kebabCaseToPascal } from '@utils';
-import { getTemplatePath, renderTemplate } from '@templates';
 import { generateComponentSpec } from '../generate-component-spec/generate-component-spec';
 import { ComponentTemplateData, TemplateFileNames } from '@models';
-import { throwExceptionWhenFileExist, writeFileSync } from '@fileSystem';
+import { generateElement } from '../generate-element/generate-element';
 
 /**
  * @param folderRightClickedPath /home/fernando/test/src/app
@@ -23,30 +17,13 @@ export const generateComponent = async (folderRightClickedPath: string): Promise
 	const componentSelectorPrefix = needSelectorPrefix ? await promptForPrefix() : null;
 
 	const nameInKebabCase = await promptForNameAsKebabCase();
-	const componentFilePath = path.join(folderRightClickedPath, `${nameInKebabCase}.component.ts`);
 
-	throwExceptionWhenFileExist(componentFilePath);
-
-	writeFileSync(
-		componentFilePath,
-		renderTemplate(
-			getTemplatePath(TemplateFileNames.COMPONENT),
-			getComponentTemplateData(nameInKebabCase, componentSelectorPrefix),
-		),
+	await generateElement(
+		path.join(folderRightClickedPath, `${nameInKebabCase}.component.ts`),
+		TemplateFileNames.COMPONENT,
+		getComponentTemplateData(nameInKebabCase, componentSelectorPrefix),
+		generateComponentSpec,
 	);
-
-	showInformationMessage('Component was generated successfully.');
-
-	const shouldGenerateSpecFile = await promptBoolean({
-		prompt: 'Do you want to generate the spec file?',
-		options: ['Yes', 'No'],
-	});
-
-	if (shouldGenerateSpecFile) {
-		await generateComponentSpec(componentFilePath);
-	}
-
-	await openTextFile(componentFilePath);
 };
 
 const promptForPrefix = async (): Promise<string | null> => {

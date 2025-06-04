@@ -7,4 +7,6 @@ export enum TemplateFileNames {
 	HTTP_SERVICE_SPEC = 'http.service.spec',
 	PIPE = 'pipe',
 	PIPE_SPEC = 'pipe.spec',
+	DIRECTIVE = 'directive',
+	DIRECTIVE_SPEC = 'directive.spec',
 }

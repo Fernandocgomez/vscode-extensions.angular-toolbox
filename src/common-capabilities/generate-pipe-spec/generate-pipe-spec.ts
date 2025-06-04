@@ -1,24 +1,18 @@
 import { TemplateFileNames, PipeSpecTemplateData } from '@models';
-import { getTemplatePath, renderTemplate } from '@templates';
-import { showInformationMessage } from '@extensionFramework';
-import { throwExceptionWhenFileExist, writeFileSync } from '@fileSystem';
+import { readFileSync } from '@fileSystem';
 import { getProviderDependencies } from '@angularDependencyExtractor';
+import { generateSpec } from '../generate-spec/generate-spec';
 
 /**
  * Generates a .spec.ts file for an Angular pipe.
  * @param pipeFilePath Absolute path to the pipe file (e.g., /path/to/my-pipe.pipe.ts)
  */
 export const generatePipeSpec = async (pipeFilePath: string): Promise<void> => {
-	const pipeSpecFilePath = pipeFilePath.replace(/\.pipe\.ts$/, '.pipe.spec.ts');
-
-	throwExceptionWhenFileExist(pipeSpecFilePath);
-
-	writeFileSync(
-		pipeSpecFilePath,
-		renderTemplate(getTemplatePath(TemplateFileNames.PIPE_SPEC), getSpecTemplateDate(pipeFilePath)),
+	generateSpec(
+		pipeFilePath.replace(/\.pipe\.ts$/, '.pipe.spec.ts'),
+		TemplateFileNames.PIPE_SPEC,
+		getSpecTemplateDate(pipeFilePath),
 	);
-
-	showInformationMessage('Pipe spec was generated successfully.');
 };
 
 /**
@@ -39,9 +33,11 @@ const filePathToPipeNameAsKebabCase = (filePath: string): string => {
 };
 
 export const getSpecTemplateDate = (pipeFilePath: string): PipeSpecTemplateData => {
+	const fileContent = readFileSync(pipeFilePath);
+
 	return {
 		className: filePathToClassName(pipeFilePath),
 		pipeNameAsKebabCase: filePathToPipeNameAsKebabCase(pipeFilePath),
-		providers: getProviderDependencies(pipeFilePath),
+		providers: getProviderDependencies(fileContent),
 	};
 };

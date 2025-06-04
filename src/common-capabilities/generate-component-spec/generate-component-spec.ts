@@ -6,27 +6,18 @@ import {
 	getComponentStandaloneComponentDependencies,
 } from '@angularDependencyExtractor';
 import { ComponentSpecTemplateData, TemplateFileNames } from '@models';
-import { getTemplatePath, renderTemplate } from '@templates';
-import { showInformationMessage } from '@extensionFramework';
-import { readFileSync, throwExceptionWhenFileExist, writeFileSync } from '@fileSystem';
+import { readFileSync } from '@fileSystem';
+import { generateSpec } from '../generate-spec/generate-spec';
 
 /**
  * @param componentFilePath /home/fernando/test/src/app/my-component.component.ts
  */
 export const generateComponentSpec = async (componentFilePath: string): Promise<void> => {
-	const componentSpecFilePath = componentFilePath.replace(/\.component\.ts$/, '.component.spec.ts');
-
-	throwExceptionWhenFileExist(componentSpecFilePath);
-
-	writeFileSync(
-		componentSpecFilePath,
-		renderTemplate(
-			getTemplatePath(TemplateFileNames.COMPONENT_SPEC),
-			getComponentSpecTemplateData(componentFilePath),
-		),
+	generateSpec(
+		componentFilePath.replace(/\.component\.ts$/, '.component.spec.ts'),
+		TemplateFileNames.COMPONENT_SPEC,
+		getComponentSpecTemplateData(componentFilePath),
 	);
-
-	showInformationMessage('Spec was generated successfully.');
 };
 
 /**

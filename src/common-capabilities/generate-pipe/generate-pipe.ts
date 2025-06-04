@@ -1,15 +1,9 @@
-import {
-	openTextFile,
-	promptBoolean,
-	promptInput,
-	showInformationMessage,
-} from '@extensionFramework';
-import { throwExceptionWhenFileExist, writeFileSync } from '@fileSystem';
+import { promptBoolean, promptInput } from '@extensionFramework';
 import { PipeTemplateData, TemplateFileNames } from '@models';
-import { getTemplatePath, renderTemplate } from '@templates';
 import { camelCaseToKebabCase, isCamelCase } from '@utils';
 import * as path from 'path';
 import { generatePipeSpec } from '../generate-pipe-spec/generate-pipe-spec';
+import { generateElement } from '../generate-element/generate-element';
 
 /**
  * @param folderRightClickedPath /home/fernando/test/src/app
@@ -22,33 +16,13 @@ export const generatePipe = async (folderRightClickedPath: string): Promise<void
 
 	const pipeSelectorPrefix = needSelectorPrefix ? await promptForPrefix() : null;
 	const pipeNameInCamelCase = await promptForPipeName();
-	const pipeFilePath = path.join(
-		folderRightClickedPath,
-		`${camelCaseToKebabCase(pipeNameInCamelCase)}.pipe.ts`,
+
+	await generateElement(
+		path.join(folderRightClickedPath, `${camelCaseToKebabCase(pipeNameInCamelCase)}.pipe.ts`),
+		TemplateFileNames.PIPE,
+		getPipeTemplateData(pipeSelectorPrefix, pipeNameInCamelCase),
+		generatePipeSpec,
 	);
-
-	throwExceptionWhenFileExist(pipeFilePath);
-
-	writeFileSync(
-		pipeFilePath,
-		renderTemplate(
-			getTemplatePath(TemplateFileNames.PIPE),
-			getPipeTemplateData(pipeSelectorPrefix, pipeNameInCamelCase),
-		),
-	);
-
-	showInformationMessage('Pipe was generated successfully.');
-
-	const shouldGenerateSpecFile = await promptBoolean({
-		prompt: 'Do you want to generate the spec file?',
-		options: ['Yes', 'No'],
-	});
-
-	if (shouldGenerateSpecFile) {
-		await generatePipeSpec(pipeFilePath);
-	}
-
-	await openTextFile(pipeFilePath);
 };
 
 const promptForPrefix = async (): Promise<string | null> => {

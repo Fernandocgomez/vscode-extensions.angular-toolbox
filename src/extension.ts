@@ -1,4 +1,9 @@
-import { generateComponent, generatePipe, generateService } from '@commonCapabilities';
+import {
+	generateComponent,
+	generateDirective,
+	generatePipe,
+	generateService,
+} from '@commonCapabilities';
 import { showErrorMessage } from '@extensionFramework';
 import * as vscode from 'vscode';
 
@@ -36,10 +41,22 @@ export function activate(context: vscode.ExtensionContext) {
 		},
 	);
 
+	const generateDirectiveDisposable = vscode.commands.registerCommand(
+		'gdlc-angular-toolbox.common-capabilities.generate-directive',
+		async (arg: vscode.Uri) => {
+			try {
+				await generateDirective(arg.fsPath);
+			} catch (error: any) {
+				showErrorMessage(error.message);
+			}
+		},
+	);
+
 	context.subscriptions.push(
 		generateComponentDisposable,
 		generateServiceDisposable,
 		generatePipeDisposable,
+		generateDirectiveDisposable,
 	);
 }
 
