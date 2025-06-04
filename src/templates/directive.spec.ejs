@@ -1,10 +1,11 @@
-import { TestBed, Component } from '@angular/core/testing';
+import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { <%= className %> } from './<%= directiveFileName %>';
+import { Component } from '@angular/core';
 
 @Component({
   template: `<div [<%= selector %>]>Host Element</div>`,
   standalone: true,
-  imports: [<%= className %>]
+  imports: [<%= className %>],
 })
 class TestHostComponent {}
 
@@ -12,8 +13,8 @@ describe('<%= className %>', () => {
   let fixture: ComponentFixture<TestHostComponent>;
 
   beforeEach(() => {
-    fixture = TestBed.configureTestingModule({
-      imports: [<%= className %>, TestHostComponent]
+    TestBed.configureTestingModule({
+      imports: [<%= className %>, TestHostComponent],
     });
 
     fixture = TestBed.createComponent(TestHostComponent);

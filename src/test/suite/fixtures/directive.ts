@@ -14,13 +14,14 @@ export const directiveWithoutPrefix = `import { Directive } from '@angular/core'
 })
 export class HighlightContentOnHoverDirective {}`;
 
-export const directiveSpecFixture = `import { TestBed, Component } from '@angular/core/testing';
+export const directiveSpecFixture = `import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { HighlightContentOnHoverDirective } from './highlight-content-on-hover.directive';
+import { Component } from '@angular/core';
 
 @Component({
   template: \`<div [prefixHighlightContentOnHover]>Host Element</div>\`,
   standalone: true,
-  imports: [HighlightContentOnHoverDirective]
+  imports: [HighlightContentOnHoverDirective],
 })
 class TestHostComponent {}
 
@@ -28,8 +29,8 @@ describe('HighlightContentOnHoverDirective', () => {
   let fixture: ComponentFixture<TestHostComponent>;
 
   beforeEach(() => {
-    fixture = TestBed.configureTestingModule({
-      imports: [HighlightContentOnHoverDirective, TestHostComponent]
+    TestBed.configureTestingModule({
+      imports: [HighlightContentOnHoverDirective, TestHostComponent],
     });
 
     fixture = TestBed.createComponent(TestHostComponent);
@@ -51,15 +52,16 @@ export const directiveWithCustomTemplateFixture = `import { Directive } from '@a
 })
 export class HighlightContentOnHoverDirective {}`;
 
-export const directiveWithCustomTemplateSpecFixture = `import { TestBed, Component } from '@angular/core/testing';
+export const directiveWithCustomTemplateSpecFixture = `import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { HighlightContentOnHoverDirective } from './highlight-content-on-hover.directive';
+import { Component } from '@angular/core';
 
 // I am a custom template
 
 @Component({
   template: \`<div [highlightContentOnHover]>Host Element</div>\`,
   standalone: true,
-  imports: [HighlightContentOnHoverDirective]
+  imports: [HighlightContentOnHoverDirective],
 })
 class TestHostComponent {}
 
@@ -67,8 +69,8 @@ describe('HighlightContentOnHoverDirective', () => {
   let fixture: ComponentFixture<TestHostComponent>;
 
   beforeEach(() => {
-    fixture = TestBed.configureTestingModule({
-      imports: [HighlightContentOnHoverDirective, TestHostComponent]
+    TestBed.configureTestingModule({
+      imports: [HighlightContentOnHoverDirective, TestHostComponent],
     });
 
     fixture = TestBed.createComponent(TestHostComponent);

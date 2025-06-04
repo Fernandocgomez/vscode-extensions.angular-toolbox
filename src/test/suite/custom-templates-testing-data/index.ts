@@ -35,15 +35,16 @@ export const customDirectiveTemplateTestingData = `import { Directive } from '@a
 })
 export class <%= className %> {}`;
 
-export const customDirectiveSpecTemplateTestingData = `import { TestBed, Component } from '@angular/core/testing';
+export const customDirectiveSpecTemplateTestingData = `import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { <%= className %> } from './<%= directiveFileName %>';
+import { Component } from '@angular/core';
 
 // I am a custom template
 
 @Component({
   template: \`<div [<%= selector %>]>Host Element</div>\`,
   standalone: true,
-  imports: [<%= className %>]
+  imports: [<%= className %>],
 })
 class TestHostComponent {}
 
@@ -51,8 +52,8 @@ describe('<%= className %>', () => {
   let fixture: ComponentFixture<TestHostComponent>;
 
   beforeEach(() => {
-    fixture = TestBed.configureTestingModule({
-      imports: [<%= className %>, TestHostComponent]
+    TestBed.configureTestingModule({
+      imports: [<%= className %>, TestHostComponent],
     });
 
     fixture = TestBed.createComponent(TestHostComponent);
