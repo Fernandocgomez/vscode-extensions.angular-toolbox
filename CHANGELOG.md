@@ -31,10 +31,13 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
   - With custom spec template ✅
   - Ask if spec should be generated or not ✅
   - Check if file and spec file with the same name exist ✅
-- Configurations 🔄
-  - Set component prefix 🔄
-  - Set Angular version 🔄
-  - Skip spec file generation 🔄
+- Repo Config 🔄
+  - Skip spec file generation (Default false) 🔄
+  - Inline template (Default true) 🔄
+  - Inline styles (Default true) 🔄
+  - Change detection strategy (Default OnPush) 🔄
+- User Config
+  - Set prefix (Default null) 🔄
 
 ## [Released]
 
