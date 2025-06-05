@@ -74,3 +74,16 @@ export class DummyPipe implements PipeTransform {
     return '';
   }
 }`;
+
+export const customPipeTemplateTestingData = `import { Pipe, PipeTransform } from "@angular/core";
+
+// I am a custom template
+
+@Pipe({
+  name: '<%= selector %>',
+})
+export class <%= className %> implements PipeTransform {
+  transform(value: number): string {
+    return '';
+  }
+}`;

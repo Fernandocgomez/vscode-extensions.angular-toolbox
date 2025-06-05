@@ -2,10 +2,7 @@
 	"compilerOptions": {
 		"paths": {
 			"@commonCapabilities": ["./src/common-capabilities"],
-			"@declarativeLanguageFeatures": ["./src/declarative-language-features"],
 			"@extensionFramework": ["./src/extension-framework"],
-			"@programmaticLanguageFeatures": ["./src/programmatic-language-features"],
-			"@theming": ["./src/theming"],
 			"@utils": ["./src/utils"],
 			"@templates": ["./src/templates"],
 			"@models": ["./src/models"],

@@ -29,18 +29,15 @@ const extensionConfig = {
 		extensions: ['.ts', '.js'],
 		alias: {
 			'@commonCapabilities': path.resolve(__dirname, 'src/common-capabilities'),
-			'@declarativeLanguageFeatures': path.resolve(__dirname, 'src/declarative-language-features'),
 			'@extensionFramework': path.resolve(__dirname, 'src/extension-framework'),
-			'@programmaticLanguageFeatures': path.resolve(
-				__dirname,
-				'src/programmatic-language-features',
-			),
-			'@theming': path.resolve(__dirname, 'src/theming'),
 			'@utils': path.resolve(__dirname, 'src/utils'),
 			'@templates': path.resolve(__dirname, 'src/templates'),
 			'@models': path.resolve(__dirname, 'src/models'),
 			'@fileSystem': path.resolve(__dirname, 'src/file-system'),
-			'@angularDependencyExtractor': path.resolve(__dirname, 'src/angular-dependency-extractor'),
+			'@angularDependencyExtractor': path.resolve(
+				__dirname,
+				'src/angular-dependency-extractor',
+			),
 		},
 	},
 	module: {

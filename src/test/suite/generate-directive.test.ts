@@ -22,11 +22,9 @@ import {
 	directiveWithCustomTemplateSpecFixture,
 	directiveWithoutPrefix,
 	directiveWithPrefixFixture,
-} from './fixtures';
-import {
 	customDirectiveSpecTemplateTestingData,
 	customDirectiveTemplateTestingData,
-} from './custom-templates-testing-data';
+} from './fixtures';
 
 suite('Generate Directive Test Suite', () => {
 	let sandbox: sinon.SinonSandbox;

@@ -81,3 +81,43 @@ describe('HighlightContentOnHoverDirective', () => {
     expect(fixture).toBeTruthy();
   });
 });`;
+
+export const customDirectiveTemplateTestingData = `import { Directive } from '@angular/core';
+
+// I am a custom template
+
+@Directive({
+  selector: '[<%= selector %>]',
+  standalone: true,
+})
+export class <%= className %> {}`;
+
+export const customDirectiveSpecTemplateTestingData = `import { TestBed, ComponentFixture } from '@angular/core/testing';
+import { <%= className %> } from './<%= directiveFileName %>';
+import { Component } from '@angular/core';
+
+// I am a custom template
+
+@Component({
+  template: \`<div [<%= selector %>]>Host Element</div>\`,
+  standalone: true,
+  imports: [<%= className %>],
+})
+class TestHostComponent {}
+
+describe('<%= className %>', () => {
+  let fixture: ComponentFixture<TestHostComponent>;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [<%= className %>, TestHostComponent],
+    });
+
+    fixture = TestBed.createComponent(TestHostComponent);
+    fixture.detectChanges();
+  });
+
+  it('should ', () => {
+    expect(fixture).toBeTruthy();
+  });
+});`;

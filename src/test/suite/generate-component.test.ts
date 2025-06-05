@@ -19,8 +19,8 @@ import {
 	componentWithoutPrefixFixture,
 	componentWithoutPrefixGeneratedUsingCustomTemplateFixture,
 	componentWithPrefixFixture,
+	customComponentTemplateTestingData,
 } from './fixtures';
-import { customComponentTemplateTestingData } from './custom-templates-testing-data';
 
 suite('Generate Component', () => {
 	let sandbox: sinon.SinonSandbox;
@@ -53,13 +53,28 @@ suite('Generate Component', () => {
 					vscode.Uri.file(getSrcDirectoryPath()),
 				);
 
-				const componentPath = path.join(getSrcDirectoryPath(), 'dummy.component.ts');
-				const specPath = path.join(getSrcDirectoryPath(), 'dummy.component.spec.ts');
+				const componentPath = path.join(
+					getSrcDirectoryPath(),
+					'dummy.component.ts',
+				);
+				const specPath = path.join(
+					getSrcDirectoryPath(),
+					'dummy.component.spec.ts',
+				);
 
-				assert.ok(fs.existsSync(componentPath), `Component file should exist at ${componentPath}`);
-				assert.ok(fs.existsSync(specPath), `Spec file should exist at ${specPath}`);
+				assert.ok(
+					fs.existsSync(componentPath),
+					`Component file should exist at ${componentPath}`,
+				);
+				assert.ok(
+					fs.existsSync(specPath),
+					`Spec file should exist at ${specPath}`,
+				);
 
-				const generatedComponentContent = fs.readFileSync(componentPath, 'utf-8');
+				const generatedComponentContent = fs.readFileSync(
+					componentPath,
+					'utf-8',
+				);
 				const generatedSpecContent = fs.readFileSync(specPath, 'utf-8');
 
 				assert.strictEqual(
@@ -87,17 +102,29 @@ suite('Generate Component', () => {
 					vscode.Uri.file(getSrcDirectoryPath()),
 				);
 
-				const componentPath = path.join(getSrcDirectoryPath(), 'dummy.component.ts');
-				const specPath = path.join(getSrcDirectoryPath(), 'dummy.component.spec.ts');
+				const componentPath = path.join(
+					getSrcDirectoryPath(),
+					'dummy.component.ts',
+				);
+				const specPath = path.join(
+					getSrcDirectoryPath(),
+					'dummy.component.spec.ts',
+				);
 
-				assert.ok(fs.existsSync(componentPath), `Component file should exist at ${componentPath}`);
+				assert.ok(
+					fs.existsSync(componentPath),
+					`Component file should exist at ${componentPath}`,
+				);
 				assert.strictEqual(
 					fs.existsSync(specPath),
 					false,
 					`Spec file should NOT exist at ${specPath}`,
 				);
 
-				const generatedComponentContent = fs.readFileSync(componentPath, 'utf-8');
+				const generatedComponentContent = fs.readFileSync(
+					componentPath,
+					'utf-8',
+				);
 
 				assert.strictEqual(
 					generatedComponentContent.replace(/\r\n/g, '\n'),
@@ -118,17 +145,29 @@ suite('Generate Component', () => {
 					vscode.Uri.file(getSrcDirectoryPath()),
 				);
 
-				const componentPath = path.join(getSrcDirectoryPath(), 'dummy.component.ts');
-				const specPath = path.join(getSrcDirectoryPath(), 'dummy.component.spec.ts');
+				const componentPath = path.join(
+					getSrcDirectoryPath(),
+					'dummy.component.ts',
+				);
+				const specPath = path.join(
+					getSrcDirectoryPath(),
+					'dummy.component.spec.ts',
+				);
 
-				assert.ok(fs.existsSync(componentPath), `Component file should exist at ${componentPath}`);
+				assert.ok(
+					fs.existsSync(componentPath),
+					`Component file should exist at ${componentPath}`,
+				);
 				assert.strictEqual(
 					fs.existsSync(specPath),
 					false,
 					`Spec file should NOT exist at ${specPath}`,
 				);
 
-				const generatedComponentContent = fs.readFileSync(componentPath, 'utf-8');
+				const generatedComponentContent = fs.readFileSync(
+					componentPath,
+					'utf-8',
+				);
 
 				assert.strictEqual(
 					generatedComponentContent.replace(/\r\n/g, '\n'),
@@ -139,7 +178,10 @@ suite('Generate Component', () => {
 
 			test('should generate a component file only, but using a custom template when the user provide it', async () => {
 				await makeAngularCustomTemplatesDirectory();
-				await createTemplateFile('component', customComponentTemplateTestingData);
+				await createTemplateFile(
+					'component',
+					customComponentTemplateTestingData,
+				);
 				createPromptStub(sandbox)
 					.quickPick('No') // 1. "Do you want to prefix your component selector?"
 					.inputBox('dummy') // 2. "Enter component name (kebab-case)"
@@ -151,12 +193,21 @@ suite('Generate Component', () => {
 					vscode.Uri.file(getSrcDirectoryPath()),
 				);
 
-				const componentPath = path.join(getSrcDirectoryPath(), 'dummy.component.ts');
-				const generatedComponentContent = fs.readFileSync(componentPath, 'utf-8');
+				const componentPath = path.join(
+					getSrcDirectoryPath(),
+					'dummy.component.ts',
+				);
+				const generatedComponentContent = fs.readFileSync(
+					componentPath,
+					'utf-8',
+				);
 
 				assert.strictEqual(
 					generatedComponentContent.replace(/\r\n/g, '\n'),
-					componentWithoutPrefixGeneratedUsingCustomTemplateFixture.replace(/\r\n/g, '\n'),
+					componentWithoutPrefixGeneratedUsingCustomTemplateFixture.replace(
+						/\r\n/g,
+						'\n',
+					),
 					'Generated component content does not match fixture.',
 				);
 
@@ -164,8 +215,14 @@ suite('Generate Component', () => {
 			});
 
 			test('should show an error message if there is already an existent component with the same name on the directory', async () => {
-				fs.writeFileSync(path.join(getSrcDirectoryPath(), 'dummy.component.ts'), 'dummy content');
-				const showErrorMessageStub = sandbox.stub(vscode.window, 'showErrorMessage');
+				fs.writeFileSync(
+					path.join(getSrcDirectoryPath(), 'dummy.component.ts'),
+					'dummy content',
+				);
+				const showErrorMessageStub = sandbox.stub(
+					vscode.window,
+					'showErrorMessage',
+				);
 				createPromptStub(sandbox)
 					.quickPick('No') // 1. "Do you want to prefix your component selector?"
 					.inputBox('dummy') // 2. "Enter component name (kebab-case)"
