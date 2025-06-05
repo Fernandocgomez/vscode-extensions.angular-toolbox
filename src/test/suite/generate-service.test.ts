@@ -8,15 +8,24 @@ import {
 	assertItExists,
 	assertStrictEqual,
 	createPromptStub,
+	createTemplateFile,
 	executeCommand,
 	getSrcDirectoryPath,
+	makeAngularCustomTemplatesDirectory,
 	makeSrcDirectory,
 	removeSrcDirectory,
 } from '../util';
 import {
+	customNoneHttpTemplateServiceFixture,
+	globalServiceFixture,
 	httpServiceFixture,
 	noneGlobalServiceFixture,
 	noneHttpServiceFixture,
+	customNoneHttpServiceFixture,
+	customNoneHttpServiceSpecTemplateFixture,
+	customNoneHttpServiceSpecFixture,
+	customHttpServiceFixture,
+	customHttpServiceTemplateFixture,
 } from './fixtures';
 
 suite('Generate Service Test Suite', () => {
@@ -118,6 +127,23 @@ suite('Generate Service Test Suite', () => {
 
 			test('should add the "providedIn" property on the Service decorator equals to  "root" if the user selects "Yes" to the question "Is this service global?"', async () => {
 				createPromptStub(sandbox)
+					.quickPick('Yes') // 1. "Is this service global?"
+					.quickPick('No') // 2. "Is this service an HTTP one?"
+					.inputBox('logger') // 3. "Enter service name (kebab-case)"
+					.quickPick('No') // 4. "Do you want to generate the spec file?"
+					.apply();
+
+				await runCommand();
+
+				assertStrictEqual(
+					path.join(getSrcDirectoryPath(), 'logger.service.ts'),
+					globalServiceFixture,
+					'Generated service content does not match fixture.',
+				);
+			});
+
+			test('should not add the "providedIn" property on the Service decorator if the user selects "No" to the question "Is this service global?"', async () => {
+				createPromptStub(sandbox)
 					.quickPick('No') // 1. "Is this service global?"
 					.quickPick('No') // 2. "Is this service an HTTP one?"
 					.inputBox('logger') // 3. "Enter service name (kebab-case)"
@@ -133,15 +159,73 @@ suite('Generate Service Test Suite', () => {
 				);
 			});
 
-			test('should not add the "providedIn" property on the Service decorator if the user selects "No" to the question "Is this service global?"', async () => {});
+			test('should generate a "Service" using the custom none http template when the user provides one', async () => {
+				await makeAngularCustomTemplatesDirectory();
+				await createTemplateFile(
+					'service',
+					customNoneHttpTemplateServiceFixture,
+				);
+				createPromptStub(sandbox)
+					.quickPick('No') // 1. "Is this service global?"
+					.quickPick('No') // 2. "Is this service an HTTP one?"
+					.inputBox('logger') // 3. "Enter service name (kebab-case)"
+					.quickPick('No') // 4. "Do you want to generate the spec file?"
+					.apply();
 
-			test('should generate the "Service" using the default template when the user does not provide a custom one', async () => {});
+				await runCommand();
 
-			test('should generate a "Service" using the custom template when the user provides one', async () => {});
+				assertStrictEqual(
+					path.join(getSrcDirectoryPath(), 'logger.service.ts'),
+					customNoneHttpServiceFixture,
+					'Generated service content does not match fixture.',
+				);
+			});
 
-			test('should generate a spec file using the default template when the user does not provide a custom one', async () => {});
+			test('should generate a spec file using the none http custom template when the user provides one', async () => {
+				await makeAngularCustomTemplatesDirectory();
+				await createTemplateFile(
+					'service.spec',
+					customNoneHttpServiceSpecTemplateFixture,
+				);
+				createPromptStub(sandbox)
+					.quickPick('No') // 1. "Is this service global?"
+					.quickPick('No') // 2. "Is this service an HTTP one?"
+					.inputBox('logger') // 3. "Enter service name (kebab-case)"
+					.quickPick('Yes') // 4. "Do you want to generate the spec file?"
+					.apply();
 
-			test('should generate a spec file using the custom template when the user provides one', async () => {});
+				await runCommand();
+
+				assertStrictEqual(
+					path.join(getSrcDirectoryPath(), 'logger.service.spec.ts'),
+					customNoneHttpServiceSpecFixture,
+					'Generated spec service content does not match fixture.',
+				);
+			});
+
+			test('should generate a "Service" using the custom http template when the user provides one', async () => {
+				await makeAngularCustomTemplatesDirectory();
+				await createTemplateFile(
+					'http.service',
+					customHttpServiceTemplateFixture,
+				);
+				createPromptStub(sandbox)
+					.quickPick('No') // 1. "Is this service global?"
+					.quickPick('Yes') // 2. "Is this service an HTTP one?"
+					.inputBox('user-auth') // 3. "Enter service name (kebab-case)"
+					.quickPick('No') // 4. "Do you want to generate the spec file?"
+					.apply();
+
+				await runCommand();
+
+				assertStrictEqual(
+					path.join(getSrcDirectoryPath(), 'user-auth.service.ts'),
+					customHttpServiceFixture,
+					'Generated service content does not match fixture.',
+				);
+			});
+
+			test('should generate a spec file using the http custom template when the user provides one', async () => {});
 
 			test('should show an error message if there is already a "Service" with the same file name on the directory', async () => {});
 		},
