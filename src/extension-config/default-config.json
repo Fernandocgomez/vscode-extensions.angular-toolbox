@@ -1,0 +1,17 @@
+{
+	"component": {
+		"skipSpec": false,
+		"inlineTemplate": true,
+		"inlineStyle": true,
+		"withOnPushChangeDetection": true
+	},
+	"service": {
+		"skipSpec": false
+	},
+	"directive": {
+		"skipSpec": false
+	},
+	"pipe": {
+		"skipSpec": false
+	}
+}
