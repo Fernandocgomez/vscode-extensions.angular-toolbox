@@ -26,6 +26,8 @@ import {
 	customNoneHttpServiceSpecFixture,
 	customHttpServiceFixture,
 	customHttpServiceTemplateFixture,
+	customHttpServiceSpecTemplateFixture,
+	customHttpServiceSpecFixture,
 } from './fixtures';
 
 suite('Generate Service Test Suite', () => {
@@ -225,9 +227,51 @@ suite('Generate Service Test Suite', () => {
 				);
 			});
 
-			test('should generate a spec file using the http custom template when the user provides one', async () => {});
+			test('should generate a spec file using the http custom template when the user provides one', async () => {
+				await makeAngularCustomTemplatesDirectory();
+				await createTemplateFile(
+					'http.service.spec',
+					customHttpServiceSpecTemplateFixture,
+				);
+				createPromptStub(sandbox)
+					.quickPick('No') // 1. "Is this service global?"
+					.quickPick('Yes') // 2. "Is this service an HTTP one?"
+					.inputBox('user-auth') // 3. "Enter service name (kebab-case)"
+					.quickPick('Yes') // 4. "Do you want to generate the spec file?"
+					.apply();
 
-			test('should show an error message if there is already a "Service" with the same file name on the directory', async () => {});
+				await runCommand();
+
+				assertStrictEqual(
+					path.join(getSrcDirectoryPath(), 'user-auth.service.spec.ts'),
+					customHttpServiceSpecFixture,
+					'Generated service content does not match fixture.',
+				);
+			});
+
+			test('should show an error message if there is already a "Service" with the same file name on the directory', async () => {
+				fs.writeFileSync(
+					path.join(getSrcDirectoryPath(), 'user-auth.service.ts'),
+					'dummy content',
+				);
+				const showErrorMessageStub = sandbox.stub(
+					vscode.window,
+					'showErrorMessage',
+				);
+				createPromptStub(sandbox)
+					.quickPick('No') // 1. "Is this service global?"
+					.quickPick('Yes') // 2. "Is this service an HTTP one?"
+					.inputBox('user-auth') // 3. "Enter service name (kebab-case)"
+					.quickPick('Yes') // 4. "Do you want to generate the spec file?"
+					.apply();
+
+				await runCommand();
+
+				assert.ok(
+					showErrorMessageStub.calledOnce,
+					'Should call the showErrorMessage function once',
+				);
+			});
 		},
 	);
 });

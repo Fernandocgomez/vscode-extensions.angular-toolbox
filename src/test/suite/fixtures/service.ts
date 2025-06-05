@@ -110,3 +110,61 @@ import { HttpClient } from '@angular/common/http';
 <% } %>export class <%= className %> {
   readonly #http = inject(HttpClient);
 }`;
+
+export const customHttpServiceSpecFixture = `import { TestBed } from '@angular/core/testing';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { UserAuthService } from './user-auth.service';
+
+// I am a custom template
+
+describe('UserAuthService', () => {
+  let service: UserAuthService;
+  let httpMock: HttpTestingController;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [UserAuthService, provideHttpClient(), provideHttpClientTesting()],
+    });
+
+    service = TestBed.inject(UserAuthService);
+    httpMock = TestBed.inject(HttpTestingController);
+  });
+
+  afterEach(() => {
+    httpMock.verify();
+  });
+
+  it('should be created', () => {
+    expect(service).toBeTruthy();
+  });
+});`;
+
+export const customHttpServiceSpecTemplateFixture = `import { TestBed } from '@angular/core/testing';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { <%= className %> } from './<%= serviceFileName %>';
+
+// I am a custom template
+
+describe('<%= className %>', () => {
+  let service: <%= className %>;
+  let httpMock: HttpTestingController;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [<%= className %>, provideHttpClient(), provideHttpClientTesting()],
+    });
+
+    service = TestBed.inject(<%= className %>);
+    httpMock = TestBed.inject(HttpTestingController);
+  });
+
+  afterEach(() => {
+    httpMock.verify();
+  });
+
+  it('should be created', () => {
+    expect(service).toBeTruthy();
+  });
+});`;
