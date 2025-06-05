@@ -38,6 +38,7 @@ const extensionConfig = {
 				__dirname,
 				'src/angular-dependency-extractor',
 			),
+			'@extensionConfig': path.resolve(__dirname, 'src/extension-config'),
 		},
 	},
 	module: {

@@ -7,7 +7,8 @@
 			"@templates": ["./src/templates"],
 			"@models": ["./src/models"],
 			"@fileSystem": ["./src/file-system"],
-			"@angularDependencyExtractor": ["./src/angular-dependency-extractor"]
+			"@angularDependencyExtractor": ["./src/angular-dependency-extractor"],
+			"@extensionConfig": ["./src/extension-config"]
 		},
 		"module": "Node16",
 		"target": "ES2022",
