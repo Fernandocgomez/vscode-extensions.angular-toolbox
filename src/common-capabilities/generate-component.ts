@@ -6,8 +6,7 @@ import {
 	ComponentTemplateData,
 	TemplateFileNames,
 } from '@models';
-import { generateElement } from '../generate-element/generate-element';
-import { generateSpec } from '../generate-spec/generate-spec';
+import { generateElement, generateSpec } from './util';
 import {
 	getComponentDirectivesDependencies,
 	getComponentModuleDependencies,

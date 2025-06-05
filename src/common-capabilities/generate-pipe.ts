@@ -6,8 +6,7 @@ import {
 } from '@models';
 import { camelCaseToKebabCase, isCamelCase } from '@utils';
 import * as path from 'path';
-import { generateSpec } from '../generate-spec/generate-spec';
-import { generateElement } from '../generate-element/generate-element';
+import { generateElement, generateSpec } from './util';
 import { readFileSync } from '@fileSystem';
 import { getProviderDependencies } from '@angularDependencyExtractor';
 
