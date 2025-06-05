@@ -64,7 +64,10 @@ suite('Generate Directive Test Suite', () => {
 					getSrcDirectoryPath(),
 					'highlight-content-on-hover.directive.spec.ts',
 				);
-				assertItExists(directivePath, `directive file should exist at ${directivePath}`);
+				assertItExists(
+					directivePath,
+					`directive file should exist at ${directivePath}`,
+				);
 				assertItExists(specPath, `Spec file should exist at ${specPath}`);
 			});
 
@@ -82,7 +85,10 @@ suite('Generate Directive Test Suite', () => {
 					getSrcDirectoryPath(),
 					'highlight-content-on-hover.directive.spec.ts',
 				);
-				assertItDoesNotExists(specPath, `Spec file should exist at ${specPath}`);
+				assertItDoesNotExists(
+					specPath,
+					`Spec file should exist at ${specPath}`,
+				);
 			});
 
 			test('should generate a directive using the default directive template when the user does not provide a custom one', async () => {
@@ -96,7 +102,10 @@ suite('Generate Directive Test Suite', () => {
 				await runCommand();
 
 				assertStrictEqual(
-					path.join(getSrcDirectoryPath(), 'highlight-content-on-hover.directive.ts'),
+					path.join(
+						getSrcDirectoryPath(),
+						'highlight-content-on-hover.directive.ts',
+					),
 					directiveWithPrefixFixture,
 					'Generated directive content does not match fixture.',
 				);
@@ -104,7 +113,10 @@ suite('Generate Directive Test Suite', () => {
 
 			test('should generate a directive using the custom directive template when the user provides one', async () => {
 				await makeAngularCustomTemplatesDirectory();
-				await createTemplateFile('directive', customDirectiveTemplateTestingData);
+				await createTemplateFile(
+					'directive',
+					customDirectiveTemplateTestingData,
+				);
 				createPromptStub(sandbox)
 					.quickPick('No') // 1. "Do you want to prefix your directive selector?"
 					.inputBox('highlightContentOnHover') // 2. "Enter directive name (camel-case)"
@@ -114,7 +126,10 @@ suite('Generate Directive Test Suite', () => {
 				await runCommand();
 
 				assertStrictEqual(
-					path.join(getSrcDirectoryPath(), 'highlight-content-on-hover.directive.ts'),
+					path.join(
+						getSrcDirectoryPath(),
+						'highlight-content-on-hover.directive.ts',
+					),
 					directiveWithCustomTemplateFixture,
 					'Generated directive content does not match fixture.',
 				);
@@ -133,7 +148,10 @@ suite('Generate Directive Test Suite', () => {
 				await runCommand();
 
 				assertStrictEqual(
-					path.join(getSrcDirectoryPath(), 'highlight-content-on-hover.directive.spec.ts'),
+					path.join(
+						getSrcDirectoryPath(),
+						'highlight-content-on-hover.directive.spec.ts',
+					),
 					directiveSpecFixture,
 					'Generated spec content does not match fixture.',
 				);
@@ -141,7 +159,10 @@ suite('Generate Directive Test Suite', () => {
 
 			test('should generate a directive spec using the custom directive spec template when the user provides one', async () => {
 				await makeAngularCustomTemplatesDirectory();
-				await createTemplateFile('directive.spec', customDirectiveSpecTemplateTestingData);
+				await createTemplateFile(
+					'directive.spec',
+					customDirectiveSpecTemplateTestingData,
+				);
 				createPromptStub(sandbox)
 					.quickPick('No') // 1. "Do you want to prefix your directive selector?"
 					.inputBox('highlightContentOnHover') // 2. "Enter directive name (camel-case)"
@@ -151,7 +172,10 @@ suite('Generate Directive Test Suite', () => {
 				await runCommand();
 
 				assertStrictEqual(
-					path.join(getSrcDirectoryPath(), 'highlight-content-on-hover.directive.spec.ts'),
+					path.join(
+						getSrcDirectoryPath(),
+						'highlight-content-on-hover.directive.spec.ts',
+					),
 					directiveWithCustomTemplateSpecFixture,
 					'Generated directive content does not match fixture.',
 				);
@@ -169,18 +193,27 @@ suite('Generate Directive Test Suite', () => {
 				await runCommand();
 
 				assertStrictEqual(
-					path.join(getSrcDirectoryPath(), 'highlight-content-on-hover.directive.ts'),
+					path.join(
+						getSrcDirectoryPath(),
+						'highlight-content-on-hover.directive.ts',
+					),
 					directiveWithoutPrefix,
 					'Generated directive content does not match fixture.',
 				);
 			});
 
-			test('should show an error message if the is already a directive with the same name on the directory', async () => {
+			test('should show an error message if there is already a directive with the same file name on the directory', async () => {
 				fs.writeFileSync(
-					path.join(getSrcDirectoryPath(), 'highlight-content-on-hover.directive.ts'),
+					path.join(
+						getSrcDirectoryPath(),
+						'highlight-content-on-hover.directive.ts',
+					),
 					'dummy content',
 				);
-				const showErrorMessageStub = sandbox.stub(vscode.window, 'showErrorMessage');
+				const showErrorMessageStub = sandbox.stub(
+					vscode.window,
+					'showErrorMessage',
+				);
 				createPromptStub(sandbox)
 					.quickPick('No') // 1. "Do you want to prefix your directive selector?"
 					.inputBox('highlightContentOnHover') // 2. "Enter directive name (camel-case)"
