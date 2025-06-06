@@ -1,7 +1,11 @@
 import * as path from 'path';
 import Mocha = require('mocha');
 import { glob } from 'glob';
-import { ensureExtensionActivated, getSrcDirectoryPath, removeSrcDirectory } from '../util';
+import {
+	ensureExtensionActivated,
+	getSrcDirectoryPath,
+	removeSrcDirectory,
+} from '../util';
 import { existsSync } from '@fileSystem';
 
 export function run(): Promise<void> {
