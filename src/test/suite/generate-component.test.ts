@@ -1,4 +1,3 @@
-// TODO: Refactor
 import * as assert from 'assert';
 import * as vscode from 'vscode';
 import * as sinon from 'sinon';
@@ -11,6 +10,9 @@ import {
 	makeAngularCustomTemplatesDirectory,
 	createTemplateFile,
 	removeAngularCustomTemplatesDirectory,
+	assertItExists,
+	assertStrictEqual,
+	assertItDoesNotExists,
 } from '../util';
 import * as fs from 'fs';
 import * as path from 'path';
@@ -48,10 +50,7 @@ suite('Generate Component', () => {
 					.quickPick('Yes') // 4. "Do you want to generate the spec file?"
 					.apply();
 
-				await executeCommand(
-					'gdlc-angular-toolbox.common-capabilities.generate-component',
-					vscode.Uri.file(getSrcDirectoryPath()),
-				);
+				await runCommand();
 
 				const componentPath = path.join(
 					getSrcDirectoryPath(),
@@ -62,29 +61,19 @@ suite('Generate Component', () => {
 					'dummy.component.spec.ts',
 				);
 
-				assert.ok(
-					fs.existsSync(componentPath),
+				assertItExists(
+					componentPath,
 					`Component file should exist at ${componentPath}`,
 				);
-				assert.ok(
-					fs.existsSync(specPath),
-					`Spec file should exist at ${specPath}`,
-				);
-
-				const generatedComponentContent = fs.readFileSync(
+				assertItExists(specPath, `Spec file should exist at ${specPath}`);
+				assertStrictEqual(
 					componentPath,
-					'utf-8',
-				);
-				const generatedSpecContent = fs.readFileSync(specPath, 'utf-8');
-
-				assert.strictEqual(
-					generatedComponentContent.replace(/\r\n/g, '\n'),
-					componentWithPrefixFixture.replace(/\r\n/g, '\n'),
+					componentWithPrefixFixture,
 					'Generated component content does not match fixture.',
 				);
-				assert.strictEqual(
-					generatedSpecContent.replace(/\r\n/g, '\n'),
-					componentSpecFixture.replace(/\r\n/g, '\n'),
+				assertStrictEqual(
+					specPath,
+					componentSpecFixture,
 					'Generated spec content does not match fixture.',
 				);
 			});
@@ -97,10 +86,7 @@ suite('Generate Component', () => {
 					.quickPick('No') // 4. "Do you want to generate the spec file?"
 					.apply();
 
-				await executeCommand(
-					'gdlc-angular-toolbox.common-capabilities.generate-component',
-					vscode.Uri.file(getSrcDirectoryPath()),
-				);
+				await runCommand();
 
 				const componentPath = path.join(
 					getSrcDirectoryPath(),
@@ -110,25 +96,17 @@ suite('Generate Component', () => {
 					getSrcDirectoryPath(),
 					'dummy.component.spec.ts',
 				);
-
-				assert.ok(
-					fs.existsSync(componentPath),
+				assertItExists(
+					componentPath,
 					`Component file should exist at ${componentPath}`,
 				);
-				assert.strictEqual(
-					fs.existsSync(specPath),
-					false,
+				assertItDoesNotExists(
+					specPath,
 					`Spec file should NOT exist at ${specPath}`,
 				);
-
-				const generatedComponentContent = fs.readFileSync(
+				assertStrictEqual(
 					componentPath,
-					'utf-8',
-				);
-
-				assert.strictEqual(
-					generatedComponentContent.replace(/\r\n/g, '\n'),
-					componentWithPrefixFixture.replace(/\r\n/g, '\n'),
+					componentWithPrefixFixture,
 					'Generated component content does not match fixture.',
 				);
 			});
@@ -140,10 +118,7 @@ suite('Generate Component', () => {
 					.quickPick('No') // 3. "Do you want to generate the spec file?"
 					.apply();
 
-				await executeCommand(
-					'gdlc-angular-toolbox.common-capabilities.generate-component',
-					vscode.Uri.file(getSrcDirectoryPath()),
-				);
+				await runCommand();
 
 				const componentPath = path.join(
 					getSrcDirectoryPath(),
@@ -153,25 +128,17 @@ suite('Generate Component', () => {
 					getSrcDirectoryPath(),
 					'dummy.component.spec.ts',
 				);
-
-				assert.ok(
-					fs.existsSync(componentPath),
+				assertItExists(
+					componentPath,
 					`Component file should exist at ${componentPath}`,
 				);
-				assert.strictEqual(
-					fs.existsSync(specPath),
-					false,
+				assertItDoesNotExists(
+					specPath,
 					`Spec file should NOT exist at ${specPath}`,
 				);
-
-				const generatedComponentContent = fs.readFileSync(
+				assertStrictEqual(
 					componentPath,
-					'utf-8',
-				);
-
-				assert.strictEqual(
-					generatedComponentContent.replace(/\r\n/g, '\n'),
-					componentWithoutPrefixFixture.replace(/\r\n/g, '\n'),
+					componentWithoutPrefixFixture,
 					'Generated component content does not match fixture.',
 				);
 			});
@@ -188,29 +155,13 @@ suite('Generate Component', () => {
 					.quickPick('No') // 3. "Do you want to generate the spec file?"
 					.apply();
 
-				await executeCommand(
-					'gdlc-angular-toolbox.common-capabilities.generate-component',
-					vscode.Uri.file(getSrcDirectoryPath()),
-				);
+				await runCommand();
 
-				const componentPath = path.join(
-					getSrcDirectoryPath(),
-					'dummy.component.ts',
-				);
-				const generatedComponentContent = fs.readFileSync(
-					componentPath,
-					'utf-8',
-				);
-
-				assert.strictEqual(
-					generatedComponentContent.replace(/\r\n/g, '\n'),
-					componentWithoutPrefixGeneratedUsingCustomTemplateFixture.replace(
-						/\r\n/g,
-						'\n',
-					),
+				assertStrictEqual(
+					path.join(getSrcDirectoryPath(), 'dummy.component.ts'),
+					componentWithoutPrefixGeneratedUsingCustomTemplateFixture,
 					'Generated component content does not match fixture.',
 				);
-
 				await removeAngularCustomTemplatesDirectory();
 			});
 
@@ -229,10 +180,8 @@ suite('Generate Component', () => {
 					.quickPick('No') // 3. "Do you want to generate the spec file?"
 					.apply();
 
-				await executeCommand(
-					'gdlc-angular-toolbox.common-capabilities.generate-component',
-					vscode.Uri.file(getSrcDirectoryPath()),
-				);
+				await runCommand();
+
 				assert.ok(
 					showErrorMessageStub.calledOnce,
 					'Should call the showErrorMessage function once',
@@ -241,3 +190,10 @@ suite('Generate Component', () => {
 		},
 	);
 });
+
+const runCommand = async () => {
+	await executeCommand(
+		'gdlc-angular-toolbox.common-capabilities.generate-component',
+		vscode.Uri.file(getSrcDirectoryPath()),
+	);
+};
