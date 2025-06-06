@@ -1,5 +1,7 @@
 // TODO: Normalize interfaces
 
+import { StylesheetsFormat } from '../types';
+
 export interface Dependency {
 	className: string;
 	importPath: string;
@@ -19,6 +21,10 @@ export interface ComponentTemplateData {
 	className: string; // MyCoolComponent
 	selector: string; // my-cool
 	componentNameAsKebabCase: string; // my-cool
+	inlineTemplate: boolean;
+	inlineStyle: boolean;
+	withOnPushChangeDetection: boolean;
+	stylesheetsFormat: StylesheetsFormat;
 }
 
 export interface ServiceTemplateData {

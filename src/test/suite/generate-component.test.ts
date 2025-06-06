@@ -13,14 +13,18 @@ import {
 	assertItExists,
 	assertStrictEqual,
 	assertItDoesNotExists,
+	createConfig,
 } from '../util';
 import * as fs from 'fs';
 import * as path from 'path';
 import {
 	componentSpecFixture,
+	componentWithDefaultChangeDetectionFixture,
 	componentWithoutPrefixFixture,
 	componentWithoutPrefixGeneratedUsingCustomTemplateFixture,
 	componentWithPrefixFixture,
+	componentWithSeparateCssFixture,
+	componentWithSeparateHtmlFixture,
 	customComponentTemplateTestingData,
 } from './fixtures';
 
@@ -186,6 +190,120 @@ suite('Generate Component', () => {
 					showErrorMessageStub.calledOnce,
 					'Should call the showErrorMessage function once',
 				);
+			});
+
+			suite('and the user provider a custom config', () => {
+				test('should not generate the spec file if the config skipSpec is true', async () => {
+					await makeAngularCustomTemplatesDirectory();
+					await createConfig({
+						component: {
+							skipSpec: true,
+						},
+					});
+					createPromptStub(sandbox)
+						.quickPick('No') // 1. "Do you want to prefix your component selector?"
+						.inputBox('dummy') // 2. "Enter component name (kebab-case)"
+						.quickPick('Yes') // 3. "Do you want to generate the spec file?"
+						.apply();
+
+					await runCommand();
+
+					const specPath = path.join(
+						getSrcDirectoryPath(),
+						'dummy.component.spec.ts',
+					);
+					assertItDoesNotExists(
+						specPath,
+						`Component spec file should not exist at ${specPath}`,
+					);
+					await removeAngularCustomTemplatesDirectory();
+				});
+
+				test('should generate a component with a separate html file if the config inlineTemplate is false', async () => {
+					await makeAngularCustomTemplatesDirectory();
+					await createConfig({
+						component: {
+							inlineTemplate: false,
+						},
+					});
+					createPromptStub(sandbox)
+						.quickPick('No') // 1. "Do you want to prefix your component selector?"
+						.inputBox('dummy') // 2. "Enter component name (kebab-case)"
+						.quickPick('No') // 3. "Do you want to generate the spec file?"
+						.apply();
+
+					await runCommand();
+
+					assertStrictEqual(
+						path.join(getSrcDirectoryPath(), 'dummy.component.ts'),
+						componentWithSeparateHtmlFixture,
+						'Generated component content does not match fixture.',
+					);
+					const componentHtmlPath = path.join(
+						getSrcDirectoryPath(),
+						'dummy.component.html',
+					);
+					assertItExists(
+						componentHtmlPath,
+						`Component html file should exist at ${componentHtmlPath}`,
+					);
+					await removeAngularCustomTemplatesDirectory();
+				});
+
+				test('should generate a component with a separate css file if the config inlineTemplate is inlineStyle ', async () => {
+					await makeAngularCustomTemplatesDirectory();
+					await createConfig({
+						component: {
+							inlineStyle: false,
+							stylesheetsFormat: 'scss',
+						},
+					});
+					createPromptStub(sandbox)
+						.quickPick('No') // 1. "Do you want to prefix your component selector?"
+						.inputBox('dummy') // 2. "Enter component name (kebab-case)"
+						.quickPick('No') // 3. "Do you want to generate the spec file?"
+						.apply();
+
+					await runCommand();
+
+					assertStrictEqual(
+						path.join(getSrcDirectoryPath(), 'dummy.component.ts'),
+						componentWithSeparateCssFixture,
+						'Generated component content does not match fixture.',
+					);
+					const componentCssPath = path.join(
+						getSrcDirectoryPath(),
+						'dummy.component.scss',
+					);
+					assertItExists(
+						componentCssPath,
+						`Component html file should exist at ${componentCssPath}`,
+					);
+					await removeAngularCustomTemplatesDirectory();
+				});
+
+				test('should generate a component with the change detection set to Default if the config withOnPushChangeDetection is false', async () => {
+					await makeAngularCustomTemplatesDirectory();
+					await createConfig({
+						component: {
+							withOnPushChangeDetection: false,
+						},
+					});
+					createPromptStub(sandbox)
+						.quickPick('No') // 1. "Do you want to prefix your component selector?"
+						.inputBox('dummy') // 2. "Enter component name (kebab-case)"
+						.quickPick('No') // 3. "Do you want to generate the spec file?"
+						.apply();
+
+					await runCommand();
+
+					assertStrictEqual(
+						path.join(getSrcDirectoryPath(), 'dummy.component.ts'),
+						componentWithDefaultChangeDetectionFixture,
+						'Generated component content does not match fixture.',
+					);
+					await removeAngularCustomTemplatesDirectory();
+				});
 			});
 		},
 	);

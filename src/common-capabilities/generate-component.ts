@@ -14,7 +14,8 @@ import {
 	getProviderDependencies,
 	getComponentStandaloneComponentDependencies,
 } from '@angularDependencyExtractor';
-import { readFileSync } from '@fileSystem';
+import { readFileSync, writeFileSync } from '@fileSystem';
+import { getExtensionConfigService } from '@extensionConfig';
 
 /**
  * @param folderRightClickedPath /home/fernando/test/src/app
@@ -38,7 +39,25 @@ export const generateComponent = async (
 		TemplateFileNames.COMPONENT,
 		getComponentTemplateData(nameInKebabCase, componentSelectorPrefix),
 		generateComponentSpec,
+		getExtensionConfigService().skipComponentSpec(),
 	);
+
+	if (!getExtensionConfigService().componentHasInlineTemplate()) {
+		writeFileSync(
+			path.join(folderRightClickedPath, `${nameInKebabCase}.component.html`),
+			'',
+		);
+	}
+
+	if (!getExtensionConfigService().componentHasInlineStyle()) {
+		writeFileSync(
+			path.join(
+				folderRightClickedPath,
+				`${nameInKebabCase}.component.${getExtensionConfigService().componentStylesheetsFormat()}`,
+			),
+			'',
+		);
+	}
 };
 
 const promptForPrefix = async (): Promise<string | null> => {
@@ -72,6 +91,11 @@ const getComponentTemplateData = (
 			? `${componentSelectorPrefix}-${nameInKebabCase}`
 			: `${nameInKebabCase}`,
 		componentNameAsKebabCase: nameInKebabCase,
+		inlineTemplate: getExtensionConfigService().componentHasInlineTemplate(),
+		inlineStyle: getExtensionConfigService().componentHasInlineStyle(),
+		withOnPushChangeDetection:
+			getExtensionConfigService().componentHasOnPushChangeDetection(),
+		stylesheetsFormat: getExtensionConfigService().componentStylesheetsFormat(),
 	};
 };
 
@@ -81,7 +105,7 @@ const getComponentTemplateData = (
 export const generateComponentSpec = async (
 	componentFilePath: string,
 ): Promise<void> => {
-	generateSpec(
+	await generateSpec(
 		componentFilePath.replace(/\.component\.ts$/, '.component.spec.ts'),
 		TemplateFileNames.COMPONENT_SPEC,
 		getComponentSpecTemplateData(componentFilePath),
