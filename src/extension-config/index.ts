@@ -1,23 +1,15 @@
-import { ExtensionConfig, SafeExtensionConfig } from '@models';
+import {
+	ExtensionConfig,
+	SafeExtensionConfig,
+	StylesheetsFormat,
+} from '@models';
 import defaultConfig from './default-config.json';
 import { getUserRootPath } from '@extensionFramework';
 import * as path from 'path';
-import { existsSync } from '@fileSystem';
+import { existsSync, readFileSync } from '@fileSystem';
 
 class ExtensionConfigService {
 	readonly #config: SafeExtensionConfig = this.#getExtensionConfigFile();
-
-	static #instance: ExtensionConfigService;
-
-	private constructor() {}
-
-	static getInstance(): ExtensionConfigService {
-		if (!ExtensionConfigService.#instance) {
-			ExtensionConfigService.#instance = new ExtensionConfigService();
-		}
-
-		return ExtensionConfigService.#instance;
-	}
 
 	skipComponentSpec(): boolean {
 		return this.#config.component.skipSpec;
@@ -33,6 +25,10 @@ class ExtensionConfigService {
 
 	componentHasOnPushChangeDetection(): boolean {
 		return this.#config.component.withOnPushChangeDetection;
+	}
+
+	componentStylesheetsFormat(): StylesheetsFormat {
+		return this.#config.component.stylesheetsFormat;
 	}
 
 	skipServiceSpec(): boolean {
@@ -68,36 +64,38 @@ class ExtensionConfigService {
 			return undefined;
 		}
 
-		return require(configPath);
+		return JSON.parse(readFileSync(configPath));
 	}
 
 	#toSafeExtensionConfig(config: ExtensionConfig): SafeExtensionConfig {
 		return {
 			component: {
 				skipSpec:
-					config.component?.skipSpec ?? defaultConfig.component.skipSpec,
+					config?.component?.skipSpec ?? defaultConfig.component.skipSpec,
 				inlineTemplate:
-					config.component?.inlineTemplate ??
+					config?.component?.inlineTemplate ??
 					defaultConfig.component.inlineTemplate,
 				inlineStyle:
-					config.component?.inlineStyle ?? defaultConfig.component.inlineStyle,
+					config?.component?.inlineStyle ?? defaultConfig.component.inlineStyle,
 				withOnPushChangeDetection:
-					config.component?.withOnPushChangeDetection ??
+					config?.component?.withOnPushChangeDetection ??
 					defaultConfig.component.withOnPushChangeDetection,
+				stylesheetsFormat:
+					config?.component?.stylesheetsFormat ??
+					defaultConfig.component.stylesheetsFormat,
 			},
 			service: {
-				skipSpec: config.service?.skipSpec ?? defaultConfig.service.skipSpec,
+				skipSpec: config?.service?.skipSpec ?? defaultConfig.service.skipSpec,
 			},
 			directive: {
 				skipSpec:
-					config.directive?.skipSpec ?? defaultConfig.directive.skipSpec,
+					config?.directive?.skipSpec ?? defaultConfig.directive.skipSpec,
 			},
 			pipe: {
-				skipSpec: config.pipe?.skipSpec ?? defaultConfig.pipe.skipSpec,
+				skipSpec: config?.pipe?.skipSpec ?? defaultConfig.pipe.skipSpec,
 			},
 		};
 	}
 }
 
-export const getExtensionConfigService = () =>
-	ExtensionConfigService.getInstance();
+export const getExtensionConfigService = () => new ExtensionConfigService();

@@ -1,9 +1,12 @@
+import { StylesheetsFormat } from '../types';
+
 export interface ExtensionConfig {
 	component?: {
 		skipSpec?: boolean;
 		inlineTemplate?: boolean;
 		inlineStyle?: boolean;
 		withOnPushChangeDetection?: boolean;
+		stylesheetsFormat?: StylesheetsFormat;
 	};
 	service?: {
 		skipSpec?: boolean;
@@ -21,6 +24,7 @@ export interface SafeExtensionConfig {
 		inlineTemplate: boolean;
 		inlineStyle: boolean;
 		withOnPushChangeDetection: boolean;
+		stylesheetsFormat: StylesheetsFormat;
 	};
 	service: {
 		skipSpec: boolean;

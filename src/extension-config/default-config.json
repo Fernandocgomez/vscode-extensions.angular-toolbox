@@ -3,7 +3,8 @@
 		"skipSpec": false,
 		"inlineTemplate": true,
 		"inlineStyle": true,
-		"withOnPushChangeDetection": true
+		"withOnPushChangeDetection": true,
+		"stylesheetsFormat": "scss"
 	},
 	"service": {
 		"skipSpec": false
