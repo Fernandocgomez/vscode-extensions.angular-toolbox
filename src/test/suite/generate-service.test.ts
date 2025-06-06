@@ -7,12 +7,14 @@ import {
 	assertItDoesNotExists,
 	assertItExists,
 	assertStrictEqual,
+	createConfig,
 	createPromptStub,
 	createTemplateFile,
 	executeCommand,
 	getSrcDirectoryPath,
 	makeAngularCustomTemplatesDirectory,
 	makeSrcDirectory,
+	removeAngularCustomTemplatesDirectory,
 	removeSrcDirectory,
 } from '../util';
 import {
@@ -271,6 +273,36 @@ suite('Generate Service Test Suite', () => {
 					showErrorMessageStub.calledOnce,
 					'Should call the showErrorMessage function once',
 				);
+			});
+
+			suite('and the user provider a custom config', () => {
+				test('should not generate the spec file if the config skipSpec is true', async () => {
+					await makeAngularCustomTemplatesDirectory();
+					await createConfig({
+						service: {
+							skipSpec: true,
+						},
+					});
+
+					createPromptStub(sandbox)
+						.quickPick('No') // 1. "Is this service global?"
+						.quickPick('Yes') // 2. "Is this service an HTTP one?"
+						.inputBox('user-auth') // 3. "Enter service name (kebab-case)"
+						.quickPick('Yes') // 4. "Do you want to generate the spec file?"
+						.apply();
+
+					await runCommand();
+
+					const specPath = path.join(
+						getSrcDirectoryPath(),
+						'user-auth.service.spec.ts',
+					);
+					assertItDoesNotExists(
+						specPath,
+						`Service spec file should not exist at ${specPath}`,
+					);
+					await removeAngularCustomTemplatesDirectory();
+				});
 			});
 		},
 	);

@@ -9,6 +9,7 @@ import {
 import { generateElement, generateSpec } from './util';
 import { readFileSync } from '@fileSystem';
 import { getServiceDependenciesBeingInjected } from '@angularDependencyExtractor';
+import { getExtensionConfigService } from '@extensionConfig';
 
 /**
  * @param folderRightClickedPath /home/fernando/test/src/app
@@ -39,6 +40,7 @@ export const generateService = async (
 		isHttpService ? TemplateFileNames.HTTP_SERVICE : TemplateFileNames.SERVICE,
 		serviceTemplateData,
 		generateServiceSpec,
+		getExtensionConfigService().skipServiceSpec(),
 	);
 };
 
@@ -61,7 +63,7 @@ export const generateServiceSpec = async (
 	const { templateData, templateName } =
 		getTemplateNameAndTemplateData(serviceFilePath);
 
-	generateSpec(
+	await generateSpec(
 		serviceFilePath.replace(/\.service\.ts$/, '.service.spec.ts'),
 		templateName,
 		templateData,

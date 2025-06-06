@@ -18,6 +18,7 @@ export interface ExtensionConfig {
 		skipSpec?: boolean;
 	};
 }
+
 export interface SafeExtensionConfig {
 	component: {
 		skipSpec: boolean;

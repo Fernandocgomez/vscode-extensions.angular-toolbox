@@ -9,6 +9,7 @@ import {
 } from '@models';
 import { readFileSync } from '@fileSystem';
 import { getProviderDependencies } from '@angularDependencyExtractor';
+import { getExtensionConfigService } from '@extensionConfig';
 
 /**
  * @param folderRightClickedPath /home/fernando/test/src/app
@@ -32,6 +33,7 @@ export const generateDirective = async (
 		TemplateFileNames.DIRECTIVE,
 		getTemplateData(prefix, nameInCamelCase),
 		generateDirectiveSpec,
+		getExtensionConfigService().skipDirectiveSpec(),
 	);
 };
 

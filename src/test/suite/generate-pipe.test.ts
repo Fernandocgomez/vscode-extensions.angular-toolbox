@@ -7,6 +7,7 @@ import {
 	assertItDoesNotExists,
 	assertItExists,
 	assertStrictEqual,
+	createConfig,
 	createPromptStub,
 	createTemplateFile,
 	executeCommand,
@@ -172,6 +173,35 @@ suite('Generate Pipe', () => {
 					showErrorMessageStub.calledOnce,
 					'Should call the showErrorMessage function once',
 				);
+			});
+
+			suite('and the user provider a custom config', () => {
+				test('should not generate the spec file if the config skipSpec is true', async () => {
+					await makeAngularCustomTemplatesDirectory();
+					await createConfig({
+						pipe: {
+							skipSpec: true,
+						},
+					});
+
+					createPromptStub(sandbox)
+						.quickPick('No') // 1. "Do you want to prefix your pipe selector?"
+						.inputBox('dummy') // 2. "Enter pipe name (camel-case)"
+						.quickPick('Yes') // 3. "Do you want to generate the spec file?"
+						.apply();
+
+					await runCommand();
+
+					const specPath = path.join(
+						getSrcDirectoryPath(),
+						'dummy.pipe.spec.ts',
+					);
+					assertItDoesNotExists(
+						specPath,
+						`Pipe spec file should not exist at ${specPath}`,
+					);
+					await removeAngularCustomTemplatesDirectory();
+				});
 			});
 		},
 	);

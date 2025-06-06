@@ -9,6 +9,7 @@ import * as path from 'path';
 import { generateElement, generateSpec } from './util';
 import { readFileSync } from '@fileSystem';
 import { getProviderDependencies } from '@angularDependencyExtractor';
+import { getExtensionConfigService } from '@extensionConfig';
 
 /**
  * @param folderRightClickedPath /home/fernando/test/src/app
@@ -34,6 +35,7 @@ export const generatePipe = async (
 		TemplateFileNames.PIPE,
 		getPipeTemplateData(pipeSelectorPrefix, pipeNameInCamelCase),
 		generatePipeSpec,
+		getExtensionConfigService().skipPipeSpec(),
 	);
 };
 
@@ -76,7 +78,7 @@ const getPipeTemplateData = (
  * @param pipeFilePath Absolute path to the pipe file (e.g., /path/to/my-pipe.pipe.ts)
  */
 export const generatePipeSpec = async (pipeFilePath: string): Promise<void> => {
-	generateSpec(
+	await generateSpec(
 		pipeFilePath.replace(/\.pipe\.ts$/, '.pipe.spec.ts'),
 		TemplateFileNames.PIPE_SPEC,
 		getSpecTemplateDate(pipeFilePath),
