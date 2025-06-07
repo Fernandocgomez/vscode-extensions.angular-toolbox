@@ -6,7 +6,7 @@ const PREFIX_KEY = 'prefix';
 /**
  * Sets prefix configuration property in the workspace settings.
  */
-export const setWorkspaceConfigProperty = async (
+export const setPrefixInWorkspaceConfig = async (
 	value: string,
 ): Promise<void> => {
 	await getWorkspaceConfig().update(
@@ -19,16 +19,16 @@ export const setWorkspaceConfigProperty = async (
 /**
  * Gets prefix configuration property in the workspace settings.
  */
-export const getWorkspaceConfigProperty = async (): Promise<
+export const getPrefixValueFromWorkspaceConfig = async (): Promise<
 	string | undefined
 > => {
 	return await getWorkspaceConfig().get<string>(PREFIX_KEY);
 };
 
 /**
- * Checks if prefix is specifically set in the workspace settings config.
+ * Checks if prefix is set in the workspace config.
  */
-export const hasWorkspaceConfigProperty = async (): Promise<boolean> => {
+export const isPrefixSetInWorkspaceConfig = async (): Promise<boolean> => {
 	return await getWorkspaceConfig().has(PREFIX_KEY);
 };
 

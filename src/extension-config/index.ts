@@ -1,2 +1,2 @@
 export * from './json-base-config';
-export * from './workspace-config';
+export * from './prefix-workspace-config';

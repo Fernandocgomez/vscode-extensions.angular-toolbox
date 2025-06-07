@@ -1,4 +1,4 @@
-import { setWorkspaceConfigProperty } from '@extensionConfig';
+import { setPrefixInWorkspaceConfig } from '@extensionConfig';
 import {
 	promptInput,
 	showInformationMessage,
@@ -16,7 +16,7 @@ export const registerPrefix = async () => {
 	});
 
 	if (prefix) {
-		await setWorkspaceConfigProperty(prefix);
+		await setPrefixInWorkspaceConfig(prefix);
 
 		showInformationMessage(`Prefix: "${prefix}" was set successfully.`);
 
