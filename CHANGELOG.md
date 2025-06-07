@@ -37,7 +37,8 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
   - Inline styles (Default true) ✅
   - Change detection strategy (Default OnPush) ✅
 - User Config 🔄
-  - Set prefix (Default null) 🔄
+  - Set prefix on extension config (Default empty string) 🔄
+  - Skip prefix question on component, pipes, and directives
 
 ## [Released]
 
