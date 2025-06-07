@@ -15,7 +15,7 @@ import {
 	getComponentStandaloneComponentDependencies,
 } from '@angularDependencyExtractor';
 import { readFileSync, writeFileSync } from '@fileSystem';
-import { getExtensionConfigService } from '@extensionConfig';
+import { getExtensionJsonBaseConfigService } from '@extensionConfig';
 
 /**
  * @param folderRightClickedPath /home/fernando/test/src/app
@@ -39,21 +39,21 @@ export const generateComponent = async (
 		TemplateFileNames.COMPONENT,
 		getComponentTemplateData(nameInKebabCase, componentSelectorPrefix),
 		generateComponentSpec,
-		getExtensionConfigService().skipComponentSpec(),
+		getExtensionJsonBaseConfigService().skipComponentSpec(),
 	);
 
-	if (!getExtensionConfigService().componentHasInlineTemplate()) {
+	if (!getExtensionJsonBaseConfigService().componentHasInlineTemplate()) {
 		writeFileSync(
 			path.join(folderRightClickedPath, `${nameInKebabCase}.component.html`),
 			'',
 		);
 	}
 
-	if (!getExtensionConfigService().componentHasInlineStyle()) {
+	if (!getExtensionJsonBaseConfigService().componentHasInlineStyle()) {
 		writeFileSync(
 			path.join(
 				folderRightClickedPath,
-				`${nameInKebabCase}.component.${getExtensionConfigService().componentStylesheetsFormat()}`,
+				`${nameInKebabCase}.component.${getExtensionJsonBaseConfigService().componentStylesheetsFormat()}`,
 			),
 			'',
 		);
@@ -91,11 +91,13 @@ const getComponentTemplateData = (
 			? `${componentSelectorPrefix}-${nameInKebabCase}`
 			: `${nameInKebabCase}`,
 		componentNameAsKebabCase: nameInKebabCase,
-		inlineTemplate: getExtensionConfigService().componentHasInlineTemplate(),
-		inlineStyle: getExtensionConfigService().componentHasInlineStyle(),
+		inlineTemplate:
+			getExtensionJsonBaseConfigService().componentHasInlineTemplate(),
+		inlineStyle: getExtensionJsonBaseConfigService().componentHasInlineStyle(),
 		withOnPushChangeDetection:
-			getExtensionConfigService().componentHasOnPushChangeDetection(),
-		stylesheetsFormat: getExtensionConfigService().componentStylesheetsFormat(),
+			getExtensionJsonBaseConfigService().componentHasOnPushChangeDetection(),
+		stylesheetsFormat:
+			getExtensionJsonBaseConfigService().componentStylesheetsFormat(),
 	};
 };
 

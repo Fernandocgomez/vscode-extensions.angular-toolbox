@@ -9,7 +9,7 @@ import * as path from 'path';
 import { generateElement, generateSpec } from './util';
 import { readFileSync } from '@fileSystem';
 import { getProviderDependencies } from '@angularDependencyExtractor';
-import { getExtensionConfigService } from '@extensionConfig';
+import { getExtensionJsonBaseConfigService } from '@extensionConfig';
 
 /**
  * @param folderRightClickedPath /home/fernando/test/src/app
@@ -35,7 +35,7 @@ export const generatePipe = async (
 		TemplateFileNames.PIPE,
 		getPipeTemplateData(pipeSelectorPrefix, pipeNameInCamelCase),
 		generatePipeSpec,
-		getExtensionConfigService().skipPipeSpec(),
+		getExtensionJsonBaseConfigService().skipPipeSpec(),
 	);
 };
 
