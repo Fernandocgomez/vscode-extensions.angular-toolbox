@@ -63,8 +63,22 @@
 			{
 				"command": "gdlc-angular-toolbox.common-capabilities.generate-directive",
 				"title": "Generate Directive"
+			},
+			{
+				"command": "gdlc-angular-toolbox.common-capabilities.register-prefix",
+				"title": "Angular Toolbox: Register Prefix"
 			}
-		]
+		],
+		"configuration": {
+			"title": "GDLC Angular Toolbox",
+			"properties": {
+				"fernandocgomez.gdlc-angular-toolbox.prefix": {
+					"type": "string",
+					"default": "",
+					"description": "The prefix to be used for generated Angular schematics."
+				}
+			}
+		}
 	},
 	"scripts": {
 		"vscode:prepublish": "npm run package",

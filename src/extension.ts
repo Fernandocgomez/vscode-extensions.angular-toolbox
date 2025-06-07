@@ -3,6 +3,7 @@ import {
 	generateDirective,
 	generatePipe,
 	generateService,
+	registerPrefix,
 } from '@commonCapabilities';
 import { showErrorMessage } from '@extensionFramework';
 import * as vscode from 'vscode';
@@ -52,11 +53,23 @@ export function activate(context: vscode.ExtensionContext) {
 		},
 	);
 
+	const registerPrefixDisposable = vscode.commands.registerCommand(
+		'gdlc-angular-toolbox.common-capabilities.register-prefix',
+		async () => {
+			try {
+				await registerPrefix();
+			} catch (error: any) {
+				showErrorMessage(error.message);
+			}
+		},
+	);
+
 	context.subscriptions.push(
 		generateComponentDisposable,
 		generateServiceDisposable,
 		generatePipeDisposable,
 		generateDirectiveDisposable,
+		registerPrefixDisposable,
 	);
 }
 
