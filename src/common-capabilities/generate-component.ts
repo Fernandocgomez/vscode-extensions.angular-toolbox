@@ -1,5 +1,5 @@
 import * as path from 'path';
-import { promptBoolean, promptInput } from '@extensionFramework';
+import { promptInput } from '@extensionFramework';
 import { isKebabCase, kebabCaseToPascal } from '@utils';
 import {
 	ComponentSpecTemplateData,
@@ -16,6 +16,7 @@ import {
 } from '@angularDependencyExtractor';
 import { readFileSync, writeFileSync } from '@fileSystem';
 import { getExtensionJsonBaseConfigService } from '@extensionConfig';
+import { promptForPrefix } from './util/prompt-for-prefix';
 
 /**
  * @param folderRightClickedPath /home/fernando/test/src/app
@@ -23,21 +24,15 @@ import { getExtensionJsonBaseConfigService } from '@extensionConfig';
 export const generateComponent = async (
 	folderRightClickedPath: string,
 ): Promise<void> => {
-	const needSelectorPrefix = await promptBoolean({
-		prompt: 'Do you want to prefix your component selector?',
-		options: ['Yes', 'No'],
-	});
-
-	const componentSelectorPrefix = needSelectorPrefix
-		? await promptForPrefix()
-		: null;
-
-	const nameInKebabCase = await promptForNameAsKebabCase();
+	const prefix = await promptForPrefix(value =>
+		isKebabCase(value) ? null : 'Component prefix must be in kebab-case format',
+	);
+	const nameInKebabCase = await promptForName();
 
 	await generateElement(
 		path.join(folderRightClickedPath, `${nameInKebabCase}.component.ts`),
 		TemplateFileNames.COMPONENT,
-		getComponentTemplateData(nameInKebabCase, componentSelectorPrefix),
+		getComponentTemplateData(nameInKebabCase, prefix),
 		generateComponentSpec,
 		getExtensionJsonBaseConfigService().skipComponentSpec(),
 	);
@@ -60,19 +55,7 @@ export const generateComponent = async (
 	}
 };
 
-const promptForPrefix = async (): Promise<string | null> => {
-	return await promptInput({
-		prompt: 'Enter component prefix (kebab-case)',
-		placeHolder: 'e.g. dashboard',
-		validationFn: value =>
-			isKebabCase(value)
-				? null
-				: 'Component prefix must be in kebab-case format',
-		errorMessage: 'Error collecting component prefix',
-	});
-};
-
-const promptForNameAsKebabCase = async (): Promise<string> => {
+const promptForName = async (): Promise<string> => {
 	return await promptInput({
 		prompt: 'Enter component name (kebab-case)',
 		placeHolder: 'e.g. user-profile',

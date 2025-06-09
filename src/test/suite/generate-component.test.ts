@@ -14,6 +14,8 @@ import {
 	assertStrictEqual,
 	assertItDoesNotExists,
 	createConfig,
+	setPrefixInWorkspaceConfig,
+	deletePrefixFromConfig,
 } from '../util';
 import * as fs from 'fs';
 import * as path from 'path';
@@ -193,8 +195,15 @@ suite('Generate Component', () => {
 			});
 
 			suite('and the user provider a custom config', () => {
-				test('should not generate the spec file if the config skipSpec is true', async () => {
+				setup(async () => {
 					await makeAngularCustomTemplatesDirectory();
+				});
+
+				teardown(async () => {
+					await removeAngularCustomTemplatesDirectory();
+				});
+
+				test('should not generate the spec file if the config skipSpec is true', async () => {
 					await createConfig({
 						component: {
 							skipSpec: true,
@@ -216,11 +225,9 @@ suite('Generate Component', () => {
 						specPath,
 						`Component spec file should not exist at ${specPath}`,
 					);
-					await removeAngularCustomTemplatesDirectory();
 				});
 
 				test('should generate a component with a separate html file if the config inlineTemplate is false', async () => {
-					await makeAngularCustomTemplatesDirectory();
 					await createConfig({
 						component: {
 							inlineTemplate: false,
@@ -247,11 +254,9 @@ suite('Generate Component', () => {
 						componentHtmlPath,
 						`Component html file should exist at ${componentHtmlPath}`,
 					);
-					await removeAngularCustomTemplatesDirectory();
 				});
 
 				test('should generate a component with a separate css file if the config inlineTemplate is inlineStyle ', async () => {
-					await makeAngularCustomTemplatesDirectory();
 					await createConfig({
 						component: {
 							inlineStyle: false,
@@ -279,11 +284,9 @@ suite('Generate Component', () => {
 						componentCssPath,
 						`Component html file should exist at ${componentCssPath}`,
 					);
-					await removeAngularCustomTemplatesDirectory();
 				});
 
 				test('should generate a component with the change detection set to Default if the config withOnPushChangeDetection is false', async () => {
-					await makeAngularCustomTemplatesDirectory();
 					await createConfig({
 						component: {
 							withOnPushChangeDetection: false,
@@ -302,9 +305,60 @@ suite('Generate Component', () => {
 						componentWithDefaultChangeDetectionFixture,
 						'Generated component content does not match fixture.',
 					);
-					await removeAngularCustomTemplatesDirectory();
+				});
+
+				test('should not ask the user to collect the prefix if the config skipPrefix is true', async () => {
+					await createConfig({
+						skipPrefix: true,
+					});
+					const showInputBoxStub = sandbox.stub(vscode.window, 'showInputBox');
+					showInputBoxStub.resolves('dummy');
+					const showQuickPickStub = sandbox.stub(
+						vscode.window,
+						'showQuickPick',
+					);
+					showQuickPickStub.resolves('No' as any);
+
+					await runCommand();
+
+					assert.ok(
+						showQuickPickStub.calledOnce,
+						'Should call the showQuickPick function once',
+					);
 				});
 			});
+
+			suite(
+				'and the user has already provide a prefix on the workspace config',
+				() => {
+					test('should not ask the the user to collect the prefix and should use the one saved on the workspace config', async () => {
+						await setPrefixInWorkspaceConfig('prefix');
+						const showInputBoxStub = sandbox.stub(
+							vscode.window,
+							'showInputBox',
+						);
+						showInputBoxStub.resolves('dummy');
+						const showQuickPickStub = sandbox.stub(
+							vscode.window,
+							'showQuickPick',
+						);
+						showQuickPickStub.resolves('No' as any);
+
+						await runCommand();
+
+						assert.ok(
+							showQuickPickStub.calledOnce,
+							'Should call the showQuickPick function once',
+						);
+						assertStrictEqual(
+							path.join(getSrcDirectoryPath(), 'dummy.component.ts'),
+							componentWithPrefixFixture,
+							'Generated component content does not match fixture.',
+						);
+						await deletePrefixFromConfig();
+					});
+				},
+			);
 		},
 	);
 });
