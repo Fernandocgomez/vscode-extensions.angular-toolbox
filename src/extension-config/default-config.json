@@ -1,4 +1,5 @@
 {
+	"skipPrefix": false,
 	"component": {
 		"skipSpec": false,
 		"inlineTemplate": true,

@@ -11,6 +11,10 @@ import { existsSync, readFileSync } from '@fileSystem';
 class ExtensionConfigService {
 	readonly #config: SafeExtensionConfig = this.#getExtensionConfigFile();
 
+	skipPrefix(): boolean {
+		return this.#config.skipPrefix;
+	}
+
 	skipComponentSpec(): boolean {
 		return this.#config.component.skipSpec;
 	}
@@ -69,6 +73,7 @@ class ExtensionConfigService {
 
 	#toSafeExtensionConfig(config: ExtensionConfig): SafeExtensionConfig {
 		return {
+			skipPrefix: config?.skipPrefix ?? defaultConfig.skipPrefix,
 			component: {
 				skipSpec:
 					config?.component?.skipSpec ?? defaultConfig.component.skipSpec,
