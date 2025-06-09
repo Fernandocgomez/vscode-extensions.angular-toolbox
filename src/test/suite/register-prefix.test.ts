@@ -3,6 +3,8 @@ import * as vscode from 'vscode';
 import * as assert from 'assert';
 import {
 	createPromptStub,
+	deletePrefixFromConfig,
+	getPrefixValue,
 	makeSrcDirectory,
 	removeSrcDirectory,
 } from '../util';
@@ -89,20 +91,6 @@ suite('Register Prefix', () => {
 		},
 	);
 });
-
-const CONFIGURATION_SECTION_ID = 'fernandocgomez.gdlc-angular-toolbox';
-
-const getWorkspaceConfig = () =>
-	vscode.workspace.getConfiguration(CONFIGURATION_SECTION_ID);
-
-const deletePrefixFromConfig = async () =>
-	await getWorkspaceConfig().update(
-		'prefix',
-		'',
-		vscode.ConfigurationTarget.Workspace,
-	);
-
-const getPrefixValue = () => getWorkspaceConfig().get<string>('prefix');
 
 const runCommand = async () =>
 	await vscode.commands.executeCommand(
