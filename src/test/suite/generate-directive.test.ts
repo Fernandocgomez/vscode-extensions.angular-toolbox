@@ -10,12 +10,14 @@ import {
 	createConfig,
 	createPromptStub,
 	createTemplateFile,
+	deletePrefixFromConfig,
 	executeCommand,
 	getSrcDirectoryPath,
 	makeAngularCustomTemplatesDirectory,
 	makeSrcDirectory,
 	removeAngularCustomTemplatesDirectory,
 	removeSrcDirectory,
+	setPrefixInWorkspaceConfig,
 } from '../util';
 import {
 	directiveSpecFixture,
@@ -253,7 +255,64 @@ suite('Generate Directive Test Suite', () => {
 					);
 					await removeAngularCustomTemplatesDirectory();
 				});
+
+				test('should not ask the user to collect the prefix if the config skipPrefix is true', async () => {
+					await makeAngularCustomTemplatesDirectory();
+					await createConfig({
+						skipPrefix: true,
+					});
+					const showInputBoxStub = sandbox.stub(vscode.window, 'showInputBox');
+					showInputBoxStub.resolves('highlightContentOnHover');
+					const showQuickPickStub = sandbox.stub(
+						vscode.window,
+						'showQuickPick',
+					);
+					showQuickPickStub.resolves('No' as any);
+
+					await runCommand();
+
+					assert.ok(
+						showQuickPickStub.calledOnce,
+						'Should call the showQuickPick function once',
+					);
+					await removeAngularCustomTemplatesDirectory();
+				});
 			});
+
+			suite(
+				'and the user has already provide a prefix on the workspace config',
+				() => {
+					test('should not ask the the user to collect the prefix and should use the one saved on the workspace config', async () => {
+						await setPrefixInWorkspaceConfig('prefix');
+						const showInputBoxStub = sandbox.stub(
+							vscode.window,
+							'showInputBox',
+						);
+						showInputBoxStub.resolves('highlightContentOnHover');
+						const showQuickPickStub = sandbox.stub(
+							vscode.window,
+							'showQuickPick',
+						);
+						showQuickPickStub.resolves('No' as any);
+
+						await runCommand();
+
+						assert.ok(
+							showQuickPickStub.calledOnce,
+							'Should call the showQuickPick function once',
+						);
+						assertStrictEqual(
+							path.join(
+								getSrcDirectoryPath(),
+								'highlight-content-on-hover.directive.ts',
+							),
+							directiveWithPrefixFixture,
+							'Generated directive content does not match fixture.',
+						);
+						await deletePrefixFromConfig();
+					});
+				},
+			);
 		},
 	);
 });
