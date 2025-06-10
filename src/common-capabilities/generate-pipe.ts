@@ -1,15 +1,20 @@
-import { promptBoolean, promptInput } from '@extensionFramework';
+import { promptInput } from '@extensionFramework';
 import {
 	PipeSpecTemplateData,
 	PipeTemplateData,
 	TemplateFileNames,
 } from '@models';
-import { camelCaseToKebabCase, isCamelCase } from '@utils';
+import {
+	camelCaseToKebabCase,
+	isCamelCase,
+	kebabCaseToCamelCase,
+} from '@utils';
 import * as path from 'path';
 import { generateElement, generateSpec } from './util';
 import { readFileSync } from '@fileSystem';
 import { getProviderDependencies } from '@angularDependencyExtractor';
 import { getExtensionJsonBaseConfigService } from '@extensionConfig';
+import { promptForPrefix } from './util/prompt-for-prefix';
 
 /**
  * @param folderRightClickedPath /home/fernando/test/src/app
@@ -17,36 +22,21 @@ import { getExtensionJsonBaseConfigService } from '@extensionConfig';
 export const generatePipe = async (
 	folderRightClickedPath: string,
 ): Promise<void> => {
-	const needSelectorPrefix = await promptBoolean({
-		prompt: 'Do you want to prefix your pipe selector?',
-		options: ['Yes', 'No'],
-	});
-
-	const pipeSelectorPrefix = needSelectorPrefix
-		? await promptForPrefix()
-		: null;
-	const pipeNameInCamelCase = await promptForPipeName();
+	const prefix = await promptForPrefix(value =>
+		isCamelCase(value) ? null : 'Pipe prefix must be in camel-case format',
+	);
+	const nameInCamelCase = await promptForPipeName();
 
 	await generateElement(
 		path.join(
 			folderRightClickedPath,
-			`${camelCaseToKebabCase(pipeNameInCamelCase)}.pipe.ts`,
+			`${camelCaseToKebabCase(nameInCamelCase)}.pipe.ts`,
 		),
 		TemplateFileNames.PIPE,
-		getPipeTemplateData(pipeSelectorPrefix, pipeNameInCamelCase),
+		getPipeTemplateData(prefix, nameInCamelCase),
 		generatePipeSpec,
 		getExtensionJsonBaseConfigService().skipPipeSpec(),
 	);
-};
-
-const promptForPrefix = async (): Promise<string | null> => {
-	return await promptInput({
-		prompt: 'Enter pipe prefix (camel-case)',
-		placeHolder: 'e.g. appDashboard',
-		validationFn: value =>
-			isCamelCase(value) ? null : 'Pipe prefix must be in camel-case format',
-		errorMessage: 'Error collecting pipe prefix',
-	});
 };
 
 const promptForPipeName = async (): Promise<string> => {
@@ -64,7 +54,7 @@ const getPipeTemplateData = (
 	pipeNameInCamelCase: string,
 ): PipeTemplateData => {
 	const selector = prefix
-		? `${prefix}${pipeNameInCamelCase.charAt(0).toUpperCase() + pipeNameInCamelCase.slice(1)}`
+		? `${kebabCaseToCamelCase(prefix)}${pipeNameInCamelCase.charAt(0).toUpperCase() + pipeNameInCamelCase.slice(1)}`
 		: pipeNameInCamelCase;
 
 	return {
