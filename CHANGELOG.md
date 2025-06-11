@@ -16,7 +16,7 @@ All notable changes to the "Angular Toolbox" extension will be documented in thi
 
 ### Documentation
 
-- **changelog**: standardize changelog.
+- **changelog**: standardize changelog. ([1e2aa51](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/pull/19/commits/1e2aa51ae58fc0aaa7ae0f07453ab0b3bc7f5d79))
 - **readme**: Add tutorial for release features.
 - **license**: Change license from custom one to MIT.
 
