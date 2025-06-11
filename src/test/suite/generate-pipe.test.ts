@@ -51,7 +51,6 @@ suite('Generate Pipe', () => {
 					.quickPick('Yes') // 1. "Do you want to prefix your pipe selector?"
 					.inputBox('prefix') // 2. "Enter pipe prefix (camel-case)"
 					.inputBox('formatNumber') // 3. "Enter pipe name (camel-case)"
-					.quickPick('Yes') // 4. "Do you want to generate the spec file?"
 					.apply();
 
 				await runCommand();
@@ -82,8 +81,7 @@ suite('Generate Pipe', () => {
 				createPromptStub(sandbox)
 					.quickPick('No') // 1. "Do you want to prefix your pipe selector?"
 					.inputBox('formatDate') // 2. "Enter pipe name (camel-case)"
-					.quickPick('Yes') // 3. "Do you want to generate the spec file?"
-					.apply(); // 4. No prefix, no spec
+					.apply();
 
 				await runCommand();
 
@@ -109,38 +107,12 @@ suite('Generate Pipe', () => {
 				);
 			});
 
-			test('should generate a pipe file only if the user select "No" to the question "Do you want to generate the spec file?"', async () => {
-				createPromptStub(sandbox)
-					.quickPick('Yes') // 1. "Do you want to prefix your pipe selector?"
-					.inputBox('prefix') // 2. "Enter pipe prefix (camel-case)"
-					.inputBox('formatCurrency') // 3. "Enter pipe name (camel-case)"
-					.quickPick('No') // 4. "Do you want to generate the spec file?"
-					.apply();
-
-				await runCommand();
-
-				const pipePath = path.join(
-					getSrcDirectoryPath(),
-					'format-currency.pipe.ts',
-				);
-				const specPath = path.join(
-					getSrcDirectoryPath(),
-					'format-currency.pipe.spec.ts',
-				);
-				assertItExists(pipePath, `Pipe file should exist at ${pipePath}`);
-				assertItDoesNotExists(
-					specPath,
-					`Spec file should NOT exist at ${specPath}`,
-				);
-			});
-
 			test('should generate a pipe file using the custom template if the user has a pipe template on the .angular-custom-templates folder', async () => {
 				await makeAngularCustomTemplatesDirectory();
 				await createTemplateFile('pipe', customPipeTemplateTestingData);
 				createPromptStub(sandbox)
 					.quickPick('No') // 1. "Do you want to prefix your pipe selector?"
 					.inputBox('dummy') // 2. "Enter pipe name (camel-case)"
-					.quickPick('No') // 3. "Do you want to generate the spec file?"
 					.apply();
 
 				await runCommand();
@@ -166,7 +138,6 @@ suite('Generate Pipe', () => {
 				createPromptStub(sandbox)
 					.quickPick('No') // 1. "Do you want to prefix your pipe selector?"
 					.inputBox('dummy') // 2. "Enter pipe name (camel-case)"
-					.quickPick('No') // 3. "Do you want to generate the spec file?"
 					.apply();
 
 				await runCommand();
@@ -189,7 +160,6 @@ suite('Generate Pipe', () => {
 					createPromptStub(sandbox)
 						.quickPick('No') // 1. "Do you want to prefix your pipe selector?"
 						.inputBox('dummy') // 2. "Enter pipe name (camel-case)"
-						.quickPick('Yes') // 3. "Do you want to generate the spec file?"
 						.apply();
 
 					await runCommand();
@@ -212,16 +182,11 @@ suite('Generate Pipe', () => {
 					});
 					const showInputBoxStub = sandbox.stub(vscode.window, 'showInputBox');
 					showInputBoxStub.resolves('dummy');
-					const showQuickPickStub = sandbox.stub(
-						vscode.window,
-						'showQuickPick',
-					);
-					showQuickPickStub.resolves('No' as any);
 
 					await runCommand();
 
 					assert.ok(
-						showQuickPickStub.calledOnce,
+						showInputBoxStub.calledOnce,
 						'Should call the showQuickPick function once',
 					);
 					await removeAngularCustomTemplatesDirectory();
@@ -238,17 +203,12 @@ suite('Generate Pipe', () => {
 							'showInputBox',
 						);
 						showInputBoxStub.resolves('formatNumber');
-						const showQuickPickStub = sandbox.stub(
-							vscode.window,
-							'showQuickPick',
-						);
-						showQuickPickStub.resolves('No' as any);
 
 						await runCommand();
 
 						assert.ok(
-							showQuickPickStub.calledOnce,
-							'Should call the showQuickPick function once',
+							showInputBoxStub.calledOnce,
+							'Should call the showInputBox function once',
 						);
 						assertStrictEqual(
 							path.join(getSrcDirectoryPath(), 'format-number.pipe.ts'),

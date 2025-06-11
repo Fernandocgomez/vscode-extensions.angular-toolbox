@@ -47,12 +47,11 @@ suite('Generate Directive Test Suite', () => {
 	suite(
 		'when running the "gdlc-angular-toolbox.common-capabilities.generate-directive" command',
 		() => {
-			test('should generate a directive file and spec file if the user select "Yes" to the question "Do you want to generate the spec file?"', async () => {
+			test('should generate a directive file and spec file', async () => {
 				createPromptStub(sandbox)
 					.quickPick('Yes') // 1. "Do you want to prefix your directive selector?"
 					.inputBox('prefix') // 2. "Enter directive prefix (camel-case)"
 					.inputBox('highlightContentOnHover') // 3. "Enter directive name (camel-case)"
-					.quickPick('Yes') // 4. "Do you want to generate the spec file?"
 					.apply();
 
 				await runCommand();
@@ -72,32 +71,11 @@ suite('Generate Directive Test Suite', () => {
 				assertItExists(specPath, `Spec file should exist at ${specPath}`);
 			});
 
-			test('should generate a directive only when the user select, "No" to the question "Do you want to generate the spec file?"', async () => {
-				createPromptStub(sandbox)
-					.quickPick('Yes') // 1. "Do you want to prefix your directive selector?"
-					.inputBox('prefix') // 2. "Enter directive prefix (camel-case)"
-					.inputBox('highlightContentOnHover') // 3. "Enter directive name (camel-case)"
-					.quickPick('No') // 4. "Do you want to generate the spec file?"
-					.apply();
-
-				await runCommand();
-
-				const specPath = path.join(
-					getSrcDirectoryPath(),
-					'highlight-content-on-hover.directive.spec.ts',
-				);
-				assertItDoesNotExists(
-					specPath,
-					`Spec file should exist at ${specPath}`,
-				);
-			});
-
 			test('should generate a directive using the default directive template when the user does not provide a custom one', async () => {
 				createPromptStub(sandbox)
 					.quickPick('Yes') // 1. "Do you want to prefix your directive selector?"
 					.inputBox('prefix') // 2. "Enter directive prefix (camel-case)"
 					.inputBox('highlightContentOnHover') // 3. "Enter directive name (camel-case)"
-					.quickPick('No') // 4. "Do you want to generate the spec file?"
 					.apply();
 
 				await runCommand();
@@ -121,7 +99,6 @@ suite('Generate Directive Test Suite', () => {
 				createPromptStub(sandbox)
 					.quickPick('No') // 1. "Do you want to prefix your directive selector?"
 					.inputBox('highlightContentOnHover') // 2. "Enter directive name (camel-case)"
-					.quickPick('No') // 3. "Do you want to generate the spec file?"
 					.apply();
 
 				await runCommand();
@@ -143,7 +120,6 @@ suite('Generate Directive Test Suite', () => {
 					.quickPick('Yes') // 1. "Do you want to prefix your directive selector?"
 					.inputBox('prefix') // 2. "Enter directive prefix (camel-case)"
 					.inputBox('highlightContentOnHover') // 3. "Enter directive name (camel-case)"
-					.quickPick('Yes') // 4. "Do you want to generate the spec file?"
 					.apply();
 
 				await runCommand();
@@ -167,7 +143,6 @@ suite('Generate Directive Test Suite', () => {
 				createPromptStub(sandbox)
 					.quickPick('No') // 1. "Do you want to prefix your directive selector?"
 					.inputBox('highlightContentOnHover') // 2. "Enter directive name (camel-case)"
-					.quickPick('Yes') // 3. "Do you want to generate the spec file?"
 					.apply();
 
 				await runCommand();
@@ -188,7 +163,6 @@ suite('Generate Directive Test Suite', () => {
 				createPromptStub(sandbox)
 					.quickPick('No') // 1. "Do you want to prefix your directive selector?"
 					.inputBox('highlightContentOnHover') // 2. "Enter directive name (camel-case)"
-					.quickPick('No') // 3. "Do you want to generate the spec file?"
 					.apply();
 
 				await runCommand();
@@ -218,7 +192,6 @@ suite('Generate Directive Test Suite', () => {
 				createPromptStub(sandbox)
 					.quickPick('No') // 1. "Do you want to prefix your directive selector?"
 					.inputBox('highlightContentOnHover') // 2. "Enter directive name (camel-case)"
-					.quickPick('No') // 3. "Do you want to generate the spec file?"
 					.apply();
 
 				await runCommand();
@@ -240,7 +213,6 @@ suite('Generate Directive Test Suite', () => {
 					createPromptStub(sandbox)
 						.quickPick('No') // 1. "Do you want to prefix your directive selector?"
 						.inputBox('highlightContentOnHover') // 2. "Enter directive name (camel-case)"
-						.quickPick('Yes') // 3. "Do you want to generate the spec file?"
 						.apply();
 
 					await runCommand();
@@ -263,17 +235,12 @@ suite('Generate Directive Test Suite', () => {
 					});
 					const showInputBoxStub = sandbox.stub(vscode.window, 'showInputBox');
 					showInputBoxStub.resolves('highlightContentOnHover');
-					const showQuickPickStub = sandbox.stub(
-						vscode.window,
-						'showQuickPick',
-					);
-					showQuickPickStub.resolves('No' as any);
 
 					await runCommand();
 
 					assert.ok(
-						showQuickPickStub.calledOnce,
-						'Should call the showQuickPick function once',
+						showInputBoxStub.calledOnce,
+						'Should call the showInputBox function once',
 					);
 					await removeAngularCustomTemplatesDirectory();
 				});
@@ -289,17 +256,12 @@ suite('Generate Directive Test Suite', () => {
 							'showInputBox',
 						);
 						showInputBoxStub.resolves('highlightContentOnHover');
-						const showQuickPickStub = sandbox.stub(
-							vscode.window,
-							'showQuickPick',
-						);
-						showQuickPickStub.resolves('No' as any);
 
 						await runCommand();
 
 						assert.ok(
-							showQuickPickStub.calledOnce,
-							'Should call the showQuickPick function once',
+							showInputBoxStub.calledOnce,
+							'Should call the showInputBox function once',
 						);
 						assertStrictEqual(
 							path.join(

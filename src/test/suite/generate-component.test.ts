@@ -53,7 +53,6 @@ suite('Generate Component', () => {
 					.quickPick('Yes') // 1. "Do you want to prefix your component selector?"
 					.inputBox('prefix') // 2. "Enter component prefix (kebab-case)"
 					.inputBox('dummy') // 3. "Enter component name (kebab-case)"
-					.quickPick('Yes') // 4. "Do you want to generate the spec file?"
 					.apply();
 
 				await runCommand();
@@ -84,44 +83,10 @@ suite('Generate Component', () => {
 				);
 			});
 
-			test('should generate a component file only if the user select "No" on the "Do you want to generate the spec file?" question', async () => {
-				createPromptStub(sandbox)
-					.quickPick('Yes') // 1. "Do you want to prefix your component selector?"
-					.inputBox('prefix') // 2. "Enter component prefix (kebab-case)"
-					.inputBox('dummy') // 3. "Enter component name (kebab-case)"
-					.quickPick('No') // 4. "Do you want to generate the spec file?"
-					.apply();
-
-				await runCommand();
-
-				const componentPath = path.join(
-					getSrcDirectoryPath(),
-					'dummy.component.ts',
-				);
-				const specPath = path.join(
-					getSrcDirectoryPath(),
-					'dummy.component.spec.ts',
-				);
-				assertItExists(
-					componentPath,
-					`Component file should exist at ${componentPath}`,
-				);
-				assertItDoesNotExists(
-					specPath,
-					`Spec file should NOT exist at ${specPath}`,
-				);
-				assertStrictEqual(
-					componentPath,
-					componentWithPrefixFixture,
-					'Generated component content does not match fixture.',
-				);
-			});
-
-			test('should generate a component file only without prefix if the user select "No" on the "Do you want to prefix your component selector?" question', async () => {
+			test('should generate a component file without prefix if the user select "No" on the "Do you want to prefix your component selector?" question', async () => {
 				createPromptStub(sandbox)
 					.quickPick('No') // 1. "Do you want to prefix your component selector?"
 					.inputBox('dummy') // 2. "Enter component name (kebab-case)"
-					.quickPick('No') // 3. "Do you want to generate the spec file?"
 					.apply();
 
 				await runCommand();
@@ -130,17 +95,9 @@ suite('Generate Component', () => {
 					getSrcDirectoryPath(),
 					'dummy.component.ts',
 				);
-				const specPath = path.join(
-					getSrcDirectoryPath(),
-					'dummy.component.spec.ts',
-				);
 				assertItExists(
 					componentPath,
 					`Component file should exist at ${componentPath}`,
-				);
-				assertItDoesNotExists(
-					specPath,
-					`Spec file should NOT exist at ${specPath}`,
 				);
 				assertStrictEqual(
 					componentPath,
@@ -149,7 +106,7 @@ suite('Generate Component', () => {
 				);
 			});
 
-			test('should generate a component file only, but using a custom template when the user provide it', async () => {
+			test('should generate a component file, but using a custom template when the user provide it', async () => {
 				await makeAngularCustomTemplatesDirectory();
 				await createTemplateFile(
 					'component',
@@ -158,7 +115,6 @@ suite('Generate Component', () => {
 				createPromptStub(sandbox)
 					.quickPick('No') // 1. "Do you want to prefix your component selector?"
 					.inputBox('dummy') // 2. "Enter component name (kebab-case)"
-					.quickPick('No') // 3. "Do you want to generate the spec file?"
 					.apply();
 
 				await runCommand();
@@ -183,7 +139,6 @@ suite('Generate Component', () => {
 				createPromptStub(sandbox)
 					.quickPick('No') // 1. "Do you want to prefix your component selector?"
 					.inputBox('dummy') // 2. "Enter component name (kebab-case)"
-					.quickPick('No') // 3. "Do you want to generate the spec file?"
 					.apply();
 
 				await runCommand();
@@ -212,7 +167,6 @@ suite('Generate Component', () => {
 					createPromptStub(sandbox)
 						.quickPick('No') // 1. "Do you want to prefix your component selector?"
 						.inputBox('dummy') // 2. "Enter component name (kebab-case)"
-						.quickPick('Yes') // 3. "Do you want to generate the spec file?"
 						.apply();
 
 					await runCommand();
@@ -236,7 +190,6 @@ suite('Generate Component', () => {
 					createPromptStub(sandbox)
 						.quickPick('No') // 1. "Do you want to prefix your component selector?"
 						.inputBox('dummy') // 2. "Enter component name (kebab-case)"
-						.quickPick('No') // 3. "Do you want to generate the spec file?"
 						.apply();
 
 					await runCommand();
@@ -266,7 +219,6 @@ suite('Generate Component', () => {
 					createPromptStub(sandbox)
 						.quickPick('No') // 1. "Do you want to prefix your component selector?"
 						.inputBox('dummy') // 2. "Enter component name (kebab-case)"
-						.quickPick('No') // 3. "Do you want to generate the spec file?"
 						.apply();
 
 					await runCommand();
@@ -295,7 +247,6 @@ suite('Generate Component', () => {
 					createPromptStub(sandbox)
 						.quickPick('No') // 1. "Do you want to prefix your component selector?"
 						.inputBox('dummy') // 2. "Enter component name (kebab-case)"
-						.quickPick('No') // 3. "Do you want to generate the spec file?"
 						.apply();
 
 					await runCommand();
@@ -313,17 +264,12 @@ suite('Generate Component', () => {
 					});
 					const showInputBoxStub = sandbox.stub(vscode.window, 'showInputBox');
 					showInputBoxStub.resolves('dummy');
-					const showQuickPickStub = sandbox.stub(
-						vscode.window,
-						'showQuickPick',
-					);
-					showQuickPickStub.resolves('No' as any);
 
 					await runCommand();
 
 					assert.ok(
-						showQuickPickStub.calledOnce,
-						'Should call the showQuickPick function once',
+						showInputBoxStub.calledOnce,
+						'Should call the showInputBox function once',
 					);
 				});
 			});
@@ -338,17 +284,12 @@ suite('Generate Component', () => {
 							'showInputBox',
 						);
 						showInputBoxStub.resolves('dummy');
-						const showQuickPickStub = sandbox.stub(
-							vscode.window,
-							'showQuickPick',
-						);
-						showQuickPickStub.resolves('No' as any);
 
 						await runCommand();
 
 						assert.ok(
-							showQuickPickStub.calledOnce,
-							'Should call the showQuickPick function once',
+							showInputBoxStub.calledOnce,
+							'Should call the showInputBox function once',
 						);
 						assertStrictEqual(
 							path.join(getSrcDirectoryPath(), 'dummy.component.ts'),
