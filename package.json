@@ -67,6 +67,10 @@
 			{
 				"command": "gdlc-angular-toolbox.common-capabilities.register-prefix",
 				"title": "Angular Toolbox: Register Prefix"
+			},
+			{
+				"command": "gdlc-angular-toolbox.common-capabilities.see-prefix",
+				"title": "Angular Toolbox: See Prefix"
 			}
 		],
 		"configuration": {
