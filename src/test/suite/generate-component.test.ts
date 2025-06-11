@@ -160,9 +160,7 @@ suite('Generate Component', () => {
 
 				test('should not generate the spec file if the config skipSpec is true', async () => {
 					await createConfig({
-						component: {
-							skipSpec: true,
-						},
+						skipSpec: true,
 					});
 					createPromptStub(sandbox)
 						.quickPick('No') // 1. "Do you want to prefix your component selector?"

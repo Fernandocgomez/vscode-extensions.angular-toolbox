@@ -2,19 +2,9 @@
 	"skipPrefix": false,
 	"skipSpec": false,
 	"component": {
-		"skipSpec": false,
 		"inlineTemplate": true,
 		"inlineStyle": true,
 		"withOnPushChangeDetection": true,
 		"stylesheetsFormat": "scss"
-	},
-	"service": {
-		"skipSpec": false
-	},
-	"directive": {
-		"skipSpec": false
-	},
-	"pipe": {
-		"skipSpec": false
 	}
 }

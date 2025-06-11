@@ -1,8 +1,5 @@
-import {
-	openTextFile,
-	promptBoolean,
-	showInformationMessage,
-} from '@extensionFramework';
+import { getExtensionJsonBaseConfigService } from '@extensionConfig';
+import { openTextFile, showInformationMessage } from '@extensionFramework';
 import { throwExceptionWhenFileExist, writeFileSync } from '@fileSystem';
 import { TemplateFileNames } from '@models';
 import { getTemplatePath, renderTemplate } from '@templates';
@@ -12,7 +9,6 @@ export const generateElement = async (
 	templateName: TemplateFileNames,
 	templateData: object,
 	generateSpecFn: (filePath: string) => Promise<void>,
-	skipSpec: boolean,
 ) => {
 	throwExceptionWhenFileExist(filePath);
 
@@ -23,15 +19,8 @@ export const generateElement = async (
 
 	showInformationMessage(`${templateName} was generated successfully.`);
 
-	if (!skipSpec) {
-		const shouldGenerateSpecFile = await promptBoolean({
-			prompt: 'Do you want to generate the spec file?',
-			options: ['Yes', 'No'],
-		});
-
-		if (shouldGenerateSpecFile) {
-			await generateSpecFn(filePath);
-		}
+	if (!getExtensionJsonBaseConfigService().skipSpec()) {
+		await generateSpecFn(filePath);
 	}
 
 	await openTextFile(filePath);

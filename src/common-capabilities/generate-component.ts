@@ -34,7 +34,6 @@ export const generateComponent = async (
 		TemplateFileNames.COMPONENT,
 		getComponentTemplateData(nameInKebabCase, prefix),
 		generateComponentSpec,
-		getExtensionJsonBaseConfigService().skipComponentSpec(),
 	);
 
 	if (!getExtensionJsonBaseConfigService().componentHasInlineTemplate()) {

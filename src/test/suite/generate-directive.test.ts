@@ -206,9 +206,7 @@ suite('Generate Directive Test Suite', () => {
 				test('should not generate the spec file if the config skipSpec is true', async () => {
 					await makeAngularCustomTemplatesDirectory();
 					await createConfig({
-						directive: {
-							skipSpec: true,
-						},
+						skipSpec: true,
 					});
 					createPromptStub(sandbox)
 						.quickPick('No') // 1. "Do you want to prefix your directive selector?"

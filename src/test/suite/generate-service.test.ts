@@ -249,9 +249,7 @@ suite('Generate Service Test Suite', () => {
 				test('should not generate the spec file if the config skipSpec is true', async () => {
 					await makeAngularCustomTemplatesDirectory();
 					await createConfig({
-						service: {
-							skipSpec: true,
-						},
+						skipSpec: true,
 					});
 
 					createPromptStub(sandbox)

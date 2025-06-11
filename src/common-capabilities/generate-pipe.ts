@@ -13,7 +13,6 @@ import * as path from 'path';
 import { generateElement, generateSpec } from './util';
 import { readFileSync } from '@fileSystem';
 import { getProviderDependencies } from '@angularDependencyExtractor';
-import { getExtensionJsonBaseConfigService } from '@extensionConfig';
 import { promptForPrefix } from './util/prompt-for-prefix';
 
 /**
@@ -35,7 +34,6 @@ export const generatePipe = async (
 		TemplateFileNames.PIPE,
 		getPipeTemplateData(prefix, nameInCamelCase),
 		generatePipeSpec,
-		getExtensionJsonBaseConfigService().skipPipeSpec(),
 	);
 };
 

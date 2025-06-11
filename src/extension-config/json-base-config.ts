@@ -19,10 +19,6 @@ class ExtensionConfigService {
 		return this.#config.skipSpec;
 	}
 
-	skipComponentSpec(): boolean {
-		return this.#config.component.skipSpec;
-	}
-
 	componentHasInlineTemplate(): boolean {
 		return this.#config.component.inlineTemplate;
 	}
@@ -37,18 +33,6 @@ class ExtensionConfigService {
 
 	componentStylesheetsFormat(): StylesheetsFormat {
 		return this.#config.component.stylesheetsFormat;
-	}
-
-	skipServiceSpec(): boolean {
-		return this.#config.service.skipSpec;
-	}
-
-	skipDirectiveSpec(): boolean {
-		return this.#config.directive.skipSpec;
-	}
-
-	skipPipeSpec(): boolean {
-		return this.#config.pipe.skipSpec;
 	}
 
 	#getExtensionConfigFile(): SafeExtensionConfig {
@@ -80,8 +64,6 @@ class ExtensionConfigService {
 			skipPrefix: config?.skipPrefix ?? defaultConfig.skipPrefix,
 			skipSpec: config?.skipSpec ?? defaultConfig.skipSpec,
 			component: {
-				skipSpec:
-					config?.component?.skipSpec ?? defaultConfig.component.skipSpec,
 				inlineTemplate:
 					config?.component?.inlineTemplate ??
 					defaultConfig.component.inlineTemplate,
@@ -93,16 +75,6 @@ class ExtensionConfigService {
 				stylesheetsFormat:
 					config?.component?.stylesheetsFormat ??
 					defaultConfig.component.stylesheetsFormat,
-			},
-			service: {
-				skipSpec: config?.service?.skipSpec ?? defaultConfig.service.skipSpec,
-			},
-			directive: {
-				skipSpec:
-					config?.directive?.skipSpec ?? defaultConfig.directive.skipSpec,
-			},
-			pipe: {
-				skipSpec: config?.pipe?.skipSpec ?? defaultConfig.pipe.skipSpec,
 			},
 		};
 	}

@@ -152,9 +152,7 @@ suite('Generate Pipe', () => {
 				test('should not generate the spec file if the config skipSpec is true', async () => {
 					await makeAngularCustomTemplatesDirectory();
 					await createConfig({
-						pipe: {
-							skipSpec: true,
-						},
+						skipSpec: true,
 					});
 
 					createPromptStub(sandbox)

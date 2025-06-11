@@ -13,7 +13,6 @@ import {
 } from '@models';
 import { readFileSync } from '@fileSystem';
 import { getProviderDependencies } from '@angularDependencyExtractor';
-import { getExtensionJsonBaseConfigService } from '@extensionConfig';
 import { promptForPrefix } from './util/prompt-for-prefix';
 
 /**
@@ -35,7 +34,6 @@ export const generateDirective = async (
 		TemplateFileNames.DIRECTIVE,
 		getTemplateData(prefix, nameInCamelCase),
 		generateDirectiveSpec,
-		getExtensionJsonBaseConfigService().skipDirectiveSpec(),
 	);
 };
 
