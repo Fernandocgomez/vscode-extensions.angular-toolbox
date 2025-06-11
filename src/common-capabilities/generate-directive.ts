@@ -1,40 +1,40 @@
-import { promptBoolean, promptInput } from '@extensionFramework';
-import { camelCaseToKebabCase, isCamelCase } from '@utils';
-import { generateElement } from '../generate-element/generate-element';
+import { promptInput } from '@extensionFramework';
+import {
+	camelCaseToKebabCase,
+	isCamelCase,
+	kebabCaseToCamelCase,
+} from '@utils';
+import { generateElement, generateSpec } from './util';
 import * as path from 'path';
-import { DirectiveSpecTemplateData, DirectiveTemplateData, TemplateFileNames } from '@models';
-import { generateSpec } from '../generate-spec/generate-spec';
+import {
+	DirectiveSpecTemplateData,
+	DirectiveTemplateData,
+	TemplateFileNames,
+} from '@models';
 import { readFileSync } from '@fileSystem';
 import { getProviderDependencies } from '@angularDependencyExtractor';
+import { promptForPrefix } from './util/prompt-for-prefix';
 
 /**
  * @param folderRightClickedPath /home/fernando/test/src/app
  */
-export const generateDirective = async (folderRightClickedPath: string): Promise<void> => {
-	const needPrefix = await promptBoolean({
-		prompt: 'Do you want to prefix your directive selector?',
-		options: ['Yes', 'No'],
-	});
-
-	const prefix = needPrefix ? await promptForPrefix() : null;
+export const generateDirective = async (
+	folderRightClickedPath: string,
+): Promise<void> => {
+	const prefix = await promptForPrefix(value =>
+		isCamelCase(value) ? null : 'Directive prefix must be in camel-case format',
+	);
 	const nameInCamelCase = await promptForName();
 
 	await generateElement(
-		path.join(folderRightClickedPath, `${camelCaseToKebabCase(nameInCamelCase)}.directive.ts`),
+		path.join(
+			folderRightClickedPath,
+			`${camelCaseToKebabCase(nameInCamelCase)}.directive.ts`,
+		),
 		TemplateFileNames.DIRECTIVE,
 		getTemplateData(prefix, nameInCamelCase),
 		generateDirectiveSpec,
 	);
-};
-
-const promptForPrefix = async (): Promise<string | null> => {
-	return await promptInput({
-		prompt: 'Enter directive prefix (camel-case)',
-		placeHolder: 'e.g. app',
-		validationFn: value =>
-			isCamelCase(value) ? null : 'Directive prefix must be in camel-case format',
-		errorMessage: 'Error collecting directive prefix',
-	});
 };
 
 const promptForName = async (): Promise<string> => {
@@ -47,9 +47,12 @@ const promptForName = async (): Promise<string> => {
 	});
 };
 
-const getTemplateData = (prefix: string | null, nameInCamelCase: string): DirectiveTemplateData => {
+const getTemplateData = (
+	prefix: string | null,
+	nameInCamelCase: string,
+): DirectiveTemplateData => {
 	const selector = prefix
-		? `${prefix}${nameInCamelCase.charAt(0).toUpperCase() + nameInCamelCase.slice(1)}`
+		? `${kebabCaseToCamelCase(prefix)}${nameInCamelCase.charAt(0).toUpperCase() + nameInCamelCase.slice(1)}`
 		: nameInCamelCase;
 
 	return {
@@ -58,7 +61,9 @@ const getTemplateData = (prefix: string | null, nameInCamelCase: string): Direct
 	};
 };
 
-const generateDirectiveSpec = async (directiveFilePath: string): Promise<void> => {
+const generateDirectiveSpec = async (
+	directiveFilePath: string,
+): Promise<void> => {
 	await generateSpec(
 		directiveFilePath.replace(/\.directive\.ts$/, '.directive.spec.ts'),
 		TemplateFileNames.DIRECTIVE_SPEC,
@@ -66,7 +71,9 @@ const generateDirectiveSpec = async (directiveFilePath: string): Promise<void> =
 	);
 };
 
-const getSpecTemplateDate = (directiveFilePath: string): DirectiveSpecTemplateData => {
+const getSpecTemplateDate = (
+	directiveFilePath: string,
+): DirectiveSpecTemplateData => {
 	const fileContent = readFileSync(directiveFilePath);
 
 	return {

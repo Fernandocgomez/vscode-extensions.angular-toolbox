@@ -58,3 +58,53 @@ describe('DummyComponent', () => {
     expect(component).toBeTruthy();
   });
 });`;
+
+export const customComponentTemplateTestingData = `import { Component, ChangeDetectionStrategy } from '@angular/core';
+
+// I am a custom template
+
+@Component({
+  selector: '<%= selector %>',
+  standalone: true,
+  imports: [],
+  template: '',
+  styles: [],
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class <%= className %> {}`;
+
+export const componentWithSeparateHtmlFixture = `import { Component, ChangeDetectionStrategy } from '@angular/core';
+
+@Component({
+  selector: 'dummy',
+  standalone: true,
+  imports: [],
+  templateUrl: './dummy.component.html',
+  styles: [],
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class DummyComponent {}`;
+
+export const componentWithSeparateCssFixture = `import { Component, ChangeDetectionStrategy } from '@angular/core';
+
+@Component({
+  selector: 'dummy',
+  standalone: true,
+  imports: [],
+  template: '',
+  styleUrls: ['./dummy.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class DummyComponent {}`;
+
+export const componentWithDefaultChangeDetectionFixture = `import { Component, ChangeDetectionStrategy } from '@angular/core';
+
+@Component({
+  selector: 'dummy',
+  standalone: true,
+  imports: [],
+  template: '',
+  styles: [],
+  changeDetection: ChangeDetectionStrategy.Default
+})
+export class DummyComponent {}`;

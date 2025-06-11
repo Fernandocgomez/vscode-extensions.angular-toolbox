@@ -1,4 +1,5 @@
-import { openTextFile, promptBoolean, showInformationMessage } from '@extensionFramework';
+import { getExtensionJsonBaseConfigService } from '@extensionConfig';
+import { openTextFile, showInformationMessage } from '@extensionFramework';
 import { throwExceptionWhenFileExist, writeFileSync } from '@fileSystem';
 import { TemplateFileNames } from '@models';
 import { getTemplatePath, renderTemplate } from '@templates';
@@ -11,16 +12,14 @@ export const generateElement = async (
 ) => {
 	throwExceptionWhenFileExist(filePath);
 
-	writeFileSync(filePath, renderTemplate(getTemplatePath(templateName), templateData));
+	writeFileSync(
+		filePath,
+		renderTemplate(getTemplatePath(templateName), templateData),
+	);
 
 	showInformationMessage(`${templateName} was generated successfully.`);
 
-	const shouldGenerateSpecFile = await promptBoolean({
-		prompt: 'Do you want to generate the spec file?',
-		options: ['Yes', 'No'],
-	});
-
-	if (shouldGenerateSpecFile) {
+	if (!getExtensionJsonBaseConfigService().skipSpec()) {
 		await generateSpecFn(filePath);
 	}
 

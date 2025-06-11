@@ -2,15 +2,13 @@
 	"compilerOptions": {
 		"paths": {
 			"@commonCapabilities": ["./src/common-capabilities"],
-			"@declarativeLanguageFeatures": ["./src/declarative-language-features"],
 			"@extensionFramework": ["./src/extension-framework"],
-			"@programmaticLanguageFeatures": ["./src/programmatic-language-features"],
-			"@theming": ["./src/theming"],
 			"@utils": ["./src/utils"],
 			"@templates": ["./src/templates"],
 			"@models": ["./src/models"],
 			"@fileSystem": ["./src/file-system"],
-			"@angularDependencyExtractor": ["./src/angular-dependency-extractor"]
+			"@angularDependencyExtractor": ["./src/angular-dependency-extractor"],
+			"@extensionConfig": ["./src/extension-config"]
 		},
 		"module": "Node16",
 		"target": "ES2022",
@@ -19,7 +17,9 @@
 		"rootDir": "src",
 		"strict": true /* enable all strict type-checking options */,
 		"isolatedModules": true,
-		"skipLibCheck": true
+		"skipLibCheck": true,
+		"resolveJsonModule": true,
+		"esModuleInterop": true
 		/* Additional Checks */
 		// "noImplicitReturns": true, /* Report error when not all code paths in function return a value. */
 		// "noFallthroughCasesInSwitch": true, /* Report errors for fallthrough cases in switch statement. */

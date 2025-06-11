@@ -4,8 +4,8 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
   selector: '<%= selector %>',
   standalone: true,
   imports: [],
-  template: '',
-  styles: [],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  <% if (inlineTemplate) { %>template: '',<% } else { %>templateUrl: './<%= componentNameAsKebabCase %>.component.html',<% } %>
+  <% if (inlineStyle) { %>styles: [],<% } else { %>styleUrls: ['./<%= componentNameAsKebabCase %>.component.<%= stylesheetsFormat %>'],<% } %>
+  changeDetection: <%= withOnPushChangeDetection ? 'ChangeDetectionStrategy.OnPush' : 'ChangeDetectionStrategy.Default' %>
 })
 export class <%= className %> {}

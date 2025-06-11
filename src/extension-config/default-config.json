@@ -1,0 +1,10 @@
+{
+	"skipPrefix": false,
+	"skipSpec": false,
+	"component": {
+		"inlineTemplate": true,
+		"inlineStyle": true,
+		"withOnPushChangeDetection": true,
+		"stylesheetsFormat": "scss"
+	}
+}

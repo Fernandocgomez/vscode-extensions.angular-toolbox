@@ -1,4 +1,3 @@
-// TODO: Refactor
 import * as assert from 'assert';
 import * as vscode from 'vscode';
 import * as sinon from 'sinon';
@@ -11,16 +10,25 @@ import {
 	makeAngularCustomTemplatesDirectory,
 	createTemplateFile,
 	removeAngularCustomTemplatesDirectory,
+	assertItExists,
+	assertStrictEqual,
+	assertItDoesNotExists,
+	createConfig,
+	setPrefixInWorkspaceConfig,
+	deletePrefixFromConfig,
 } from '../util';
 import * as fs from 'fs';
 import * as path from 'path';
 import {
 	componentSpecFixture,
+	componentWithDefaultChangeDetectionFixture,
 	componentWithoutPrefixFixture,
 	componentWithoutPrefixGeneratedUsingCustomTemplateFixture,
 	componentWithPrefixFixture,
+	componentWithSeparateCssFixture,
+	componentWithSeparateHtmlFixture,
+	customComponentTemplateTestingData,
 } from './fixtures';
-import { customComponentTemplateTestingData } from './custom-templates-testing-data';
 
 suite('Generate Component', () => {
 	let sandbox: sinon.SinonSandbox;
@@ -45,142 +53,258 @@ suite('Generate Component', () => {
 					.quickPick('Yes') // 1. "Do you want to prefix your component selector?"
 					.inputBox('prefix') // 2. "Enter component prefix (kebab-case)"
 					.inputBox('dummy') // 3. "Enter component name (kebab-case)"
-					.quickPick('Yes') // 4. "Do you want to generate the spec file?"
 					.apply();
 
-				await executeCommand(
-					'gdlc-angular-toolbox.common-capabilities.generate-component',
-					vscode.Uri.file(getSrcDirectoryPath()),
+				await runCommand();
+
+				const componentPath = path.join(
+					getSrcDirectoryPath(),
+					'dummy.component.ts',
+				);
+				const specPath = path.join(
+					getSrcDirectoryPath(),
+					'dummy.component.spec.ts',
 				);
 
-				const componentPath = path.join(getSrcDirectoryPath(), 'dummy.component.ts');
-				const specPath = path.join(getSrcDirectoryPath(), 'dummy.component.spec.ts');
-
-				assert.ok(fs.existsSync(componentPath), `Component file should exist at ${componentPath}`);
-				assert.ok(fs.existsSync(specPath), `Spec file should exist at ${specPath}`);
-
-				const generatedComponentContent = fs.readFileSync(componentPath, 'utf-8');
-				const generatedSpecContent = fs.readFileSync(specPath, 'utf-8');
-
-				assert.strictEqual(
-					generatedComponentContent.replace(/\r\n/g, '\n'),
-					componentWithPrefixFixture.replace(/\r\n/g, '\n'),
+				assertItExists(
+					componentPath,
+					`Component file should exist at ${componentPath}`,
+				);
+				assertItExists(specPath, `Spec file should exist at ${specPath}`);
+				assertStrictEqual(
+					componentPath,
+					componentWithPrefixFixture,
 					'Generated component content does not match fixture.',
 				);
-				assert.strictEqual(
-					generatedSpecContent.replace(/\r\n/g, '\n'),
-					componentSpecFixture.replace(/\r\n/g, '\n'),
+				assertStrictEqual(
+					specPath,
+					componentSpecFixture,
 					'Generated spec content does not match fixture.',
 				);
 			});
 
-			test('should generate a component file only if the user select "No" on the "Do you want to generate the spec file?" question', async () => {
-				createPromptStub(sandbox)
-					.quickPick('Yes') // 1. "Do you want to prefix your component selector?"
-					.inputBox('prefix') // 2. "Enter component prefix (kebab-case)"
-					.inputBox('dummy') // 3. "Enter component name (kebab-case)"
-					.quickPick('No') // 4. "Do you want to generate the spec file?"
-					.apply();
-
-				await executeCommand(
-					'gdlc-angular-toolbox.common-capabilities.generate-component',
-					vscode.Uri.file(getSrcDirectoryPath()),
-				);
-
-				const componentPath = path.join(getSrcDirectoryPath(), 'dummy.component.ts');
-				const specPath = path.join(getSrcDirectoryPath(), 'dummy.component.spec.ts');
-
-				assert.ok(fs.existsSync(componentPath), `Component file should exist at ${componentPath}`);
-				assert.strictEqual(
-					fs.existsSync(specPath),
-					false,
-					`Spec file should NOT exist at ${specPath}`,
-				);
-
-				const generatedComponentContent = fs.readFileSync(componentPath, 'utf-8');
-
-				assert.strictEqual(
-					generatedComponentContent.replace(/\r\n/g, '\n'),
-					componentWithPrefixFixture.replace(/\r\n/g, '\n'),
-					'Generated component content does not match fixture.',
-				);
-			});
-
-			test('should generate a component file only without prefix if the user select "No" on the "Do you want to prefix your component selector?" question', async () => {
+			test('should generate a component file without prefix if the user select "No" on the "Do you want to prefix your component selector?" question', async () => {
 				createPromptStub(sandbox)
 					.quickPick('No') // 1. "Do you want to prefix your component selector?"
 					.inputBox('dummy') // 2. "Enter component name (kebab-case)"
-					.quickPick('No') // 3. "Do you want to generate the spec file?"
 					.apply();
 
-				await executeCommand(
-					'gdlc-angular-toolbox.common-capabilities.generate-component',
-					vscode.Uri.file(getSrcDirectoryPath()),
+				await runCommand();
+
+				const componentPath = path.join(
+					getSrcDirectoryPath(),
+					'dummy.component.ts',
 				);
-
-				const componentPath = path.join(getSrcDirectoryPath(), 'dummy.component.ts');
-				const specPath = path.join(getSrcDirectoryPath(), 'dummy.component.spec.ts');
-
-				assert.ok(fs.existsSync(componentPath), `Component file should exist at ${componentPath}`);
-				assert.strictEqual(
-					fs.existsSync(specPath),
-					false,
-					`Spec file should NOT exist at ${specPath}`,
+				assertItExists(
+					componentPath,
+					`Component file should exist at ${componentPath}`,
 				);
-
-				const generatedComponentContent = fs.readFileSync(componentPath, 'utf-8');
-
-				assert.strictEqual(
-					generatedComponentContent.replace(/\r\n/g, '\n'),
-					componentWithoutPrefixFixture.replace(/\r\n/g, '\n'),
+				assertStrictEqual(
+					componentPath,
+					componentWithoutPrefixFixture,
 					'Generated component content does not match fixture.',
 				);
 			});
 
-			test('should generate a component file only, but using a custom template when the user provide it', async () => {
+			test('should generate a component file, but using a custom template when the user provide it', async () => {
 				await makeAngularCustomTemplatesDirectory();
-				await createTemplateFile('component', customComponentTemplateTestingData);
+				await createTemplateFile(
+					'component',
+					customComponentTemplateTestingData,
+				);
 				createPromptStub(sandbox)
 					.quickPick('No') // 1. "Do you want to prefix your component selector?"
 					.inputBox('dummy') // 2. "Enter component name (kebab-case)"
-					.quickPick('No') // 3. "Do you want to generate the spec file?"
 					.apply();
 
-				await executeCommand(
-					'gdlc-angular-toolbox.common-capabilities.generate-component',
-					vscode.Uri.file(getSrcDirectoryPath()),
-				);
+				await runCommand();
 
-				const componentPath = path.join(getSrcDirectoryPath(), 'dummy.component.ts');
-				const generatedComponentContent = fs.readFileSync(componentPath, 'utf-8');
-
-				assert.strictEqual(
-					generatedComponentContent.replace(/\r\n/g, '\n'),
-					componentWithoutPrefixGeneratedUsingCustomTemplateFixture.replace(/\r\n/g, '\n'),
+				assertStrictEqual(
+					path.join(getSrcDirectoryPath(), 'dummy.component.ts'),
+					componentWithoutPrefixGeneratedUsingCustomTemplateFixture,
 					'Generated component content does not match fixture.',
 				);
-
 				await removeAngularCustomTemplatesDirectory();
 			});
 
 			test('should show an error message if there is already an existent component with the same name on the directory', async () => {
-				fs.writeFileSync(path.join(getSrcDirectoryPath(), 'dummy.component.ts'), 'dummy content');
-				const showErrorMessageStub = sandbox.stub(vscode.window, 'showErrorMessage');
+				fs.writeFileSync(
+					path.join(getSrcDirectoryPath(), 'dummy.component.ts'),
+					'dummy content',
+				);
+				const showErrorMessageStub = sandbox.stub(
+					vscode.window,
+					'showErrorMessage',
+				);
 				createPromptStub(sandbox)
 					.quickPick('No') // 1. "Do you want to prefix your component selector?"
 					.inputBox('dummy') // 2. "Enter component name (kebab-case)"
-					.quickPick('No') // 3. "Do you want to generate the spec file?"
 					.apply();
 
-				await executeCommand(
-					'gdlc-angular-toolbox.common-capabilities.generate-component',
-					vscode.Uri.file(getSrcDirectoryPath()),
-				);
+				await runCommand();
+
 				assert.ok(
 					showErrorMessageStub.calledOnce,
 					'Should call the showErrorMessage function once',
 				);
 			});
+
+			suite('and the user provider a custom config', () => {
+				setup(async () => {
+					await makeAngularCustomTemplatesDirectory();
+				});
+
+				teardown(async () => {
+					await removeAngularCustomTemplatesDirectory();
+				});
+
+				test('should not generate the spec file if the config skipSpec is true', async () => {
+					await createConfig({
+						skipSpec: true,
+					});
+					createPromptStub(sandbox)
+						.quickPick('No') // 1. "Do you want to prefix your component selector?"
+						.inputBox('dummy') // 2. "Enter component name (kebab-case)"
+						.apply();
+
+					await runCommand();
+
+					const specPath = path.join(
+						getSrcDirectoryPath(),
+						'dummy.component.spec.ts',
+					);
+					assertItDoesNotExists(
+						specPath,
+						`Component spec file should not exist at ${specPath}`,
+					);
+				});
+
+				test('should generate a component with a separate html file if the config inlineTemplate is false', async () => {
+					await createConfig({
+						component: {
+							inlineTemplate: false,
+						},
+					});
+					createPromptStub(sandbox)
+						.quickPick('No') // 1. "Do you want to prefix your component selector?"
+						.inputBox('dummy') // 2. "Enter component name (kebab-case)"
+						.apply();
+
+					await runCommand();
+
+					assertStrictEqual(
+						path.join(getSrcDirectoryPath(), 'dummy.component.ts'),
+						componentWithSeparateHtmlFixture,
+						'Generated component content does not match fixture.',
+					);
+					const componentHtmlPath = path.join(
+						getSrcDirectoryPath(),
+						'dummy.component.html',
+					);
+					assertItExists(
+						componentHtmlPath,
+						`Component html file should exist at ${componentHtmlPath}`,
+					);
+				});
+
+				test('should generate a component with a separate css file if the config inlineTemplate is inlineStyle ', async () => {
+					await createConfig({
+						component: {
+							inlineStyle: false,
+							stylesheetsFormat: 'scss',
+						},
+					});
+					createPromptStub(sandbox)
+						.quickPick('No') // 1. "Do you want to prefix your component selector?"
+						.inputBox('dummy') // 2. "Enter component name (kebab-case)"
+						.apply();
+
+					await runCommand();
+
+					assertStrictEqual(
+						path.join(getSrcDirectoryPath(), 'dummy.component.ts'),
+						componentWithSeparateCssFixture,
+						'Generated component content does not match fixture.',
+					);
+					const componentCssPath = path.join(
+						getSrcDirectoryPath(),
+						'dummy.component.scss',
+					);
+					assertItExists(
+						componentCssPath,
+						`Component html file should exist at ${componentCssPath}`,
+					);
+				});
+
+				test('should generate a component with the change detection set to Default if the config withOnPushChangeDetection is false', async () => {
+					await createConfig({
+						component: {
+							withOnPushChangeDetection: false,
+						},
+					});
+					createPromptStub(sandbox)
+						.quickPick('No') // 1. "Do you want to prefix your component selector?"
+						.inputBox('dummy') // 2. "Enter component name (kebab-case)"
+						.apply();
+
+					await runCommand();
+
+					assertStrictEqual(
+						path.join(getSrcDirectoryPath(), 'dummy.component.ts'),
+						componentWithDefaultChangeDetectionFixture,
+						'Generated component content does not match fixture.',
+					);
+				});
+
+				test('should not ask the user to collect the prefix if the config skipPrefix is true', async () => {
+					await createConfig({
+						skipPrefix: true,
+					});
+					const showInputBoxStub = sandbox.stub(vscode.window, 'showInputBox');
+					showInputBoxStub.resolves('dummy');
+
+					await runCommand();
+
+					assert.ok(
+						showInputBoxStub.calledOnce,
+						'Should call the showInputBox function once',
+					);
+				});
+			});
+
+			suite(
+				'and the user has already provide a prefix on the workspace config',
+				() => {
+					test('should not ask the the user to collect the prefix and should use the one saved on the workspace config', async () => {
+						await setPrefixInWorkspaceConfig('prefix');
+						const showInputBoxStub = sandbox.stub(
+							vscode.window,
+							'showInputBox',
+						);
+						showInputBoxStub.resolves('dummy');
+
+						await runCommand();
+
+						assert.ok(
+							showInputBoxStub.calledOnce,
+							'Should call the showInputBox function once',
+						);
+						assertStrictEqual(
+							path.join(getSrcDirectoryPath(), 'dummy.component.ts'),
+							componentWithPrefixFixture,
+							'Generated component content does not match fixture.',
+						);
+						await deletePrefixFromConfig();
+					});
+				},
+			);
 		},
 	);
 });
+
+const runCommand = async () => {
+	await executeCommand(
+		'gdlc-angular-toolbox.common-capabilities.generate-component',
+		vscode.Uri.file(getSrcDirectoryPath()),
+	);
+};

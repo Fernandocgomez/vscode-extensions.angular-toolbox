@@ -16,7 +16,9 @@ export const kebabCaseToPascal = (kebabCaseInput: string): string => {
 
 	return kebabCaseInput
 		.split('-')
-		.map(word => (word.length === 0 ? '' : word.charAt(0).toUpperCase() + word.slice(1)))
+		.map(word =>
+			word.length === 0 ? '' : word.charAt(0).toUpperCase() + word.slice(1),
+		)
 		.join('');
 };
 
@@ -88,4 +90,36 @@ export const camelCaseToKebabCase = (camelCaseString: string): string => {
 		.replace(/([a-z0-9])([A-Z])/g, '$1-$2')
 		.replace(/\s+/g, '-')
 		.toLowerCase();
+};
+
+/**
+ * Converts a kebab-case string to camelCase.
+ *
+ * @param kebabCaseInput - The kebab-case string to convert.
+ * @returns The camelCase version of the string, or an empty string if the input is invalid.
+ *
+ * @example
+ * kebabCaseToCamelCase('kebab-case-string'); // returns 'kebabCaseString'
+ * kebabCaseToCamelCase('another-example');  // returns 'anotherExample'
+ * kebabCaseToCamelCase('single');           // returns 'single'
+ * kebabCaseToCamelCase('');                 // returns ''
+ * kebabCaseToCamelCase('kebab--case');      // returns 'kebabCase' (handles multiple hyphens)
+ */
+export const kebabCaseToCamelCase = (kebabCaseInput: string): string => {
+	if (typeof kebabCaseInput !== 'string' || !kebabCaseInput.trim()) {
+		return '';
+	}
+
+	return kebabCaseInput
+		.split('-')
+		.map((word, index) => {
+			if (index === 0) {
+				return word.toLowerCase();
+			}
+			if (!word) {
+				return '';
+			}
+			return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+		})
+		.join('');
 };

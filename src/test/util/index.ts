@@ -4,3 +4,4 @@ export * from './directory-removers';
 export * from './directory-makers';
 export * from './file-makers';
 export * from './assertion';
+export * from './workspace-config';

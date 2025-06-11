@@ -7,12 +7,14 @@ import {
 	assertItDoesNotExists,
 	assertItExists,
 	assertStrictEqual,
+	createConfig,
 	createPromptStub,
 	createTemplateFile,
 	executeCommand,
 	getSrcDirectoryPath,
 	makeAngularCustomTemplatesDirectory,
 	makeSrcDirectory,
+	removeAngularCustomTemplatesDirectory,
 	removeSrcDirectory,
 } from '../util';
 import {
@@ -48,12 +50,11 @@ suite('Generate Service Test Suite', () => {
 	suite(
 		'when running the "gdlc-angular-toolbox.common-capabilities.generate-service" command',
 		() => {
-			test('should generate a service file and a spec file if the user select "Yes" to the question "Do you want to generate the spec file?', async () => {
+			test('should generate a service file and a spec file', async () => {
 				createPromptStub(sandbox)
 					.quickPick('Yes') // 1. "Is this service global?"
 					.quickPick('Yes') // 2. "Is this service an HTTP one?"
 					.inputBox('user-auth') // 3. "Enter service name (kebab-case)"
-					.quickPick('Yes') // 4. "Do you want to generate the spec file?"
 					.apply();
 
 				await runCommand();
@@ -73,32 +74,11 @@ suite('Generate Service Test Suite', () => {
 				assertItExists(specPath, `Spec file should exist at ${specPath}`);
 			});
 
-			test('should generate a service file only if the user select "No" to the question "Do you want to generate the spec file?"', async () => {
-				createPromptStub(sandbox)
-					.quickPick('Yes') // 1. "Is this service global?"
-					.quickPick('Yes') // 2. "Is this service an HTTP one?"
-					.inputBox('user-auth') // 3. "Enter service name (kebab-case)"
-					.quickPick('No') // 4. "Do you want to generate the spec file?"
-					.apply();
-
-				await runCommand();
-
-				const specPath = path.join(
-					getSrcDirectoryPath(),
-					'user-auth.service.spec.ts',
-				);
-				assertItDoesNotExists(
-					specPath,
-					`Spec file should exist at ${specPath}`,
-				);
-			});
-
 			test('should add the "Service" suffix to the class name if the user select "Yes" to the question "Is this service an HTTP one"', async () => {
 				createPromptStub(sandbox)
 					.quickPick('Yes') // 1. "Is this service global?"
 					.quickPick('Yes') // 2. "Is this service an HTTP one?"
 					.inputBox('user-auth') // 3. "Enter service name (kebab-case)"
-					.quickPick('No') // 4. "Do you want to generate the spec file?"
 					.apply();
 
 				await runCommand();
@@ -115,7 +95,6 @@ suite('Generate Service Test Suite', () => {
 					.quickPick('Yes') // 1. "Is this service global?"
 					.quickPick('No') // 2. "Is this service an HTTP one?"
 					.inputBox('logger') // 3. "Enter service name (kebab-case)"
-					.quickPick('No') // 4. "Do you want to generate the spec file?"
 					.apply();
 
 				await runCommand();
@@ -132,7 +111,6 @@ suite('Generate Service Test Suite', () => {
 					.quickPick('Yes') // 1. "Is this service global?"
 					.quickPick('No') // 2. "Is this service an HTTP one?"
 					.inputBox('logger') // 3. "Enter service name (kebab-case)"
-					.quickPick('No') // 4. "Do you want to generate the spec file?"
 					.apply();
 
 				await runCommand();
@@ -149,7 +127,6 @@ suite('Generate Service Test Suite', () => {
 					.quickPick('No') // 1. "Is this service global?"
 					.quickPick('No') // 2. "Is this service an HTTP one?"
 					.inputBox('logger') // 3. "Enter service name (kebab-case)"
-					.quickPick('No') // 4. "Do you want to generate the spec file?"
 					.apply();
 
 				await runCommand();
@@ -171,7 +148,6 @@ suite('Generate Service Test Suite', () => {
 					.quickPick('No') // 1. "Is this service global?"
 					.quickPick('No') // 2. "Is this service an HTTP one?"
 					.inputBox('logger') // 3. "Enter service name (kebab-case)"
-					.quickPick('No') // 4. "Do you want to generate the spec file?"
 					.apply();
 
 				await runCommand();
@@ -193,7 +169,6 @@ suite('Generate Service Test Suite', () => {
 					.quickPick('No') // 1. "Is this service global?"
 					.quickPick('No') // 2. "Is this service an HTTP one?"
 					.inputBox('logger') // 3. "Enter service name (kebab-case)"
-					.quickPick('Yes') // 4. "Do you want to generate the spec file?"
 					.apply();
 
 				await runCommand();
@@ -215,7 +190,6 @@ suite('Generate Service Test Suite', () => {
 					.quickPick('No') // 1. "Is this service global?"
 					.quickPick('Yes') // 2. "Is this service an HTTP one?"
 					.inputBox('user-auth') // 3. "Enter service name (kebab-case)"
-					.quickPick('No') // 4. "Do you want to generate the spec file?"
 					.apply();
 
 				await runCommand();
@@ -237,7 +211,6 @@ suite('Generate Service Test Suite', () => {
 					.quickPick('No') // 1. "Is this service global?"
 					.quickPick('Yes') // 2. "Is this service an HTTP one?"
 					.inputBox('user-auth') // 3. "Enter service name (kebab-case)"
-					.quickPick('Yes') // 4. "Do you want to generate the spec file?"
 					.apply();
 
 				await runCommand();
@@ -262,7 +235,6 @@ suite('Generate Service Test Suite', () => {
 					.quickPick('No') // 1. "Is this service global?"
 					.quickPick('Yes') // 2. "Is this service an HTTP one?"
 					.inputBox('user-auth') // 3. "Enter service name (kebab-case)"
-					.quickPick('Yes') // 4. "Do you want to generate the spec file?"
 					.apply();
 
 				await runCommand();
@@ -271,6 +243,33 @@ suite('Generate Service Test Suite', () => {
 					showErrorMessageStub.calledOnce,
 					'Should call the showErrorMessage function once',
 				);
+			});
+
+			suite('and the user provider a custom config', () => {
+				test('should not generate the spec file if the config skipSpec is true', async () => {
+					await makeAngularCustomTemplatesDirectory();
+					await createConfig({
+						skipSpec: true,
+					});
+
+					createPromptStub(sandbox)
+						.quickPick('No') // 1. "Is this service global?"
+						.quickPick('Yes') // 2. "Is this service an HTTP one?"
+						.inputBox('user-auth') // 3. "Enter service name (kebab-case)"
+						.apply();
+
+					await runCommand();
+
+					const specPath = path.join(
+						getSrcDirectoryPath(),
+						'user-auth.service.spec.ts',
+					);
+					assertItDoesNotExists(
+						specPath,
+						`Service spec file should not exist at ${specPath}`,
+					);
+					await removeAngularCustomTemplatesDirectory();
+				});
 			});
 		},
 	);

@@ -5,7 +5,9 @@ export const ensureExtensionActivated = async (
 ) => {
 	const extension = vscode.extensions.getExtension(extensionId);
 	if (!extension) {
-		throw new Error(`Extension "${extensionId}" not found. Ensure it's correctly defined.`);
+		throw new Error(
+			`Extension "${extensionId}" not found. Ensure it's correctly defined.`,
+		);
 	}
 
 	if (!extension.isActive) {
