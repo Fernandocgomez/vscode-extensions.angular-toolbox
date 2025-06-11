@@ -2,6 +2,7 @@ import { StylesheetsFormat } from '../types';
 
 export interface ExtensionConfig {
 	skipPrefix?: boolean;
+	skipSpec?: boolean;
 	component?: {
 		skipSpec?: boolean;
 		inlineTemplate?: boolean;
@@ -22,6 +23,7 @@ export interface ExtensionConfig {
 
 export interface SafeExtensionConfig {
 	skipPrefix: boolean;
+	skipSpec: boolean;
 	component: {
 		skipSpec: boolean;
 		inlineTemplate: boolean;

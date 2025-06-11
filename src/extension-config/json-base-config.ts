@@ -15,6 +15,10 @@ class ExtensionConfigService {
 		return this.#config.skipPrefix;
 	}
 
+	skipSpec(): boolean {
+		return this.#config.skipSpec;
+	}
+
 	skipComponentSpec(): boolean {
 		return this.#config.component.skipSpec;
 	}
@@ -74,6 +78,7 @@ class ExtensionConfigService {
 	#toSafeExtensionConfig(config: ExtensionConfig): SafeExtensionConfig {
 		return {
 			skipPrefix: config?.skipPrefix ?? defaultConfig.skipPrefix,
+			skipSpec: config?.skipSpec ?? defaultConfig.skipSpec,
 			component: {
 				skipSpec:
 					config?.component?.skipSpec ?? defaultConfig.component.skipSpec,
