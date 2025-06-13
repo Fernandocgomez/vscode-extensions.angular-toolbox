@@ -4,7 +4,7 @@
 	"icon": "./icon.png",
 	"displayName": "Angular Toolbox",
 	"description": "Generate Angular elements (components, services, pipes, directives) using your own custom templates.",
-	"version": "0.0.1",
+	"version": "0.1.0",
 	"engines": {
 		"vscode": "^1.99.0"
 	},
