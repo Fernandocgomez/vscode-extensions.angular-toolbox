@@ -22,7 +22,7 @@ All notable changes to the "Angular Toolbox" extension will be documented in thi
 
 ### Chore
 
-- **extension metadata**: add extension icon and select final name.
+- **extension metadata**: add extension icon and select final name.([91f44f6](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/pull/22/commits/91f44f66021aba7b2fcf6650a5b5bf5e16a71588))
 
 ### Changes
 
