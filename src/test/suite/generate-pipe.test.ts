@@ -107,7 +107,7 @@ suite('Generate Pipe', () => {
 				);
 			});
 
-			test('should generate a pipe file using the custom template if the user has a pipe template on the .angular-custom-templates folder', async () => {
+			test('should generate a pipe file using the custom template if the user provides it', async () => {
 				await makeAngularCustomTemplatesDirectory();
 				await createTemplateFile('pipe', customPipeTemplateTestingData);
 				createPromptStub(sandbox)

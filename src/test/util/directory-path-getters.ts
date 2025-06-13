@@ -2,7 +2,10 @@ import * as vscode from 'vscode';
 import * as path from 'path';
 
 export const getWorkspaceRootDir = (): string => {
-	if (!vscode.workspace.workspaceFolders || vscode.workspace.workspaceFolders.length === 0) {
+	if (
+		!vscode.workspace.workspaceFolders ||
+		vscode.workspace.workspaceFolders.length === 0
+	) {
 		throw new Error(
 			"No workspace folder open. Please open a project for testing this extension's commands.",
 		);
@@ -16,5 +19,5 @@ export const getSrcDirectoryPath = (): string => {
 };
 
 export const getAngularCustomTemplatesDirectoryPath = (): string => {
-	return path.join(getWorkspaceRootDir(), '.angular-custom-templates');
+	return path.join(getWorkspaceRootDir(), '.angular-toolbox');
 };
