@@ -4,6 +4,10 @@ All notable changes to the "Angular Toolbox" extension will be documented in thi
 
 ## [Unreleased]
 
+## [Released]
+
+## [0.1.0] - 2025-06-13
+
 ### Added
 
 - **common-capabilities.generate-component**: Generate component boilerplate from default or custom template. ([ed435b8](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/commit/ed435b83da1bae23976d8d4476a1d02e53070294))
@@ -27,7 +31,3 @@ All notable changes to the "Angular Toolbox" extension will be documented in thi
 ### Changes
 
 - **templates**: change user custom templates and custom config folder name from ".angular-custom-templates" to ".angular-toolbox" ([6d46786](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/pull/22/commits/6d46786b5b2e424c43b98f447037af3fc51ba606))
-
-## [Released]
-
-## [0.1.0]
