@@ -17,7 +17,7 @@ All notable changes to the "Angular Toolbox" extension will be documented in thi
 ### Documentation
 
 - **changelog**: standardize changelog. ([1e2aa51](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/pull/19/commits/1e2aa51ae58fc0aaa7ae0f07453ab0b3bc7f5d79))
-- **readme**: Add tutorial for release features.
+- **readme**: Add tutorial for release features. ([7653cd9](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/pull/21/commits/7653cd99535b5d45fdb7fd484b534c567e9dd023))
 - **license**: Change license from custom one to MIT.
 
 ### Chore
@@ -26,7 +26,7 @@ All notable changes to the "Angular Toolbox" extension will be documented in thi
 
 ### Changes
 
-- **templates**: change user custom templates and custom config folder name from ".angular-toolbox" to ".angular-toolbox"
+- **templates**: change user custom templates and custom config folder name from ".angular-custom-templates" to ".angular-toolbox"
 
 ## [Released]
 
