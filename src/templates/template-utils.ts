@@ -26,12 +26,19 @@ export const getTemplatePath = (templateName: string): string => {
  * @param templateData - object used to populate the template.
  * @throws {Error} - Throws an exception when there an issue reading the template.
  */
-export const renderTemplate = (templatePath: string, templateData: object): string => {
+export const renderTemplate = (
+	templatePath: string,
+	templateData: object,
+): string => {
 	return ejs.render(readFileSync(templatePath), templateData);
 };
 
 const getCustomTemplatePath = (templateName: string): string => {
-	return path.join(getUserRootPath(), '.angular-custom-templates', `${templateName}.ejs`);
+	return path.join(
+		getUserRootPath(),
+		'.angular-toolbox',
+		`${templateName}.ejs`,
+	);
 };
 
 const getDefaultTemplatePath = (templateName: string): string => {
