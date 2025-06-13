@@ -26,7 +26,7 @@ All notable changes to the "Angular Toolbox" extension will be documented in thi
 
 ### Changes
 
-- **templates**: change user custom templates and custom config folder name from ".angular-toolbox" to ".angular-toolbox"
+- **templates**: change user custom templates and custom config folder name from ".angular-custom-templates" to ".angular-toolbox"
 
 ## [Released]
 
