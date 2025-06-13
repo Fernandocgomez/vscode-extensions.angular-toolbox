@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 
 export const ensureExtensionActivated = async (
-	extensionId: string = 'fernandocgomez.gdlc-angular-toolbox',
+	extensionId: string = 'fernandocgomez.angular-toolbox',
 ) => {
 	const extension = vscode.extensions.getExtension(extensionId);
 	if (!extension) {

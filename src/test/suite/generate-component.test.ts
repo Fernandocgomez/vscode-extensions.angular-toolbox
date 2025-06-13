@@ -46,7 +46,7 @@ suite('Generate Component', () => {
 	});
 
 	suite(
-		'when running the "gdlc-angular-toolbox.common-capabilities.generate-component" command',
+		'when running the "angular-toolbox.common-capabilities.generate-component" command',
 		() => {
 			test('should generate a component and spec file', async () => {
 				createPromptStub(sandbox)
@@ -304,7 +304,7 @@ suite('Generate Component', () => {
 
 const runCommand = async () => {
 	await executeCommand(
-		'gdlc-angular-toolbox.common-capabilities.generate-component',
+		'angular-toolbox.common-capabilities.generate-component',
 		vscode.Uri.file(getSrcDirectoryPath()),
 	);
 };

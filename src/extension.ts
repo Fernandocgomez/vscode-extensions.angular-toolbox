@@ -11,7 +11,7 @@ import * as vscode from 'vscode';
 
 export function activate(context: vscode.ExtensionContext) {
 	const generateComponentDisposable = vscode.commands.registerCommand(
-		'gdlc-angular-toolbox.common-capabilities.generate-component',
+		'angular-toolbox.common-capabilities.generate-component',
 		async (arg: vscode.Uri) => {
 			try {
 				await generateComponent(arg.fsPath);
@@ -22,7 +22,7 @@ export function activate(context: vscode.ExtensionContext) {
 	);
 
 	const generateServiceDisposable = vscode.commands.registerCommand(
-		'gdlc-angular-toolbox.common-capabilities.generate-service',
+		'angular-toolbox.common-capabilities.generate-service',
 		async (arg: vscode.Uri) => {
 			try {
 				await generateService(arg.fsPath);
@@ -33,7 +33,7 @@ export function activate(context: vscode.ExtensionContext) {
 	);
 
 	const generatePipeDisposable = vscode.commands.registerCommand(
-		'gdlc-angular-toolbox.common-capabilities.generate-pipe',
+		'angular-toolbox.common-capabilities.generate-pipe',
 		async (arg: vscode.Uri) => {
 			try {
 				await generatePipe(arg.fsPath);
@@ -44,7 +44,7 @@ export function activate(context: vscode.ExtensionContext) {
 	);
 
 	const generateDirectiveDisposable = vscode.commands.registerCommand(
-		'gdlc-angular-toolbox.common-capabilities.generate-directive',
+		'angular-toolbox.common-capabilities.generate-directive',
 		async (arg: vscode.Uri) => {
 			try {
 				await generateDirective(arg.fsPath);
@@ -55,7 +55,7 @@ export function activate(context: vscode.ExtensionContext) {
 	);
 
 	const registerPrefixDisposable = vscode.commands.registerCommand(
-		'gdlc-angular-toolbox.common-capabilities.register-prefix',
+		'angular-toolbox.common-capabilities.register-prefix',
 		async () => {
 			try {
 				await registerPrefix();
@@ -66,7 +66,7 @@ export function activate(context: vscode.ExtensionContext) {
 	);
 
 	const seePrefixDisposable = vscode.commands.registerCommand(
-		'gdlc-angular-toolbox.common-capabilities.see-prefix',
+		'angular-toolbox.common-capabilities.see-prefix',
 		async () => {
 			try {
 				await seePrefix();

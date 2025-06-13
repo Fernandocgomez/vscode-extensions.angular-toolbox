@@ -29,7 +29,7 @@ suite('See Prefix', () => {
 	});
 
 	suite(
-		'when running the "gdlc-angular-toolbox.common-capabilities.see-prefix" command',
+		'when running the "angular-toolbox.common-capabilities.see-prefix" command',
 		() => {
 			test('should display the current prefix value if the user previously provided one', async () => {
 				await setPrefixInWorkspaceConfig(prefix);
@@ -81,5 +81,5 @@ suite('See Prefix', () => {
 
 const runCommand = async () =>
 	await vscode.commands.executeCommand(
-		'gdlc-angular-toolbox.common-capabilities.see-prefix',
+		'angular-toolbox.common-capabilities.see-prefix',
 	);
