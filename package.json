@@ -1,6 +1,7 @@
 {
-	"name": "gdlc-angular-toolbox",
+	"name": "angular-toolbox",
 	"publisher": "fernandocgomez",
+	"icon": "./icon.png",
 	"displayName": "Angular Toolbox",
 	"description": "Generate Angular elements (components, services, pipes, directives) using your own custom templates.",
 	"version": "0.0.1",
@@ -17,66 +18,66 @@
 		"menus": {
 			"explorer/context": [
 				{
-					"submenu": "gdlc-angular-toolbox.menu",
+					"submenu": "angular-toolbox.menu",
 					"group": "navigation",
 					"when": "explorerResourceIsFolder"
 				}
 			],
-			"gdlc-angular-toolbox.menu": [
+			"angular-toolbox.menu": [
 				{
-					"command": "gdlc-angular-toolbox.common-capabilities.generate-component",
+					"command": "angular-toolbox.common-capabilities.generate-component",
 					"group": "1_generation"
 				},
 				{
-					"command": "gdlc-angular-toolbox.common-capabilities.generate-service",
+					"command": "angular-toolbox.common-capabilities.generate-service",
 					"group": "1_generation"
 				},
 				{
-					"command": "gdlc-angular-toolbox.common-capabilities.generate-pipe",
+					"command": "angular-toolbox.common-capabilities.generate-pipe",
 					"group": "1_generation"
 				},
 				{
-					"command": "gdlc-angular-toolbox.common-capabilities.generate-directive",
+					"command": "angular-toolbox.common-capabilities.generate-directive",
 					"group": "1_generation"
 				}
 			]
 		},
 		"submenus": [
 			{
-				"id": "gdlc-angular-toolbox.menu",
+				"id": "angular-toolbox.menu",
 				"label": "Angular Toolbox"
 			}
 		],
 		"commands": [
 			{
-				"command": "gdlc-angular-toolbox.common-capabilities.generate-component",
+				"command": "angular-toolbox.common-capabilities.generate-component",
 				"title": "Generate Component"
 			},
 			{
-				"command": "gdlc-angular-toolbox.common-capabilities.generate-service",
+				"command": "angular-toolbox.common-capabilities.generate-service",
 				"title": "Generate Service"
 			},
 			{
-				"command": "gdlc-angular-toolbox.common-capabilities.generate-pipe",
+				"command": "angular-toolbox.common-capabilities.generate-pipe",
 				"title": "Generate Pipe"
 			},
 			{
-				"command": "gdlc-angular-toolbox.common-capabilities.generate-directive",
+				"command": "angular-toolbox.common-capabilities.generate-directive",
 				"title": "Generate Directive"
 			},
 			{
-				"command": "gdlc-angular-toolbox.common-capabilities.register-prefix",
+				"command": "angular-toolbox.common-capabilities.register-prefix",
 				"title": "Angular Toolbox: Register Prefix"
 			},
 			{
-				"command": "gdlc-angular-toolbox.common-capabilities.see-prefix",
+				"command": "angular-toolbox.common-capabilities.see-prefix",
 				"title": "Angular Toolbox: See Prefix"
 			}
 		],
 		"configuration": {
 			"title": "GDLC Angular Toolbox",
 			"properties": {
-				"fernandocgomez.gdlc-angular-toolbox.prefix": {
+				"fernandocgomez.angular-toolbox.prefix": {
 					"type": "string",
 					"default": "",
 					"description": "The prefix to be used for generated Angular schematics."

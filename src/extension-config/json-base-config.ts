@@ -48,7 +48,7 @@ class ExtensionConfigService {
 	#getUserExtensionConfigFile(): ExtensionConfig | undefined {
 		const configPath = path.join(
 			getUserRootPath(),
-			'.angular-custom-templates',
+			'.angular-toolbox',
 			'config.json',
 		);
 

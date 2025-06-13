@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 
-const CONFIGURATION_SECTION_ID = 'fernandocgomez.gdlc-angular-toolbox';
+const CONFIGURATION_SECTION_ID = 'fernandocgomez.angular-toolbox';
 const PREFIX_KEY = 'prefix';
 
 export const getWorkspaceConfig = () =>

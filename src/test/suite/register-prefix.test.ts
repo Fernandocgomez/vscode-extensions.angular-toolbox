@@ -27,7 +27,7 @@ suite('Register Prefix', () => {
 	});
 
 	suite(
-		'when running the "gdlc-angular-toolbox.common-capabilities.register-prefix" command',
+		'when running the "angular-toolbox.common-capabilities.register-prefix" command',
 		() => {
 			test('should register the prefix when the user input a value', async () => {
 				createPromptStub(sandbox)
@@ -94,5 +94,5 @@ suite('Register Prefix', () => {
 
 const runCommand = async () =>
 	await vscode.commands.executeCommand(
-		'gdlc-angular-toolbox.common-capabilities.register-prefix',
+		'angular-toolbox.common-capabilities.register-prefix',
 	);

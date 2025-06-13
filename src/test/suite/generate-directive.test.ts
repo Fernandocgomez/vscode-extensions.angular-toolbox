@@ -45,7 +45,7 @@ suite('Generate Directive Test Suite', () => {
 	});
 
 	suite(
-		'when running the "gdlc-angular-toolbox.common-capabilities.generate-directive" command',
+		'when running the "angular-toolbox.common-capabilities.generate-directive" command',
 		() => {
 			test('should generate a directive file and spec file', async () => {
 				createPromptStub(sandbox)
@@ -279,7 +279,7 @@ suite('Generate Directive Test Suite', () => {
 
 const runCommand = async () => {
 	await executeCommand(
-		'gdlc-angular-toolbox.common-capabilities.generate-directive',
+		'angular-toolbox.common-capabilities.generate-directive',
 		vscode.Uri.file(getSrcDirectoryPath()),
 	);
 };

@@ -48,7 +48,7 @@ suite('Generate Service Test Suite', () => {
 	});
 
 	suite(
-		'when running the "gdlc-angular-toolbox.common-capabilities.generate-service" command',
+		'when running the "angular-toolbox.common-capabilities.generate-service" command',
 		() => {
 			test('should generate a service file and a spec file', async () => {
 				createPromptStub(sandbox)
@@ -277,7 +277,7 @@ suite('Generate Service Test Suite', () => {
 
 const runCommand = async () => {
 	await executeCommand(
-		'gdlc-angular-toolbox.common-capabilities.generate-service',
+		'angular-toolbox.common-capabilities.generate-service',
 		vscode.Uri.file(getSrcDirectoryPath()),
 	);
 };

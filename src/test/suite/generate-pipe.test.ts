@@ -44,7 +44,7 @@ suite('Generate Pipe', () => {
 	});
 
 	suite(
-		'when running the "gdlc-angular-toolbox.common-capabilities.generate-pipe" command',
+		'when running the "angular-toolbox.common-capabilities.generate-pipe" command',
 		() => {
 			test('should generate a pipe file and spec file if the user select "Yes" to the question "Do you want to generate the spec file?"', async () => {
 				createPromptStub(sandbox)
@@ -107,7 +107,7 @@ suite('Generate Pipe', () => {
 				);
 			});
 
-			test('should generate a pipe file using the custom template if the user has a pipe template on the .angular-custom-templates folder', async () => {
+			test('should generate a pipe file using the custom template if the user provides it', async () => {
 				await makeAngularCustomTemplatesDirectory();
 				await createTemplateFile('pipe', customPipeTemplateTestingData);
 				createPromptStub(sandbox)
@@ -223,7 +223,7 @@ suite('Generate Pipe', () => {
 
 const runCommand = async () => {
 	await executeCommand(
-		'gdlc-angular-toolbox.common-capabilities.generate-pipe',
+		'angular-toolbox.common-capabilities.generate-pipe',
 		vscode.Uri.file(getSrcDirectoryPath()),
 	);
 };
