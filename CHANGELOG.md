@@ -4,6 +4,10 @@ All notable changes to the "Angular Toolbox" extension will be documented in thi
 
 ## [Unreleased]
 
+### Documentation
+
+**license**: Change license from custom one to MIT.
+
 ## [Released]
 
 ## [0.1.0] - 2025-06-13
