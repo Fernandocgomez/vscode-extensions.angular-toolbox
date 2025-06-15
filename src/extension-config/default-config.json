@@ -1,6 +1,7 @@
 {
 	"skipPrefix": false,
 	"skipSpec": false,
+	"addToIndex": false,
 	"component": {
 		"inlineTemplate": true,
 		"inlineStyle": true,
