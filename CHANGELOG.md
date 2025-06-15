@@ -8,6 +8,10 @@ All notable changes to the "Angular Toolbox" extension will be documented in thi
 
 **license**: Change license from custom one to MIT.([8c5e8f0](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/pull/26/commits/8c5e8f0948f5bd630c3b9e798c71cae865b9a37b))
 
+### Fixed
+
+**extension config**: Implemented error handling for scenarios involving an empty `config.json` file.([730a7f8](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/pull/36/commits/730a7f848895a5673bb38edd837234c12184cafa))
+
 ## [Released]
 
 ## [0.1.0] - 2025-06-13
