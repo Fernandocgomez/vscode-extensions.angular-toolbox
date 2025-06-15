@@ -5,13 +5,11 @@ describe('<%= className %>', () => {
   let component: <%= className %>;
   let fixture: ComponentFixture<<%= className %>>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [<%= className %>],
-    }).compileComponents();
-  });
-
   beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [<%= className %>],
+    });
+
     fixture = TestBed.createComponent(<%= className %>);
     component = fixture.componentInstance;
   });
