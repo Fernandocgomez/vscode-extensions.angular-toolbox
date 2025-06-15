@@ -1,6 +1,6 @@
 import * as fs from 'fs/promises';
 import * as path from 'path';
-import { getAngularCustomTemplatesDirectoryPath } from './directory-path-getters';
+import { getAngularToolboxDirectoryPath } from './directory-path-getters';
 import { ExtensionConfig } from '@models';
 
 export const createTemplateFile = async (
@@ -8,7 +8,7 @@ export const createTemplateFile = async (
 	templateContent: string,
 ) => {
 	const templateFilePath = path.join(
-		getAngularCustomTemplatesDirectoryPath(),
+		getAngularToolboxDirectoryPath(),
 		`${templateName}.ejs`,
 	);
 
@@ -22,10 +22,7 @@ export const createTemplateFile = async (
 };
 
 export const createConfig = async (config: ExtensionConfig) => {
-	const configPath = path.join(
-		getAngularCustomTemplatesDirectoryPath(),
-		'config.json',
-	);
+	const configPath = path.join(getAngularToolboxDirectoryPath(), 'config.json');
 
 	try {
 		await fs.writeFile(configPath, JSON.stringify(config, null, 2));

@@ -7,7 +7,7 @@ import {
 	executeCommand,
 	getSrcDirectoryPath,
 	makeSrcDirectory,
-	makeAngularCustomTemplatesDirectory,
+	makeAngularToolboxDirectory,
 	createTemplateFile,
 	removeAngularCustomTemplatesDirectory,
 	assertItExists,
@@ -16,7 +16,7 @@ import {
 	createConfig,
 	setPrefixInWorkspaceConfig,
 	deletePrefixFromConfig,
-	getAngularCustomTemplatesDirectoryPath,
+	getAngularToolboxDirectoryPath,
 } from '../util';
 import * as fs from 'fs';
 import * as path from 'path';
@@ -108,7 +108,7 @@ suite('Generate Component', () => {
 			});
 
 			test('should generate a component file, but using a custom template when the user provide it', async () => {
-				await makeAngularCustomTemplatesDirectory();
+				await makeAngularToolboxDirectory();
 				await createTemplateFile(
 					'component',
 					customComponentTemplateTestingData,
@@ -152,7 +152,7 @@ suite('Generate Component', () => {
 
 			suite('and the user provider a custom config', () => {
 				setup(async () => {
-					await makeAngularCustomTemplatesDirectory();
+					await makeAngularToolboxDirectory();
 				});
 
 				teardown(async () => {
@@ -333,10 +333,7 @@ const runCommand = async () => {
 };
 
 const createEmptyConfigFile = () => {
-	const configPath = path.join(
-		getAngularCustomTemplatesDirectoryPath(),
-		'config.json',
-	);
+	const configPath = path.join(getAngularToolboxDirectoryPath(), 'config.json');
 
 	try {
 		fs.writeFileSync(configPath, '');

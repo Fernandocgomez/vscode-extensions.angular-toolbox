@@ -12,7 +12,7 @@ import {
 	createTemplateFile,
 	executeCommand,
 	getSrcDirectoryPath,
-	makeAngularCustomTemplatesDirectory,
+	makeAngularToolboxDirectory,
 	makeSrcDirectory,
 	removeAngularCustomTemplatesDirectory,
 	removeSrcDirectory,
@@ -139,7 +139,7 @@ suite('Generate Service Test Suite', () => {
 			});
 
 			test('should generate a "Service" using the custom none http template when the user provides one', async () => {
-				await makeAngularCustomTemplatesDirectory();
+				await makeAngularToolboxDirectory();
 				await createTemplateFile(
 					'service',
 					customNoneHttpTemplateServiceFixture,
@@ -160,7 +160,7 @@ suite('Generate Service Test Suite', () => {
 			});
 
 			test('should generate a spec file using the none http custom template when the user provides one', async () => {
-				await makeAngularCustomTemplatesDirectory();
+				await makeAngularToolboxDirectory();
 				await createTemplateFile(
 					'service.spec',
 					customNoneHttpServiceSpecTemplateFixture,
@@ -181,7 +181,7 @@ suite('Generate Service Test Suite', () => {
 			});
 
 			test('should generate a "Service" using the custom http template when the user provides one', async () => {
-				await makeAngularCustomTemplatesDirectory();
+				await makeAngularToolboxDirectory();
 				await createTemplateFile(
 					'http.service',
 					customHttpServiceTemplateFixture,
@@ -202,7 +202,7 @@ suite('Generate Service Test Suite', () => {
 			});
 
 			test('should generate a spec file using the http custom template when the user provides one', async () => {
-				await makeAngularCustomTemplatesDirectory();
+				await makeAngularToolboxDirectory();
 				await createTemplateFile(
 					'http.service.spec',
 					customHttpServiceSpecTemplateFixture,
@@ -247,7 +247,7 @@ suite('Generate Service Test Suite', () => {
 
 			suite('and the user provider a custom config', () => {
 				test('should not generate the spec file if the config skipSpec is true', async () => {
-					await makeAngularCustomTemplatesDirectory();
+					await makeAngularToolboxDirectory();
 					await createConfig({
 						skipSpec: true,
 					});

@@ -1,6 +1,6 @@
 import * as fs from 'fs/promises';
 import {
-	getAngularCustomTemplatesDirectoryPath,
+	getAngularToolboxDirectoryPath,
 	getSrcDirectoryPath,
 } from './directory-path-getters';
 
@@ -11,16 +11,21 @@ export const removeSrcDirectory = async () => {
 		await fs.rm(srcFolderPath, { recursive: true, force: true });
 	} catch (error) {
 		if (error instanceof Error && 'code' in error && error.code !== 'ENOENT') {
-			console.warn(`Remove of ${srcFolderPath} encountered an issue: ${error.message}`);
+			console.warn(
+				`Remove of ${srcFolderPath} encountered an issue: ${error.message}`,
+			);
 		}
 	}
 };
 
 export const removeAngularCustomTemplatesDirectory = async () => {
-	const angularCustomTemplatesFolderPath = getAngularCustomTemplatesDirectoryPath();
+	const angularCustomTemplatesFolderPath = getAngularToolboxDirectoryPath();
 
 	try {
-		await fs.rm(angularCustomTemplatesFolderPath, { recursive: true, force: true });
+		await fs.rm(angularCustomTemplatesFolderPath, {
+			recursive: true,
+			force: true,
+		});
 	} catch (error) {
 		if (error instanceof Error && 'code' in error && error.code !== 'ENOENT') {
 			console.warn(

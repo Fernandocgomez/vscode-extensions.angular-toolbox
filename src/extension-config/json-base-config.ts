@@ -19,6 +19,10 @@ class ExtensionConfigService {
 		return this.#config.skipSpec;
 	}
 
+	addToIndex(): boolean {
+		return this.#config.addToIndex;
+	}
+
 	componentHasInlineTemplate(): boolean {
 		return this.#config.component.inlineTemplate;
 	}
@@ -68,6 +72,7 @@ class ExtensionConfigService {
 		return {
 			skipPrefix: config?.skipPrefix ?? defaultConfig.skipPrefix,
 			skipSpec: config?.skipSpec ?? defaultConfig.skipSpec,
+			addToIndex: config?.addToIndex ?? defaultConfig.addToIndex,
 			component: {
 				inlineTemplate:
 					config?.component?.inlineTemplate ??

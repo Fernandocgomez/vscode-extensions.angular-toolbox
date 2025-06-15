@@ -6,7 +6,7 @@ import {
 	ServiceTemplateData,
 	TemplateFileNames,
 } from '@models';
-import { generateElement, generateSpec } from './util';
+import { generateAngularElement, generateSpec } from './util';
 import { readFileSync } from '@fileSystem';
 import { getServiceDependenciesBeingInjected } from '@angularDependencyExtractor';
 
@@ -34,7 +34,7 @@ export const generateService = async (
 			: kebabCaseToPascal(serviceName),
 	};
 
-	await generateElement(
+	await generateAngularElement(
 		path.join(folderRightClickedPath, `${serviceName}.service.ts`),
 		isHttpService ? TemplateFileNames.HTTP_SERVICE : TemplateFileNames.SERVICE,
 		serviceTemplateData,

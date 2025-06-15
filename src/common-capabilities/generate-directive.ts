@@ -4,7 +4,7 @@ import {
 	isCamelCase,
 	kebabCaseToCamelCase,
 } from '@utils';
-import { generateElement, generateSpec } from './util';
+import { generateAngularElement, generateSpec } from './util';
 import * as path from 'path';
 import {
 	DirectiveSpecTemplateData,
@@ -26,7 +26,7 @@ export const generateDirective = async (
 	);
 	const nameInCamelCase = await promptForName();
 
-	await generateElement(
+	await generateAngularElement(
 		path.join(
 			folderRightClickedPath,
 			`${camelCaseToKebabCase(nameInCamelCase)}.directive.ts`,
