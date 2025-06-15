@@ -43,13 +43,11 @@ describe('DummyComponent', () => {
   let component: DummyComponent;
   let fixture: ComponentFixture<DummyComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [DummyComponent],
-    }).compileComponents();
-  });
-
   beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [DummyComponent],
+    });
+
     fixture = TestBed.createComponent(DummyComponent);
     component = fixture.componentInstance;
   });
