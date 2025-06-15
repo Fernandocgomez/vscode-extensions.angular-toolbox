@@ -12,6 +12,10 @@ All notable changes to the "Angular Toolbox" extension will be documented in thi
 
 **extension config**: Implemented error handling for scenarios involving an empty `config.json` file.([730a7f8](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/pull/36/commits/730a7f848895a5673bb38edd837234c12184cafa))
 
+### Changed
+
+**templates**: Updated the component spec template.([5fb8eb4](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/pull/37/commits/5fb8eb49a8bb9fa5c15710989dd3eed9a4a20f8b))
+
 ## [Released]
 
 ## [0.1.0] - 2025-06-13
