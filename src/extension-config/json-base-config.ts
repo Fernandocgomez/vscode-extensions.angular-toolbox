@@ -56,7 +56,12 @@ class ExtensionConfigService {
 			return undefined;
 		}
 
-		return JSON.parse(readFileSync(configPath));
+		try {
+			return JSON.parse(readFileSync(configPath));
+			// eslint-disable-next-line @typescript-eslint/no-unused-vars
+		} catch (e) {
+			throw new Error('config.json is empty. ./.angular-toolbox/config.json');
+		}
 	}
 
 	#toSafeExtensionConfig(config: ExtensionConfig): SafeExtensionConfig {
