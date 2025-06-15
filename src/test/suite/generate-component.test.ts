@@ -16,6 +16,7 @@ import {
 	createConfig,
 	setPrefixInWorkspaceConfig,
 	deletePrefixFromConfig,
+	getAngularCustomTemplatesDirectoryPath,
 } from '../util';
 import * as fs from 'fs';
 import * as path from 'path';
@@ -270,6 +271,28 @@ suite('Generate Component', () => {
 						'Should call the showInputBox function once',
 					);
 				});
+
+				test('should display a error message if the config is an empty file', async () => {
+					await createEmptyConfigFile();
+
+					const showErrorMessageStub = sandbox.stub(
+						vscode.window,
+						'showErrorMessage',
+					);
+					createPromptStub(sandbox)
+						.quickPick('No') // 1. "Do you want to prefix your component selector?"
+						.inputBox('dummy') // 2. "Enter component name (kebab-case)"
+						.apply();
+
+					await runCommand();
+
+					assert.ok(
+						showErrorMessageStub.calledWith(
+							'config.json is empty. ./.angular-toolbox/config.json',
+						),
+						'Should call the showErrorMessage function once',
+					);
+				});
 			});
 
 			suite(
@@ -307,4 +330,19 @@ const runCommand = async () => {
 		'angular-toolbox.common-capabilities.generate-component',
 		vscode.Uri.file(getSrcDirectoryPath()),
 	);
+};
+
+const createEmptyConfigFile = () => {
+	const configPath = path.join(
+		getAngularCustomTemplatesDirectoryPath(),
+		'config.json',
+	);
+
+	try {
+		fs.writeFileSync(configPath, '');
+	} catch (error) {
+		console.warn(
+			`Could not create file ${configPath} (might already exist or other issue): ${error instanceof Error ? error.message : String(error)}`,
+		);
+	}
 };
