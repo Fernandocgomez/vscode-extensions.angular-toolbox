@@ -13,7 +13,7 @@ import {
 	deletePrefixFromConfig,
 	executeCommand,
 	getSrcDirectoryPath,
-	makeAngularCustomTemplatesDirectory,
+	makeAngularToolboxDirectory,
 	makeSrcDirectory,
 	removeAngularCustomTemplatesDirectory,
 	removeSrcDirectory,
@@ -108,7 +108,7 @@ suite('Generate Pipe', () => {
 			});
 
 			test('should generate a pipe file using the custom template if the user provides it', async () => {
-				await makeAngularCustomTemplatesDirectory();
+				await makeAngularToolboxDirectory();
 				await createTemplateFile('pipe', customPipeTemplateTestingData);
 				createPromptStub(sandbox)
 					.quickPick('No') // 1. "Do you want to prefix your pipe selector?"
@@ -150,7 +150,7 @@ suite('Generate Pipe', () => {
 
 			suite('and the user provider a custom config', () => {
 				test('should not generate the spec file if the config skipSpec is true', async () => {
-					await makeAngularCustomTemplatesDirectory();
+					await makeAngularToolboxDirectory();
 					await createConfig({
 						skipSpec: true,
 					});
@@ -174,7 +174,7 @@ suite('Generate Pipe', () => {
 				});
 
 				test('should not ask the user to collect the prefix if the config skipPrefix is true', async () => {
-					await makeAngularCustomTemplatesDirectory();
+					await makeAngularToolboxDirectory();
 					await createConfig({
 						skipPrefix: true,
 					});

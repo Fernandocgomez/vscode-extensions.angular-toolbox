@@ -1,6 +1,6 @@
 import * as fs from 'fs/promises';
 import {
-	getAngularCustomTemplatesDirectoryPath,
+	getAngularToolboxDirectoryPath,
 	getSrcDirectoryPath,
 } from './directory-path-getters';
 
@@ -16,8 +16,8 @@ export const makeSrcDirectory = async () => {
 	}
 };
 
-export const makeAngularCustomTemplatesDirectory = async () => {
-	const angularCustomTemplatesFolderPath = getAngularCustomTemplatesDirectoryPath();
+export const makeAngularToolboxDirectory = async () => {
+	const angularCustomTemplatesFolderPath = getAngularToolboxDirectoryPath();
 
 	try {
 		await fs.mkdir(angularCustomTemplatesFolderPath, { recursive: true });

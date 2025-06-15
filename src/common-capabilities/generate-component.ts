@@ -6,7 +6,7 @@ import {
 	ComponentTemplateData,
 	TemplateFileNames,
 } from '@models';
-import { generateElement, generateSpec } from './util';
+import { generateAngularElement, generateSpec } from './util';
 import {
 	getComponentDirectivesDependencies,
 	getComponentModuleDependencies,
@@ -29,7 +29,7 @@ export const generateComponent = async (
 	);
 	const nameInKebabCase = await promptForName();
 
-	await generateElement(
+	await generateAngularElement(
 		path.join(folderRightClickedPath, `${nameInKebabCase}.component.ts`),
 		TemplateFileNames.COMPONENT,
 		getComponentTemplateData(nameInKebabCase, prefix),

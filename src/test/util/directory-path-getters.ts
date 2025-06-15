@@ -18,6 +18,6 @@ export const getSrcDirectoryPath = (): string => {
 	return path.join(getWorkspaceRootDir(), 'src');
 };
 
-export const getAngularCustomTemplatesDirectoryPath = (): string => {
+export const getAngularToolboxDirectoryPath = (): string => {
 	return path.join(getWorkspaceRootDir(), '.angular-toolbox');
 };

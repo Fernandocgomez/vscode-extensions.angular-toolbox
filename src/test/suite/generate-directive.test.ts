@@ -13,7 +13,7 @@ import {
 	deletePrefixFromConfig,
 	executeCommand,
 	getSrcDirectoryPath,
-	makeAngularCustomTemplatesDirectory,
+	makeAngularToolboxDirectory,
 	makeSrcDirectory,
 	removeAngularCustomTemplatesDirectory,
 	removeSrcDirectory,
@@ -91,7 +91,7 @@ suite('Generate Directive Test Suite', () => {
 			});
 
 			test('should generate a directive using the custom directive template when the user provides one', async () => {
-				await makeAngularCustomTemplatesDirectory();
+				await makeAngularToolboxDirectory();
 				await createTemplateFile(
 					'directive',
 					customDirectiveTemplateTestingData,
@@ -135,7 +135,7 @@ suite('Generate Directive Test Suite', () => {
 			});
 
 			test('should generate a directive spec using the custom directive spec template when the user provides one', async () => {
-				await makeAngularCustomTemplatesDirectory();
+				await makeAngularToolboxDirectory();
 				await createTemplateFile(
 					'directive.spec',
 					customDirectiveSpecTemplateTestingData,
@@ -204,7 +204,7 @@ suite('Generate Directive Test Suite', () => {
 
 			suite('and the user provider a custom config', () => {
 				test('should not generate the spec file if the config skipSpec is true', async () => {
-					await makeAngularCustomTemplatesDirectory();
+					await makeAngularToolboxDirectory();
 					await createConfig({
 						skipSpec: true,
 					});
@@ -227,7 +227,7 @@ suite('Generate Directive Test Suite', () => {
 				});
 
 				test('should not ask the user to collect the prefix if the config skipPrefix is true', async () => {
-					await makeAngularCustomTemplatesDirectory();
+					await makeAngularToolboxDirectory();
 					await createConfig({
 						skipPrefix: true,
 					});

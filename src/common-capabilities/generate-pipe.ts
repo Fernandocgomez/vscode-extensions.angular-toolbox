@@ -10,7 +10,7 @@ import {
 	kebabCaseToCamelCase,
 } from '@utils';
 import * as path from 'path';
-import { generateElement, generateSpec } from './util';
+import { generateAngularElement, generateSpec } from './util';
 import { readFileSync } from '@fileSystem';
 import { getProviderDependencies } from '@angularDependencyExtractor';
 import { promptForPrefix } from './util/prompt-for-prefix';
@@ -26,7 +26,7 @@ export const generatePipe = async (
 	);
 	const nameInCamelCase = await promptForPipeName();
 
-	await generateElement(
+	await generateAngularElement(
 		path.join(
 			folderRightClickedPath,
 			`${camelCaseToKebabCase(nameInCamelCase)}.pipe.ts`,
