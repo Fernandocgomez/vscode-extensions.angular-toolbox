@@ -16,6 +16,10 @@ All notable changes to the "Angular Toolbox" extension will be documented in thi
 
 **templates**: Updated the component spec template.([5fb8eb4](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/pull/37/commits/5fb8eb49a8bb9fa5c15710989dd3eed9a4a20f8b))
 
+### Added
+
+**common capabilities**: Automatically appends an export statement for generated files to an `index.ts` barrel file in the target directory. An `index.ts` file is created if not already present. This functionality is configurable via `config.json`, can be toggled, and is disabled by default (`false`).([71223ce](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/pull/39/commits/71223ce49d119d2351f631a2a693aa1fb6eff212))
+
 ## [Released]
 
 ## [0.1.0] - 2025-06-13
