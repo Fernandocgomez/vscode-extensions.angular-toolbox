@@ -6,6 +6,7 @@
 		"inlineTemplate": true,
 		"inlineStyle": true,
 		"withOnPushChangeDetection": true,
-		"stylesheetsFormat": "scss"
+		"stylesheetsFormat": "scss",
+		"generateStory": false
 	}
 }

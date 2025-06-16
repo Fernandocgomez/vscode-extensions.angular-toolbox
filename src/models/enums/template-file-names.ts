@@ -1,6 +1,7 @@
 export enum TemplateFileNames {
 	COMPONENT = 'component',
 	COMPONENT_SPEC = 'component.spec',
+	COMPONENT_STORIES = 'component.stories',
 	SERVICE = 'service',
 	SERVICE_SPEC = 'service.spec',
 	HTTP_SERVICE = 'http.service',

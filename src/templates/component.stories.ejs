@@ -1,0 +1,16 @@
+import type { Meta, StoryObj } from '@storybook/angular';
+import { <%= className %> } from './<%= componentNameAsKebabCase %>.component';
+
+const meta: Meta<<%= className %>> = {
+  title: '<%= className %>',
+  component: <%= className %>,
+  tags: [],
+  args: {},
+};
+
+export default meta;
+type Story = StoryObj<<%= className %>>;
+
+export const Default: Story = {
+  args: {},
+};
