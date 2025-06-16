@@ -4,3 +4,4 @@ export * from './generate-pipe';
 export * from './generate-directive';
 export * from './register-prefix';
 export * from './see-prefix';
+export * from './generate-component-storybook';

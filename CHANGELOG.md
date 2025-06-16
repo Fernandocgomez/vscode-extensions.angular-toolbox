@@ -10,17 +10,17 @@ All notable changes to the "Angular Toolbox" extension will be documented in thi
 
 ### Fixed
 
-**extension config**: Implemented error handling for scenarios involving an empty `config.json` file.([730a7f8](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/pull/36/commits/730a7f848895a5673bb38edd837234c12184cafa))
+- **extension config**: Implemented error handling for scenarios involving an empty `config.json` file.([730a7f8](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/pull/36/commits/730a7f848895a5673bb38edd837234c12184cafa))
 
 ### Changed
 
-**templates**: Updated the component spec template.([5fb8eb4](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/pull/37/commits/5fb8eb49a8bb9fa5c15710989dd3eed9a4a20f8b))
+- **templates**: Updated the component spec template.([5fb8eb4](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/pull/37/commits/5fb8eb49a8bb9fa5c15710989dd3eed9a4a20f8b))
 
 ### Added
 
-**common capabilities**: Automatically appends an export statement for generated files to an `index.ts` barrel file in the target directory. An `index.ts` file is created if not already present. This functionality is configurable via `config.json`, can be toggled, and is disabled by default (`false`).([71223ce](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/pull/39/commits/71223ce49d119d2351f631a2a693aa1fb6eff212))
-
-**common capabilities**: Implemented automatic generation of a Storybook stories file subsequent to component creation. This functionality is toggleable via a configuration setting in `config.json` and is disabled by default (`false`).([60e7604](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/pull/41/commits/60e7604014bc2087b7e121562a65cfae5cea1e97))
+- **common capabilities**: Automatically appends an export statement for generated files to an `index.ts` barrel file in the target directory. An `index.ts` file is created if not already present. This functionality is configurable via `config.json`, can be toggled, and is disabled by default (`false`).([71223ce](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/pull/39/commits/71223ce49d119d2351f631a2a693aa1fb6eff212))
+- **common capabilities**: Implemented automatic generation of a Storybook stories file subsequent to component creation. This functionality is toggleable via a configuration setting in `config.json` and is disabled by default (`false`).([60e7604](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/pull/41/commits/60e7604014bc2087b7e121562a65cfae5cea1e97))
+- **common capabilities**: Enabled Storybook stories file generation for components via a context menu action.([5d1fca9](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/pull/42/commits/5d1fca9d2607609d4b8c99d2e7f63d9785015f0d))
 
 ## [Released]
 

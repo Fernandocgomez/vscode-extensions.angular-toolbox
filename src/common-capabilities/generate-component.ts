@@ -3,7 +3,6 @@ import { promptInput } from '@extensionFramework';
 import { isKebabCase, kebabCaseToPascal } from '@utils';
 import {
 	ComponentSpecTemplateData,
-	ComponentStorybookTemplateData,
 	ComponentTemplateData,
 	TemplateFileNames,
 } from '@models';
@@ -15,14 +14,10 @@ import {
 	getProviderDependencies,
 	getComponentStandaloneComponentDependencies,
 } from '@angularDependencyExtractor';
-import {
-	readFileSync,
-	throwExceptionWhenFileExist,
-	writeFileSync,
-} from '@fileSystem';
+import { readFileSync, writeFileSync } from '@fileSystem';
 import { getExtensionJsonBaseConfigService } from '@extensionConfig';
 import { promptForPrefix } from './util/prompt-for-prefix';
-import { getTemplatePath, renderTemplate } from '@templates';
+import { generateComponentStorybook } from './generate-component-storybook';
 
 /**
  * @param folderRightClickedPath /home/fernando/test/src/app
@@ -60,7 +55,9 @@ export const generateComponent = async (
 	}
 
 	if (getExtensionJsonBaseConfigService().componentHasGenerateStory()) {
-		generateStorybookFile(folderRightClickedPath, nameInKebabCase);
+		await generateComponentStorybook(
+			path.join(folderRightClickedPath, `${nameInKebabCase}.component.ts`),
+		);
 	}
 };
 
@@ -142,24 +139,4 @@ const getComponentSpecTemplateData = (
 		pipes: getComponentPipesDependencies(fileContent),
 		directives: getComponentDirectivesDependencies(fileContent),
 	};
-};
-
-const generateStorybookFile = (
-	folderRightClickedPath: string,
-	nameInKebabCase: string,
-) => {
-	const storybookFilePath = path.join(
-		folderRightClickedPath,
-		`${nameInKebabCase}.component.stories.ts`,
-	);
-
-	throwExceptionWhenFileExist(storybookFilePath);
-
-	writeFileSync(
-		storybookFilePath,
-		renderTemplate(getTemplatePath(TemplateFileNames.COMPONENT_STORIES), {
-			className: `${kebabCaseToPascal(nameInKebabCase)}Component`,
-			componentNameAsKebabCase: nameInKebabCase,
-		} as ComponentStorybookTemplateData),
-	);
 };

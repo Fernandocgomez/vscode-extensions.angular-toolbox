@@ -1,5 +1,6 @@
 import {
 	generateComponent,
+	generateComponentStorybook,
 	generateDirective,
 	generatePipe,
 	generateService,
@@ -76,6 +77,17 @@ export function activate(context: vscode.ExtensionContext) {
 		},
 	);
 
+	const generateComponentStoryDisposable = vscode.commands.registerCommand(
+		'angular-toolbox.common-capabilities.generate-component-storybook',
+		async (arg: vscode.Uri) => {
+			try {
+				await generateComponentStorybook(arg.fsPath, true);
+			} catch (error: any) {
+				showErrorMessage(error.message);
+			}
+		},
+	);
+
 	context.subscriptions.push(
 		generateComponentDisposable,
 		generateServiceDisposable,
@@ -83,6 +95,7 @@ export function activate(context: vscode.ExtensionContext) {
 		generateDirectiveDisposable,
 		registerPrefixDisposable,
 		seePrefixDisposable,
+		generateComponentStoryDisposable,
 	);
 }
 
