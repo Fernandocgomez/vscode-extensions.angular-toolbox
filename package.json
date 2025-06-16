@@ -21,6 +21,11 @@
 					"submenu": "angular-toolbox.menu",
 					"group": "navigation",
 					"when": "explorerResourceIsFolder"
+				},
+				{
+					"command": "angular-toolbox.common-capabilities.generate-component-storybook",
+					"when": "resourceFilename =~ /\\.component\\.ts$/",
+					"group": "navigation"
 				}
 			],
 			"angular-toolbox.menu": [
@@ -72,6 +77,10 @@
 			{
 				"command": "angular-toolbox.common-capabilities.see-prefix",
 				"title": "Angular Toolbox: See Prefix"
+			},
+			{
+				"command": "angular-toolbox.common-capabilities.generate-component-storybook",
+				"title": "Generate Story (Angular Toolbox)"
 			}
 		],
 		"configuration": {
