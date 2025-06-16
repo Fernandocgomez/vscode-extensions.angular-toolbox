@@ -39,6 +39,10 @@ class ExtensionConfigService {
 		return this.#config.component.stylesheetsFormat;
 	}
 
+	componentHasGenerateStory(): boolean {
+		return this.#config.component.generateStory;
+	}
+
 	#getExtensionConfigFile(): SafeExtensionConfig {
 		const userExtensionConfig = this.#getUserExtensionConfigFile();
 
@@ -85,6 +89,9 @@ class ExtensionConfigService {
 				stylesheetsFormat:
 					config?.component?.stylesheetsFormat ??
 					defaultConfig.component.stylesheetsFormat,
+				generateStory:
+					config?.component?.generateStory ??
+					defaultConfig.component.generateStory,
 			},
 		};
 	}

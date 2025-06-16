@@ -106,3 +106,20 @@ export const componentWithDefaultChangeDetectionFixture = `import { Component, C
   changeDetection: ChangeDetectionStrategy.Default
 })
 export class DummyComponent {}`;
+
+export const componentStorybookFixture = `import type { Meta, StoryObj } from '@storybook/angular';
+import { DummyComponent } from './dummy.component';
+
+const meta: Meta<DummyComponent> = {
+  title: 'DummyComponent',
+  component: DummyComponent,
+  tags: [],
+  args: {},
+};
+
+export default meta;
+type Story = StoryObj<DummyComponent>;
+
+export const Default: Story = {
+  args: {},
+};`;

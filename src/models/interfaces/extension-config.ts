@@ -9,6 +9,7 @@ export interface ExtensionConfig {
 		inlineStyle?: boolean;
 		withOnPushChangeDetection?: boolean;
 		stylesheetsFormat?: StylesheetsFormat;
+		generateStory?: boolean;
 	};
 }
 
@@ -21,5 +22,6 @@ export interface SafeExtensionConfig {
 		inlineStyle: boolean;
 		withOnPushChangeDetection: boolean;
 		stylesheetsFormat: StylesheetsFormat;
+		generateStory: boolean;
 	};
 }

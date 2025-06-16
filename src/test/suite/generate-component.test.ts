@@ -22,6 +22,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import {
 	componentSpecFixture,
+	componentStorybookFixture,
 	componentWithDefaultChangeDetectionFixture,
 	componentWithoutPrefixFixture,
 	componentWithoutPrefixGeneratedUsingCustomTemplateFixture,
@@ -291,6 +292,57 @@ suite('Generate Component', () => {
 							'config.json is empty. ./.angular-toolbox/config.json',
 						),
 						'Should call the showErrorMessage function once',
+					);
+				});
+
+				test('should generate a corresponding Storybook stories file subsequent to component generation when the component.generateStory configuration property is set to true', async () => {
+					await createConfig({
+						component: {
+							generateStory: true,
+						},
+					});
+					createPromptStub(sandbox)
+						.quickPick('No') // 1. "Do you want to prefix your component selector?"
+						.inputBox('dummy') // 2. "Enter component name (kebab-case)"
+						.apply();
+
+					await runCommand();
+
+					const storiesPath = path.join(
+						getSrcDirectoryPath(),
+						'dummy.component.stories.ts',
+					);
+					assertItExists(
+						storiesPath,
+						`Component stories file should exist at ${storiesPath}`,
+					);
+					assertStrictEqual(
+						storiesPath,
+						componentStorybookFixture,
+						'Generated component stories content does not match fixture.',
+					);
+				});
+
+				test('should not generate an story file if the config property component.generateStory is false', async () => {
+					await createConfig({
+						component: {
+							generateStory: false,
+						},
+					});
+					createPromptStub(sandbox)
+						.quickPick('No') // 1. "Do you want to prefix your component selector?"
+						.inputBox('dummy') // 2. "Enter component name (kebab-case)"
+						.apply();
+
+					await runCommand();
+
+					const storiesPath = path.join(
+						getSrcDirectoryPath(),
+						'dummy.component.stories.ts',
+					);
+					assertItDoesNotExists(
+						storiesPath,
+						`Component stories file should exist at ${storiesPath}`,
 					);
 				});
 			});

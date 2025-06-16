@@ -27,6 +27,11 @@ export interface ComponentTemplateData {
 	stylesheetsFormat: StylesheetsFormat;
 }
 
+export interface ComponentStorybookTemplateData {
+	className: string; // MyCoolComponent
+	componentNameAsKebabCase: string; // my-cool
+}
+
 export interface ServiceTemplateData {
 	isGlobal: boolean; // true or false
 	className: string; // UserAuthService(HTTP) or Logger(None Http)
