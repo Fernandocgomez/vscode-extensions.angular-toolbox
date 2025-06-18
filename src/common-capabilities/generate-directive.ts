@@ -61,7 +61,7 @@ const getTemplateData = (
 	};
 };
 
-const generateDirectiveSpec = async (
+export const generateDirectiveSpec = async (
 	directiveFilePath: string,
 ): Promise<void> => {
 	await generateSpec(
