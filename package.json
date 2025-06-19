@@ -26,6 +26,11 @@
 					"command": "angular-toolbox.common-capabilities.generate-component-storybook",
 					"when": "resourceFilename =~ /\\.component\\.ts$/",
 					"group": "navigation"
+				},
+				{
+					"command": "angular-toolbox.common-capabilities.generate-spec",
+					"when": "resourceFilename =~ /\\.(component|pipe|directive|service|guard|resolver|interceptor)\\.ts$/",
+					"group": "navigation"
 				}
 			],
 			"angular-toolbox.menu": [
@@ -81,6 +86,10 @@
 			{
 				"command": "angular-toolbox.common-capabilities.generate-component-storybook",
 				"title": "Generate Story (Angular Toolbox)"
+			},
+			{
+				"command": "angular-toolbox.common-capabilities.generate-spec",
+				"title": "Generate Spec (Angular Toolbox)"
 			}
 		],
 		"configuration": {
