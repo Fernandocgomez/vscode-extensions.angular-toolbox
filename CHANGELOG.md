@@ -21,6 +21,7 @@ All notable changes to the "Angular Toolbox" extension will be documented in thi
 - **common capabilities**: Automatically appends an export statement for generated files to an `index.ts` barrel file in the target directory. An `index.ts` file is created if not already present. This functionality is configurable via `config.json`, can be toggled, and is disabled by default (`false`).([71223ce](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/pull/39/commits/71223ce49d119d2351f631a2a693aa1fb6eff212))
 - **common capabilities**: Implemented automatic generation of a Storybook stories file subsequent to component creation. This functionality is toggleable via a configuration setting in `config.json` and is disabled by default (`false`).([60e7604](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/pull/41/commits/60e7604014bc2087b7e121562a65cfae5cea1e97))
 - **common capabilities**: Enabled Storybook stories file generation for components via a context menu action.([5d1fca9](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/pull/42/commits/5d1fca9d2607609d4b8c99d2e7f63d9785015f0d))
+- **common capabilities**: Implemented a context menu action to facilitate the generation of specification files for pre-existing Angular elements.([b1b6024](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/pull/44/commits/b1b6024886a51b3f34fe7cb29cf6a5bc0ec7a0d5))
 
 ## [Released]
 
