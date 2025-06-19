@@ -4,6 +4,7 @@ import {
 	generateDirective,
 	generatePipe,
 	generateService,
+	generateSpec,
 	registerPrefix,
 	seePrefix,
 } from '@commonCapabilities';
@@ -88,6 +89,17 @@ export function activate(context: vscode.ExtensionContext) {
 		},
 	);
 
+	const generateSpecDisposable = vscode.commands.registerCommand(
+		'angular-toolbox.common-capabilities.generate-spec',
+		async (arg: vscode.Uri) => {
+			try {
+				await generateSpec(arg.fsPath);
+			} catch (error: any) {
+				showErrorMessage(error.message);
+			}
+		},
+	);
+
 	context.subscriptions.push(
 		generateComponentDisposable,
 		generateServiceDisposable,
@@ -96,6 +108,7 @@ export function activate(context: vscode.ExtensionContext) {
 		registerPrefixDisposable,
 		seePrefixDisposable,
 		generateComponentStoryDisposable,
+		generateSpecDisposable,
 	);
 }
 
