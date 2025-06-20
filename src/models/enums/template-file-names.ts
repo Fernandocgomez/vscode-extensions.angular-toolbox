@@ -10,4 +10,6 @@ export enum TemplateFileNames {
 	PIPE_SPEC = 'pipe.spec',
 	DIRECTIVE = 'directive',
 	DIRECTIVE_SPEC = 'directive.spec',
+	GUARD = 'guard',
+	GUARD_SPEC = 'guard.spec',
 }

@@ -4,6 +4,7 @@ import {
 	generateDirective,
 	generatePipe,
 	generateService,
+	generateRouteGuard,
 	generateSpec,
 	registerPrefix,
 	seePrefix,
@@ -100,6 +101,17 @@ export function activate(context: vscode.ExtensionContext) {
 		},
 	);
 
+	const generateRouteGuardDisposable = vscode.commands.registerCommand(
+		'angular-toolbox.common-capabilities.generate-route-guard',
+		async (arg: vscode.Uri) => {
+			try {
+				await generateRouteGuard(arg.fsPath);
+			} catch (error: any) {
+				showErrorMessage(error.message);
+			}
+		},
+	);
+
 	context.subscriptions.push(
 		generateComponentDisposable,
 		generateServiceDisposable,
@@ -109,6 +121,7 @@ export function activate(context: vscode.ExtensionContext) {
 		seePrefixDisposable,
 		generateComponentStoryDisposable,
 		generateSpecDisposable,
+		generateRouteGuardDisposable,
 	);
 }
 
