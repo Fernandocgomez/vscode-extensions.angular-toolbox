@@ -70,3 +70,14 @@ export interface DirectiveSpecTemplateData {
 	// directives: Dependency[];
 	// modules: Dependency[];
 }
+
+export interface RouteGuardTemplateData {
+	className: string; // UserAuthGuard
+	fnName: string; // userAuthGuard
+}
+
+export interface RouteGuardSpecTemplateData {
+	className: string; // UserAuthGuard
+	fnName: string; // userAuthGuard
+	nameInKebabCase: string; // user-auth
+}

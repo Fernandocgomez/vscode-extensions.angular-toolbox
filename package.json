@@ -49,6 +49,10 @@
 				{
 					"command": "angular-toolbox.common-capabilities.generate-directive",
 					"group": "1_generation"
+				},
+				{
+					"command": "angular-toolbox.common-capabilities.generate-route-guard",
+					"group": "2_generation"
 				}
 			]
 		},
@@ -90,6 +94,10 @@
 			{
 				"command": "angular-toolbox.common-capabilities.generate-spec",
 				"title": "Generate Spec (Angular Toolbox)"
+			},
+			{
+				"command": "angular-toolbox.common-capabilities.generate-route-guard",
+				"title": "Generate Route Guard"
 			}
 		],
 		"configuration": {

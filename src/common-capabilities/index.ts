@@ -6,3 +6,4 @@ export * from './register-prefix';
 export * from './see-prefix';
 export * from './generate-component-storybook';
 export * from './generate-spec';
+export * from './generate-route-guard';
