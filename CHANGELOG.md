@@ -4,6 +4,10 @@ All notable changes to the "Angular Toolbox" extension will be documented in thi
 
 ## [Unreleased]
 
+## [Released]
+
+## [0.2.0] - 2025-06-20
+
 ### Documentation
 
 **license**: Change license from custom one to MIT.([8c5e8f0](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/pull/26/commits/8c5e8f0948f5bd630c3b9e798c71cae865b9a37b))
@@ -23,8 +27,6 @@ All notable changes to the "Angular Toolbox" extension will be documented in thi
 - **common capabilities**: Enabled Storybook stories file generation for components via a context menu action.([5d1fca9](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/pull/42/commits/5d1fca9d2607609d4b8c99d2e7f63d9785015f0d))
 - **common capabilities**: Implemented a context menu action to facilitate the generation of specification files for pre-existing Angular elements.([b1b6024](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/pull/44/commits/b1b6024886a51b3f34fe7cb29cf6a5bc0ec7a0d5))
 - **common capabilities**: Enabled the generation of Route Guards and their corresponding spec file via a context menu action.([4aab7a4](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/pull/46/commits/4aab7a41675b8a931c25a0dd71c9fec3aafcce9b))
-
-## [Released]
 
 ## [0.1.0] - 2025-06-13
 
