@@ -11,9 +11,6 @@ export interface ExtensionConfig {
 		stylesheetsFormat?: StylesheetsFormat;
 		generateStory?: boolean;
 	};
-	guard?: {
-		isClassBase?: boolean;
-	};
 }
 
 export interface SafeExtensionConfig {
@@ -26,8 +23,5 @@ export interface SafeExtensionConfig {
 		withOnPushChangeDetection: boolean;
 		stylesheetsFormat: StylesheetsFormat;
 		generateStory: boolean;
-	};
-	guard: {
-		isClassBase: boolean;
 	};
 }
