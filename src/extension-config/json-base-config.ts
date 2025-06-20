@@ -43,6 +43,10 @@ class ExtensionConfigService {
 		return this.#config.component.generateStory;
 	}
 
+	isGuardClassBase(): boolean {
+		return this.#config.guard.isClassBase;
+	}
+
 	#getExtensionConfigFile(): SafeExtensionConfig {
 		const userExtensionConfig = this.#getUserExtensionConfigFile();
 
@@ -92,6 +96,10 @@ class ExtensionConfigService {
 				generateStory:
 					config?.component?.generateStory ??
 					defaultConfig.component.generateStory,
+			},
+			guard: {
+				isClassBase:
+					config?.guard?.isClassBase ?? defaultConfig.guard.isClassBase,
 			},
 		};
 	}

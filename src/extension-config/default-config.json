@@ -8,5 +8,8 @@
 		"withOnPushChangeDetection": true,
 		"stylesheetsFormat": "scss",
 		"generateStory": false
+	},
+	"guard": {
+		"isClassBase": false
 	}
 }
