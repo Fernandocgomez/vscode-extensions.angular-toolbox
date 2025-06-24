@@ -1,5 +1,7 @@
 # Angular Toolbox for VS Code 🧰
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 **Your essential toolkit for building Angular applications faster and with greater consistency.**
 
 Stop juggling terminal commands and project style guides. **Angular Toolbox** provides a seamless, integrated experience within VS Code to generate schematics, manage configurations, and enforce team-wide standards. It's the multi-tool you'll wonder how you ever coded without.
@@ -10,7 +12,7 @@ Stop juggling terminal commands and project style guides. **Angular Toolbox** pr
 
 In a collaborative environment, consistency is everything. In solo projects, speed is paramount. Angular Toolbox is built to deliver both. It replaces the repetitive, error-prone cycle of command-line generation with a powerful, intuitive UI.
 
-- **🚀 Accelerate Your Workflow:** Scaffold components, services, pipes, and directives in seconds, directly from the editor's context menu. No more context switching or memorizing CLI flags.
+- **🚀 Accelerate Your Workflow:** Scaffold components, services, pipes, directives, and guards in seconds, directly from the editor's context menu. No more context switching or memorizing CLI flags.
 - **🤝 Enforce Project Consistency:** Use custom EJS templates to ensure every new file adheres to your team's architecture and coding standards. Eliminate style drift before it starts.
 - **⚙️ Simplify Configuration:** Manage your project's component prefix and extension settings through a straightforward configuration file, keeping your setup clear and version-controlled.
 
@@ -18,14 +20,26 @@ In a collaborative environment, consistency is everything. In solo projects, spe
 
 ## Features
 
-### ⚡ Right-Click Schematics Generator
+### ⚡ Right-Click Generation
 
 Our powerful and user-friendly generator is available right where you need it—in the folder context menu.
 
-- **Components:** Scaffold components with options for custom templates.
-- **Services:** Generate service boilerplate instantly.
-- **Pipes:** Create new pipes using your predefined templates.
-- **Directives:** Scaffold directives with a single click.
+- **Generate Schematics from Scratch:**
+  - Components
+  - Services
+  - Pipes
+  - Directives
+  - Route Guards
+- **Act on Existing Files:**
+  - Generate **specification files** (`.spec.ts`) for existing Angular elements.
+  - Generate **Storybook stories files** (`.stories.ts`) for existing components.
+
+### 🤖 Advanced Automation (Opt-in)
+
+Supercharge your workflow with powerful automation, disabled by default and easily enabled in your `config.json`.
+
+- **Automatic Storybook Generation:** When enabled, the extension will automatically generate a Storybook stories file every time you create a new component.
+- **Automatic Barrel File Management:** When enabled, the extension automatically appends an export statement for newly generated files to an `index.ts` barrel file in the target directory. If `index.ts` doesn't exist, it will be created for you.
 
 ### 🗂️ Customizable EJS Templates
 
@@ -38,7 +52,8 @@ To override the default templates, simply create a `.angular-toolbox` folder in 
 Take control of your workspace with a simple `config.json` file.
 
 - **Define Base Configuration:** Set up extension-wide settings that can be shared across your team.
-- **Manage Component Prefix:** View and manage your project's component prefix directly from your workspace settings, ensuring all new components are correctly named.
+- **Manage Component Prefix:** View and manage your project's component prefix directly from your workspace settings.
+- **Toggle Automation:** Easily enable or disable automatic Storybook generation and barrel file updates to fit your project's needs.
 
 ---
 
@@ -58,9 +73,9 @@ Getting started with **Angular Toolbox** is as simple as a right-click.
 
 1.  Install the extension from the [VS Code Marketplace](https://marketplace.visualstudio.com/).
 2.  Open your Angular project and navigate to the Explorer view.
-3.  **Right-click** on any folder where you want to generate a new file.
-4.  In the context menu, hover over **"Angular Toolbox"** and select what you want to create (e.g., `Generate Component`).
-5.  Enter a name, press Enter, and you're done! Your new files are instantly created right where you need them.
+3.  **Right-click** on any folder or an existing file.
+4.  In the context menu, hover over **"Angular Toolbox"** and select what you want to do (e.g., `Generate Component`, `Generate Spec File`).
+5.  Enter a name if prompted, press Enter, and you're done! Your new files are instantly created right where you need them.
 
 ### How to Use Custom Templates
 
