@@ -4,11 +4,15 @@ All notable changes to the "Angular Toolbox" extension will be documented in thi
 
 ## [Unreleased]
 
+### Doc
+
+**docs**: Scaffolded the documentation website with foundational boilerplate.([60c796b](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/pull/52/commits/60c796b2fa44b36011897c40afe562741248eee8))
+
 ## [Released]
 
 ## [0.2.0] - 2025-06-20
 
-### Documentation
+### Doc
 
 **license**: Change license from custom one to MIT.([8c5e8f0](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/pull/26/commits/8c5e8f0948f5bd630c3b9e798c71cae865b9a37b))
 
@@ -40,7 +44,7 @@ All notable changes to the "Angular Toolbox" extension will be documented in thi
 - **extension-config.json-base-config**: Add default configuration file and add support for custom config provided by user. ([5324fb7](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/commit/5324fb710738b3af34c5cceec68cd94c3433b192))
 - **extension-config.prefix-workspace-config**: Register prefix on user workspace config and ability to show current prefix. ([5324fb7](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/commit/5324fb710738b3af34c5cceec68cd94c3433b192))
 
-### Documentation
+### Doc
 
 - **changelog**: standardize changelog. ([1e2aa51](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/pull/19/commits/1e2aa51ae58fc0aaa7ae0f07453ab0b3bc7f5d79))
 - **readme**: Add tutorial for release features. ([7653cd9](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/pull/21/commits/7653cd99535b5d45fdb7fd484b534c567e9dd023))
@@ -50,6 +54,6 @@ All notable changes to the "Angular Toolbox" extension will be documented in thi
 
 - **extension metadata**: add extension icon and select final name.([91f44f6](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/pull/22/commits/91f44f66021aba7b2fcf6650a5b5bf5e16a71588))
 
-### Changes
+### Changed
 
 - **templates**: change user custom templates and custom config folder name from ".angular-custom-templates" to ".angular-toolbox" ([6d46786](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/pull/22/commits/6d46786b5b2e424c43b98f447037af3fc51ba606))

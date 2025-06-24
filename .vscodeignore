@@ -16,3 +16,4 @@ to-vsix.sh
 jest.config.json
 .prettierrc
 .prettierignore
+docs/

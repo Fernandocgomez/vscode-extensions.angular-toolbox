@@ -123,7 +123,8 @@
 		"posttest": "rm -rf out && rm -rf testWorkspace",
 		"lint": "eslint src",
 		"test:jest": "jest --testMatch \"**/*.spec.ts\"",
-		"test:jest:watch": "jest --testMatch \"**/*.spec.ts\" --watch"
+		"test:jest:watch": "jest --testMatch \"**/*.spec.ts\" --watch",
+		"docs": "npx docsify serve docs"
 	},
 	"devDependencies": {
 		"@types/ejs": "^3.1.5",

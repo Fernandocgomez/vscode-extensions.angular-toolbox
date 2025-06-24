@@ -67,24 +67,6 @@ Before you begin, please ensure your project meets the following requirements:
 
 ---
 
-## Getting Started 🏁
-
-Getting started with **Angular Toolbox** is as simple as a right-click.
-
-1.  Install the extension from the [VS Code Marketplace](https://marketplace.visualstudio.com/).
-2.  Open your Angular project and navigate to the Explorer view.
-3.  **Right-click** on any folder or an existing file.
-4.  In the context menu, hover over **"Angular Toolbox"** and select what you want to do (e.g., `Generate Component`, `Generate Spec File`).
-5.  Enter a name if prompted, press Enter, and you're done! Your new files are instantly created right where you need them.
-
-### How to Use Custom Templates
-
-1.  Create a folder named `.angular-toolbox` in the root of your project.
-2.  Add your custom template files (e.g., `component.ejs`, `service.spec.ejs`).
-3.  The next time you generate a schematic, Angular Toolbox will use your custom templates. It's that simple!
-
----
-
 ## 📚 Full Documentation & Tutorials
 
 For a complete guide, including detailed tutorials, advanced configuration options, and tips for creating your own EJS templates, please visit our full documentation website.
