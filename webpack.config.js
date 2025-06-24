@@ -45,7 +45,7 @@ const extensionConfig = {
 		rules: [
 			{
 				test: /\.ts$/,
-				exclude: /node_modules/,
+				exclude: [/node_modules/, path.resolve(__dirname, 'docs')],
 				use: [
 					{
 						loader: 'ts-loader',
@@ -57,6 +57,9 @@ const extensionConfig = {
 	devtool: 'nosources-source-map',
 	infrastructureLogging: {
 		level: 'log', // enables logging required for problem matchers
+	},
+	watchOptions: {
+		ignored: [path.resolve(__dirname, 'docs')],
 	},
 	plugins: [
 		new CopyWebpackPlugin({

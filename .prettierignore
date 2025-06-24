@@ -23,6 +23,7 @@ coverage/
 .vscode-test
 .vscode
 .gitignore
+docs/
 
 # Environment files
 .env
