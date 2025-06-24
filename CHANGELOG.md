@@ -4,6 +4,10 @@ All notable changes to the "Angular Toolbox" extension will be documented in thi
 
 ## [Unreleased]
 
+### Doc
+
+**docs**: Scaffolded the documentation website with foundational boilerplate.([60c796b](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/pull/52/commits/60c796b2fa44b36011897c40afe562741248eee8))
+
 ## [Released]
 
 ## [0.2.0] - 2025-06-20
