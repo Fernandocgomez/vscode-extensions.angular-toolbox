@@ -16,3 +16,4 @@
   - [Resolver](templates/resolver.md)
 
 - [Changelog](CHANGELOG.md)
+- [Releases](artifacts/releases.md)
