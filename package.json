@@ -36,19 +36,19 @@
 			"angular-toolbox.menu": [
 				{
 					"command": "angular-toolbox.common-capabilities.generate-component",
-					"group": "1_generation"
+					"group": "1_generation@1"
 				},
 				{
 					"command": "angular-toolbox.common-capabilities.generate-service",
-					"group": "1_generation"
+					"group": "1_generation@2"
 				},
 				{
 					"command": "angular-toolbox.common-capabilities.generate-pipe",
-					"group": "1_generation"
+					"group": "1_generation@3"
 				},
 				{
 					"command": "angular-toolbox.common-capabilities.generate-directive",
-					"group": "1_generation"
+					"group": "1_generation@4"
 				},
 				{
 					"command": "angular-toolbox.common-capabilities.generate-route-guard",
