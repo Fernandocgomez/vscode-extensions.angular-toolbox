@@ -33,11 +33,11 @@ describe('FormatNumberPipe', () => {
 export const pipeWithoutPrefixFixture = `import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'formatDate',
+  name: 'formatNumber',
   standalone: true,
   pure: true,
 })
-export class FormatDatePipe implements PipeTransform {
+export class FormatNumberPipe implements PipeTransform {
   transform(value: number): string {
     return '';
   }

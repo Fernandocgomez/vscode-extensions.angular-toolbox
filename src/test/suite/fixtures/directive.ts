@@ -19,7 +19,7 @@ import { HighlightContentOnHoverDirective } from './highlight-content-on-hover.d
 import { Component } from '@angular/core';
 
 @Component({
-  template: \`<div [prefixHighlightContentOnHover]>Host Element</div>\`,
+  template: \`<div [highlightContentOnHover]>Host Element</div>\`,
   standalone: true,
   imports: [HighlightContentOnHoverDirective],
 })

@@ -52,9 +52,7 @@ suite('Generate Component', () => {
 		() => {
 			test('should generate a component and spec file', async () => {
 				createPromptStub(sandbox)
-					.quickPick('Yes') // 1. "Do you want to prefix your component selector?"
-					.inputBox('prefix') // 2. "Enter component prefix (kebab-case)"
-					.inputBox('dummy') // 3. "Enter component name (kebab-case)"
+					.inputBox('dummy') // "Enter component name (kebab-case)"
 					.apply();
 
 				await runCommand();
@@ -74,37 +72,9 @@ suite('Generate Component', () => {
 				);
 				assertItExists(specPath, `Spec file should exist at ${specPath}`);
 				assertStrictEqual(
-					componentPath,
-					componentWithPrefixFixture,
-					'Generated component content does not match fixture.',
-				);
-				assertStrictEqual(
 					specPath,
 					componentSpecFixture,
-					'Generated spec content does not match fixture.',
-				);
-			});
-
-			test('should generate a component file without prefix if the user select "No" on the "Do you want to prefix your component selector?" question', async () => {
-				createPromptStub(sandbox)
-					.quickPick('No') // 1. "Do you want to prefix your component selector?"
-					.inputBox('dummy') // 2. "Enter component name (kebab-case)"
-					.apply();
-
-				await runCommand();
-
-				const componentPath = path.join(
-					getSrcDirectoryPath(),
-					'dummy.component.ts',
-				);
-				assertItExists(
-					componentPath,
-					`Component file should exist at ${componentPath}`,
-				);
-				assertStrictEqual(
-					componentPath,
-					componentWithoutPrefixFixture,
-					'Generated component content does not match fixture.',
+					'Generated component spec content does not match fixture.',
 				);
 			});
 
@@ -115,8 +85,7 @@ suite('Generate Component', () => {
 					customComponentTemplateTestingData,
 				);
 				createPromptStub(sandbox)
-					.quickPick('No') // 1. "Do you want to prefix your component selector?"
-					.inputBox('dummy') // 2. "Enter component name (kebab-case)"
+					.inputBox('dummy') // "Enter component name (kebab-case)"
 					.apply();
 
 				await runCommand();
@@ -139,8 +108,7 @@ suite('Generate Component', () => {
 					'showErrorMessage',
 				);
 				createPromptStub(sandbox)
-					.quickPick('No') // 1. "Do you want to prefix your component selector?"
-					.inputBox('dummy') // 2. "Enter component name (kebab-case)"
+					.inputBox('dummy') // "Enter component name (kebab-case)"
 					.apply();
 
 				await runCommand();
@@ -165,8 +133,7 @@ suite('Generate Component', () => {
 						skipSpec: true,
 					});
 					createPromptStub(sandbox)
-						.quickPick('No') // 1. "Do you want to prefix your component selector?"
-						.inputBox('dummy') // 2. "Enter component name (kebab-case)"
+						.inputBox('dummy') // "Enter component name (kebab-case)"
 						.apply();
 
 					await runCommand();
@@ -188,8 +155,7 @@ suite('Generate Component', () => {
 						},
 					});
 					createPromptStub(sandbox)
-						.quickPick('No') // 1. "Do you want to prefix your component selector?"
-						.inputBox('dummy') // 2. "Enter component name (kebab-case)"
+						.inputBox('dummy') // "Enter component name (kebab-case)"
 						.apply();
 
 					await runCommand();
@@ -217,8 +183,7 @@ suite('Generate Component', () => {
 						},
 					});
 					createPromptStub(sandbox)
-						.quickPick('No') // 1. "Do you want to prefix your component selector?"
-						.inputBox('dummy') // 2. "Enter component name (kebab-case)"
+						.inputBox('dummy') // "Enter component name (kebab-case)"
 						.apply();
 
 					await runCommand();
@@ -245,8 +210,7 @@ suite('Generate Component', () => {
 						},
 					});
 					createPromptStub(sandbox)
-						.quickPick('No') // 1. "Do you want to prefix your component selector?"
-						.inputBox('dummy') // 2. "Enter component name (kebab-case)"
+						.inputBox('dummy') // "Enter component name (kebab-case)"
 						.apply();
 
 					await runCommand();
@@ -258,19 +222,46 @@ suite('Generate Component', () => {
 					);
 				});
 
-				test('should not ask the user to collect the prefix if the config skipPrefix is true', async () => {
+				test('should not prefix the component if the skipPrefix is true even if the user already provide a prefix in its workspace configurations', async () => {
 					await createConfig({
 						skipPrefix: true,
 					});
-					const showInputBoxStub = sandbox.stub(vscode.window, 'showInputBox');
-					showInputBoxStub.resolves('dummy');
+					await setPrefixInWorkspaceConfig('prefix');
+					createPromptStub(sandbox)
+						.inputBox('dummy') // "Enter component name (kebab-case)"
+						.apply();
+					const componentPath = path.join(
+						getSrcDirectoryPath(),
+						'dummy.component.ts',
+					);
 
 					await runCommand();
 
-					assert.ok(
-						showInputBoxStub.calledOnce,
-						'Should call the showInputBox function once',
+					assertStrictEqual(
+						componentPath,
+						componentWithoutPrefixFixture,
+						'Generated component content does not match fixture.',
 					);
+					await deletePrefixFromConfig();
+				});
+
+				test('should prefix the component if the skipPrefix property is false and the user already provide a prefix in its workspace configurations', async () => {
+					await setPrefixInWorkspaceConfig('prefix');
+					await createConfig({
+						skipPrefix: false,
+					});
+					createPromptStub(sandbox)
+						.inputBox('dummy') // "Enter component name (kebab-case)"
+						.apply();
+
+					await runCommand();
+
+					assertStrictEqual(
+						path.join(getSrcDirectoryPath(), 'dummy.component.ts'),
+						componentWithPrefixFixture,
+						'Generated component content does not match fixture.',
+					);
+					await deletePrefixFromConfig();
 				});
 
 				test('should display a error message if the config is an empty file', async () => {
@@ -281,8 +272,7 @@ suite('Generate Component', () => {
 						'showErrorMessage',
 					);
 					createPromptStub(sandbox)
-						.quickPick('No') // 1. "Do you want to prefix your component selector?"
-						.inputBox('dummy') // 2. "Enter component name (kebab-case)"
+						.inputBox('dummy') // "Enter component name (kebab-case)"
 						.apply();
 
 					await runCommand();
@@ -302,8 +292,7 @@ suite('Generate Component', () => {
 						},
 					});
 					createPromptStub(sandbox)
-						.quickPick('No') // 1. "Do you want to prefix your component selector?"
-						.inputBox('dummy') // 2. "Enter component name (kebab-case)"
+						.inputBox('dummy') // "Enter component name (kebab-case)"
 						.apply();
 
 					await runCommand();
@@ -323,15 +312,14 @@ suite('Generate Component', () => {
 					);
 				});
 
-				test('should not generate an story file if the config property component.generateStory is false', async () => {
+				test('should not generate an storybook file if the config property component.generateStory is false', async () => {
 					await createConfig({
 						component: {
 							generateStory: false,
 						},
 					});
 					createPromptStub(sandbox)
-						.quickPick('No') // 1. "Do you want to prefix your component selector?"
-						.inputBox('dummy') // 2. "Enter component name (kebab-case)"
+						.inputBox('dummy') // "Enter component name (kebab-case)"
 						.apply();
 
 					await runCommand();
@@ -346,33 +334,6 @@ suite('Generate Component', () => {
 					);
 				});
 			});
-
-			suite(
-				'and the user has already provide a prefix on the workspace config',
-				() => {
-					test('should not ask the the user to collect the prefix and should use the one saved on the workspace config', async () => {
-						await setPrefixInWorkspaceConfig('prefix');
-						const showInputBoxStub = sandbox.stub(
-							vscode.window,
-							'showInputBox',
-						);
-						showInputBoxStub.resolves('dummy');
-
-						await runCommand();
-
-						assert.ok(
-							showInputBoxStub.calledOnce,
-							'Should call the showInputBox function once',
-						);
-						assertStrictEqual(
-							path.join(getSrcDirectoryPath(), 'dummy.component.ts'),
-							componentWithPrefixFixture,
-							'Generated component content does not match fixture.',
-						);
-						await deletePrefixFromConfig();
-					});
-				},
-			);
 		},
 	);
 });

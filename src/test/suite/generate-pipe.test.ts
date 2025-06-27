@@ -5,7 +5,6 @@ import * as fs from 'fs';
 import * as path from 'path';
 import {
 	assertItDoesNotExists,
-	assertItExists,
 	assertStrictEqual,
 	createConfig,
 	createPromptStub,
@@ -22,7 +21,6 @@ import {
 import {
 	customTemplatePipeFixture,
 	pipeSpecFixture,
-	pipeSpecWithoutPrefixFixture,
 	pipeWithoutPrefixFixture,
 	pipeWithPrefixFixture,
 	customPipeTemplateTestingData,
@@ -46,64 +44,22 @@ suite('Generate Pipe', () => {
 	suite(
 		'when running the "angular-toolbox.common-capabilities.generate-pipe" command',
 		() => {
-			test('should generate a pipe file and spec file if the user select "Yes" to the question "Do you want to generate the spec file?"', async () => {
+			test('should generate a pipe file and spec file"', async () => {
 				createPromptStub(sandbox)
-					.quickPick('Yes') // 1. "Do you want to prefix your pipe selector?"
-					.inputBox('prefix') // 2. "Enter pipe prefix (camel-case)"
 					.inputBox('formatNumber') // 3. "Enter pipe name (camel-case)"
 					.apply();
 
 				await runCommand();
 
-				const pipePath = path.join(
-					getSrcDirectoryPath(),
-					'format-number.pipe.ts',
-				);
-				const specPath = path.join(
-					getSrcDirectoryPath(),
-					'format-number.pipe.spec.ts',
-				);
-				assertItExists(pipePath, `Pipe file should exist at ${pipePath}`);
-				assertItExists(specPath, `Spec file should exist at ${specPath}`);
 				assertStrictEqual(
-					pipePath,
-					pipeWithPrefixFixture,
+					path.join(getSrcDirectoryPath(), 'format-number.pipe.ts'),
+					pipeWithoutPrefixFixture,
 					'Generated pipe content does not match fixture',
 				);
 				assertStrictEqual(
-					specPath,
+					path.join(getSrcDirectoryPath(), 'format-number.pipe.spec.ts'),
 					pipeSpecFixture,
 					'Generated spec content does not match fixture',
-				);
-			});
-
-			test('should generate a pipe file without prefix and spec file if the user select "No" to the question "Do you want to prefix your pipe selector?"', async () => {
-				createPromptStub(sandbox)
-					.quickPick('No') // 1. "Do you want to prefix your pipe selector?"
-					.inputBox('formatDate') // 2. "Enter pipe name (camel-case)"
-					.apply();
-
-				await runCommand();
-
-				const pipePath = path.join(
-					getSrcDirectoryPath(),
-					'format-date.pipe.ts',
-				);
-				const specPath = path.join(
-					getSrcDirectoryPath(),
-					'format-date.pipe.spec.ts',
-				);
-				assertItExists(pipePath, `Pipe file should exist at ${pipePath}`);
-				assertItExists(specPath, `Spec file should exist at ${specPath}`);
-				assertStrictEqual(
-					pipePath,
-					pipeWithoutPrefixFixture,
-					'Generated pipe content does not match fixture.',
-				);
-				assertStrictEqual(
-					specPath,
-					pipeSpecWithoutPrefixFixture,
-					'Generated spec content does not match fixture.',
 				);
 			});
 
@@ -111,8 +67,7 @@ suite('Generate Pipe', () => {
 				await makeAngularToolboxDirectory();
 				await createTemplateFile('pipe', customPipeTemplateTestingData);
 				createPromptStub(sandbox)
-					.quickPick('No') // 1. "Do you want to prefix your pipe selector?"
-					.inputBox('dummy') // 2. "Enter pipe name (camel-case)"
+					.inputBox('dummy') // "Enter pipe name (camel-case)"
 					.apply();
 
 				await runCommand();
@@ -136,8 +91,7 @@ suite('Generate Pipe', () => {
 					'showErrorMessage',
 				);
 				createPromptStub(sandbox)
-					.quickPick('No') // 1. "Do you want to prefix your pipe selector?"
-					.inputBox('dummy') // 2. "Enter pipe name (camel-case)"
+					.inputBox('dummy') // "Enter pipe name (camel-case)"
 					.apply();
 
 				await runCommand();
@@ -154,10 +108,8 @@ suite('Generate Pipe', () => {
 					await createConfig({
 						skipSpec: true,
 					});
-
 					createPromptStub(sandbox)
-						.quickPick('No') // 1. "Do you want to prefix your pipe selector?"
-						.inputBox('dummy') // 2. "Enter pipe name (camel-case)"
+						.inputBox('dummy') // "Enter pipe name (camel-case)"
 						.apply();
 
 					await runCommand();
@@ -173,50 +125,48 @@ suite('Generate Pipe', () => {
 					await removeAngularCustomTemplatesDirectory();
 				});
 
-				test('should not ask the user to collect the prefix if the config skipPrefix is true', async () => {
+				test('should not prefix the pipe if the config skipPrefix is true even if the user has already provide a prefix in its workspace configurations', async () => {
 					await makeAngularToolboxDirectory();
+					await setPrefixInWorkspaceConfig('prefix');
 					await createConfig({
 						skipPrefix: true,
 					});
-					const showInputBoxStub = sandbox.stub(vscode.window, 'showInputBox');
-					showInputBoxStub.resolves('dummy');
+					createPromptStub(sandbox)
+						.inputBox('formatNumber') // "Enter pipe name (camel-case)"
+						.apply();
 
 					await runCommand();
 
-					assert.ok(
-						showInputBoxStub.calledOnce,
-						'Should call the showQuickPick function once',
+					assertStrictEqual(
+						path.join(getSrcDirectoryPath(), 'format-number.pipe.ts'),
+						pipeWithoutPrefixFixture,
+						'Generated directive content does not match fixture.',
 					);
 					await removeAngularCustomTemplatesDirectory();
+					await deletePrefixFromConfig();
+				});
+
+				test('should prefix the pipe if the config skipPrefix is false and if the user has already provide a prefix in its workspace configurations', async () => {
+					await makeAngularToolboxDirectory();
+					await setPrefixInWorkspaceConfig('prefix');
+					await createConfig({
+						skipPrefix: false,
+					});
+					createPromptStub(sandbox)
+						.inputBox('formatNumber') // "Enter pipe name (camel-case)"
+						.apply();
+
+					await runCommand();
+
+					assertStrictEqual(
+						path.join(getSrcDirectoryPath(), 'format-number.pipe.ts'),
+						pipeWithPrefixFixture,
+						'Generated directive content does not match fixture.',
+					);
+					await removeAngularCustomTemplatesDirectory();
+					await deletePrefixFromConfig();
 				});
 			});
-
-			suite(
-				'and the user has already provide a prefix on the workspace config',
-				() => {
-					test('should not ask the the user to collect the prefix and should use the one saved on the workspace config', async () => {
-						await setPrefixInWorkspaceConfig('prefix');
-						const showInputBoxStub = sandbox.stub(
-							vscode.window,
-							'showInputBox',
-						);
-						showInputBoxStub.resolves('formatNumber');
-
-						await runCommand();
-
-						assert.ok(
-							showInputBoxStub.calledOnce,
-							'Should call the showInputBox function once',
-						);
-						assertStrictEqual(
-							path.join(getSrcDirectoryPath(), 'format-number.pipe.ts'),
-							pipeWithPrefixFixture,
-							'Generated directive content does not match fixture.',
-						);
-						await deletePrefixFromConfig();
-					});
-				},
-			);
 		},
 	);
 });
