@@ -49,9 +49,7 @@ suite('Generate Directive Test Suite', () => {
 		() => {
 			test('should generate a directive file and spec file', async () => {
 				createPromptStub(sandbox)
-					.quickPick('Yes') // 1. "Do you want to prefix your directive selector?"
-					.inputBox('prefix') // 2. "Enter directive prefix (camel-case)"
-					.inputBox('highlightContentOnHover') // 3. "Enter directive name (camel-case)"
+					.inputBox('highlightContentOnHover') // "Enter directive name (camel-case)"
 					.apply();
 
 				await runCommand();
@@ -73,9 +71,7 @@ suite('Generate Directive Test Suite', () => {
 
 			test('should generate a directive using the default directive template when the user does not provide a custom one', async () => {
 				createPromptStub(sandbox)
-					.quickPick('Yes') // 1. "Do you want to prefix your directive selector?"
-					.inputBox('prefix') // 2. "Enter directive prefix (camel-case)"
-					.inputBox('highlightContentOnHover') // 3. "Enter directive name (camel-case)"
+					.inputBox('highlightContentOnHover') // "Enter directive name (camel-case)"
 					.apply();
 
 				await runCommand();
@@ -85,7 +81,7 @@ suite('Generate Directive Test Suite', () => {
 						getSrcDirectoryPath(),
 						'highlight-content-on-hover.directive.ts',
 					),
-					directiveWithPrefixFixture,
+					directiveWithoutPrefix,
 					'Generated directive content does not match fixture.',
 				);
 			});
@@ -97,8 +93,7 @@ suite('Generate Directive Test Suite', () => {
 					customDirectiveTemplateTestingData,
 				);
 				createPromptStub(sandbox)
-					.quickPick('No') // 1. "Do you want to prefix your directive selector?"
-					.inputBox('highlightContentOnHover') // 2. "Enter directive name (camel-case)"
+					.inputBox('highlightContentOnHover') // "Enter directive name (camel-case)"
 					.apply();
 
 				await runCommand();
@@ -117,9 +112,7 @@ suite('Generate Directive Test Suite', () => {
 
 			test('should generate a directive spec using the default directive spec template when the user does not provide a custom one', async () => {
 				createPromptStub(sandbox)
-					.quickPick('Yes') // 1. "Do you want to prefix your directive selector?"
-					.inputBox('prefix') // 2. "Enter directive prefix (camel-case)"
-					.inputBox('highlightContentOnHover') // 3. "Enter directive name (camel-case)"
+					.inputBox('highlightContentOnHover') // "Enter directive name (camel-case)"
 					.apply();
 
 				await runCommand();
@@ -141,8 +134,7 @@ suite('Generate Directive Test Suite', () => {
 					customDirectiveSpecTemplateTestingData,
 				);
 				createPromptStub(sandbox)
-					.quickPick('No') // 1. "Do you want to prefix your directive selector?"
-					.inputBox('highlightContentOnHover') // 2. "Enter directive name (camel-case)"
+					.inputBox('highlightContentOnHover') // "Enter directive name (camel-case)"
 					.apply();
 
 				await runCommand();
@@ -159,24 +151,6 @@ suite('Generate Directive Test Suite', () => {
 				await removeAngularCustomTemplatesDirectory();
 			});
 
-			test('should generate a directive without prefix if the user select "No" to the question "Do you want to prefix your directive selector?', async () => {
-				createPromptStub(sandbox)
-					.quickPick('No') // 1. "Do you want to prefix your directive selector?"
-					.inputBox('highlightContentOnHover') // 2. "Enter directive name (camel-case)"
-					.apply();
-
-				await runCommand();
-
-				assertStrictEqual(
-					path.join(
-						getSrcDirectoryPath(),
-						'highlight-content-on-hover.directive.ts',
-					),
-					directiveWithoutPrefix,
-					'Generated directive content does not match fixture.',
-				);
-			});
-
 			test('should show an error message if there is already a directive with the same file name on the directory', async () => {
 				fs.writeFileSync(
 					path.join(
@@ -190,8 +164,7 @@ suite('Generate Directive Test Suite', () => {
 					'showErrorMessage',
 				);
 				createPromptStub(sandbox)
-					.quickPick('No') // 1. "Do you want to prefix your directive selector?"
-					.inputBox('highlightContentOnHover') // 2. "Enter directive name (camel-case)"
+					.inputBox('highlightContentOnHover') // "Enter directive name (camel-case)"
 					.apply();
 
 				await runCommand();
@@ -209,8 +182,7 @@ suite('Generate Directive Test Suite', () => {
 						skipSpec: true,
 					});
 					createPromptStub(sandbox)
-						.quickPick('No') // 1. "Do you want to prefix your directive selector?"
-						.inputBox('highlightContentOnHover') // 2. "Enter directive name (camel-case)"
+						.inputBox('highlightContentOnHover') // "Enter directive name (camel-case)"
 						.apply();
 
 					await runCommand();
@@ -226,53 +198,44 @@ suite('Generate Directive Test Suite', () => {
 					await removeAngularCustomTemplatesDirectory();
 				});
 
-				test('should not ask the user to collect the prefix if the config skipPrefix is true', async () => {
+				test('should not prefix the directive if the config skipPrefix is true even if the user already provide a prefix in its workspace configurations', async () => {
+					await setPrefixInWorkspaceConfig('prefix');
 					await makeAngularToolboxDirectory();
 					await createConfig({
 						skipPrefix: true,
 					});
-					const showInputBoxStub = sandbox.stub(vscode.window, 'showInputBox');
-					showInputBoxStub.resolves('highlightContentOnHover');
+					createPromptStub(sandbox)
+						.inputBox('highlightContentOnHover') // "Enter directive name (camel-case)"
+						.apply();
 
 					await runCommand();
 
-					assert.ok(
-						showInputBoxStub.calledOnce,
-						'Should call the showInputBox function once',
-					);
 					await removeAngularCustomTemplatesDirectory();
+					await deletePrefixFromConfig();
+				});
+
+				test('should prefix the directive if the config skipPrefix is false and if the user already provide a prefix in its workspace configurations', async () => {
+					await setPrefixInWorkspaceConfig('prefix');
+					await createConfig({
+						skipPrefix: false,
+					});
+					createPromptStub(sandbox)
+						.inputBox('highlightContentOnHover') // "Enter directive name (camel-case)"
+						.apply();
+
+					await runCommand();
+
+					assertStrictEqual(
+						path.join(
+							getSrcDirectoryPath(),
+							'highlight-content-on-hover.directive.ts',
+						),
+						directiveWithPrefixFixture,
+						'Generated directive content does not match fixture.',
+					);
+					await deletePrefixFromConfig();
 				});
 			});
-
-			suite(
-				'and the user has already provide a prefix on the workspace config',
-				() => {
-					test('should not ask the the user to collect the prefix and should use the one saved on the workspace config', async () => {
-						await setPrefixInWorkspaceConfig('prefix');
-						const showInputBoxStub = sandbox.stub(
-							vscode.window,
-							'showInputBox',
-						);
-						showInputBoxStub.resolves('highlightContentOnHover');
-
-						await runCommand();
-
-						assert.ok(
-							showInputBoxStub.calledOnce,
-							'Should call the showInputBox function once',
-						);
-						assertStrictEqual(
-							path.join(
-								getSrcDirectoryPath(),
-								'highlight-content-on-hover.directive.ts',
-							),
-							directiveWithPrefixFixture,
-							'Generated directive content does not match fixture.',
-						);
-						await deletePrefixFromConfig();
-					});
-				},
-			);
 		},
 	);
 });

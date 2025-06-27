@@ -3,7 +3,6 @@ import {
 	getPrefixValueFromWorkspaceConfig,
 	isPrefixSetInWorkspaceConfig,
 } from '@extensionConfig';
-import { promptBoolean, promptInput } from '@extensionFramework';
 import { kebabCaseToCamelCase } from '@utils';
 
 export const promptForPrefix = async (
@@ -21,17 +20,5 @@ export const promptForPrefix = async (
 			: kebabCaseToCamelCase(prefix);
 	}
 
-	const needSelectorPrefix = await promptBoolean({
-		prompt: 'Do you want to prefix it?',
-		options: ['Yes', 'No'],
-	});
-
-	return needSelectorPrefix
-		? await promptInput({
-				prompt: 'Enter prefix',
-				placeHolder: `e.g. ${validationFn('app-dashboard') === null ? 'app-dashboard' : kebabCaseToCamelCase('app-dashboard')}`,
-				validationFn,
-				errorMessage: 'Error collecting prefix',
-			})
-		: null;
+	return null;
 };
