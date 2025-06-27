@@ -4,16 +4,20 @@ All notable changes to the "Angular Toolbox" extension will be documented in thi
 
 ## [Unreleased]
 
+## [Released]
+
+## [0.3.0] - 2025-06-27
+
 ### Doc
 
-**docs**: Scaffolded the documentation website with foundational boilerplate.([60c796b](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/pull/52/commits/60c796b2fa44b36011897c40afe562741248eee8))
+- **docs**: Scaffolded the documentation website with foundational boilerplate.([60c796b](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/pull/52/commits/60c796b2fa44b36011897c40afe562741248eee8))
 
 ### Added
 
-**common capabilities**: Streamlined the schematic generation workflow by deriving the component prefix from the `fernandocgomez.angular-toolbox.prefix` workspace setting, removing the manual input prompt.([bd81820](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/pull/54/commits/bd8182074d659e22c74cfea6ee08aad05aa51a4e))
-**package json**: Configured the display order of the Angular Toolbox submenu commands for improved discoverability.([54948fe](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/pull/55/commits/54948fe3e885be533e8c3b017f511620d500fb6b))
+- **common capabilities**: Streamlined the schematic generation workflow by deriving the component prefix from the `fernandocgomez.angular-toolbox.prefix` workspace setting, removing the manual input prompt.([bd81820](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/pull/54/commits/bd8182074d659e22c74cfea6ee08aad05aa51a4e))
+- **package json**: Configured the display order of the Angular Toolbox submenu commands for improved discoverability.([54948fe](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/pull/55/commits/54948fe3e885be533e8c3b017f511620d500fb6b))
 
-## [Released]
+---
 
 ## [0.2.0] - 2025-06-20
 
@@ -36,6 +40,8 @@ All notable changes to the "Angular Toolbox" extension will be documented in thi
 - **common capabilities**: Enabled Storybook stories file generation for components via a context menu action.([5d1fca9](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/pull/42/commits/5d1fca9d2607609d4b8c99d2e7f63d9785015f0d))
 - **common capabilities**: Implemented a context menu action to facilitate the generation of specification files for pre-existing Angular elements.([b1b6024](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/pull/44/commits/b1b6024886a51b3f34fe7cb29cf6a5bc0ec7a0d5))
 - **common capabilities**: Enabled the generation of Route Guards and their corresponding spec file via a context menu action.([4aab7a4](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/pull/46/commits/4aab7a41675b8a931c25a0dd71c9fec3aafcce9b))
+
+---
 
 ## [0.1.0] - 2025-06-13
 
