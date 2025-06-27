@@ -8,6 +8,11 @@ All notable changes to the "Angular Toolbox" extension will be documented in thi
 
 **docs**: Scaffolded the documentation website with foundational boilerplate.([60c796b](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/pull/52/commits/60c796b2fa44b36011897c40afe562741248eee8))
 
+### Added
+
+**common capabilities**: Streamlined the schematic generation workflow by deriving the component prefix from the `fernandocgomez.angular-toolbox.prefix` workspace setting, removing the manual input prompt.([bd81820](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/pull/54/commits/bd8182074d659e22c74cfea6ee08aad05aa51a4e))
+**package json**: Configured the display order of the Angular Toolbox submenu commands for improved discoverability.([54948fe](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/pull/55/commits/54948fe3e885be533e8c3b017f511620d500fb6b))
+
 ## [Released]
 
 ## [0.2.0] - 2025-06-20

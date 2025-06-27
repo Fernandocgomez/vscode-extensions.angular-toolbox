@@ -71,6 +71,18 @@ const extensionConfig = {
 						ignore: ['**/*.ts'],
 					},
 				},
+				{
+					from: path.resolve(__dirname, 'docs', 'media', 'icon.png'),
+					to: path.resolve(__dirname),
+				},
+				{
+					from: path.resolve(__dirname, 'docs', 'CHANGELOG.md'),
+					to: path.resolve(__dirname),
+				},
+				{
+					from: path.resolve(__dirname, 'docs', 'README.md'),
+					to: path.resolve(__dirname),
+				},
 			],
 		}),
 	],
