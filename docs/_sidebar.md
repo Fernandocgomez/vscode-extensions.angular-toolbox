@@ -17,3 +17,7 @@
 
 - [Changelog](CHANGELOG.md)
 - [Releases](artifacts/releases.md)
+
+- Community
+  - [Contributing Guide](CONTRIBUTING.md)
+  - [Code of Conduct](CODE_OF_CONDUCT.md)
