@@ -61,7 +61,7 @@ Ready to contribute some code? Here’s how to set up your environment and submi
     - `chore/<chore-name>`: for miscellaneous changes (e.g., `chore/upgrade-dependencies-ejs`)
     - `fixed/<issue-or-description>`: for bug fixes (e.g., `fixed/42-path-error`)
     - `security/<vulnerability-description>`: for security fixes.
-    - `docs/<topic>`: for documentation (e.g., `docs/update-contributing-guide`)
+    - `doc/<topic>`: for documentation (e.g., `doc/update-contributing-guide`)
     - `test/<component-or-feature>`: for adding tests (e.g., `test/component-generation`)
     - `refactor/<component-name>`: for code refactoring.
 
@@ -80,7 +80,7 @@ Ready to contribute some code? Here’s how to set up your environment and submi
     - `removed`: For now removed features.
     - `fixed`: For any bug fixes.
     - `security`: In case of vulnerabilities.
-    - `docs`: For documentation-only changes.
+    - `doc`: For documentation-only changes.
     - `test`: For adding missing tests or correcting existing tests.
     - `refactor`: A code change that neither fixes a bug nor adds a feature.
     - `chore`: For miscellaneous changes like updating dependencies or pipeline configurations.
@@ -92,7 +92,7 @@ Ready to contribute some code? Here’s how to set up your environment and submi
     ```bash
     git commit -m "added(templates): add route guard template"
     git commit -m "fixed(extension config): resolve path issue on Windows"
-    git commit -m "docs(docs): clarify commit scope conventions"
+    git commit -m "doc(docs): clarify commit scope conventions"
     ```
 
 4.  **Push your branch** to your fork on GitHub:
