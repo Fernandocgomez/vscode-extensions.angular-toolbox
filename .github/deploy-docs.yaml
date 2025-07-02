@@ -1,0 +1,41 @@
+name: Deploy Docs to S3 and Invalidate CloudFront
+
+# This workflow triggers on any push to the 'main' branch.
+# This is the standard way to run actions after a pull request is merged.
+on:
+  push:
+    branches:
+      - main
+
+# Permissions needed for AWS OIDC authentication.
+# This allows the workflow to securely get temporary credentials from AWS
+# without needing to store long-lived access keys as secrets.
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # This step configures AWS credentials using OpenID Connect (OIDC).
+      # It's the recommended secure way to authenticate with AWS from GitHub Actions.
+      # You must configure an IAM role in your AWS account and add the secrets below.
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_OIDC_ROLE_ARN }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      # This step syncs the content of the 'docs' folder to your S3 bucket.
+      # The --delete flag removes files from the bucket that are no longer in the docs folder.
+      - name: Deploy docs to S3
+        run: aws s3 sync ./docs s3://${{ secrets.S3_BUCKET_NAME }} --delete
+
+      # This step creates a CloudFront invalidation to clear the cache and serve the new files.
+      # The "/*" path ensures all files in the distribution are invalidated.
+      - name: Invalidate CloudFront distribution
+        run: aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} --paths "/*"
