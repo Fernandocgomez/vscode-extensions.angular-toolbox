@@ -4,6 +4,10 @@ All notable changes to the "Angular Toolbox" extension will be documented in thi
 
 ## [Unreleased]
 
+### Doc
+
+**docs**: Enhance our documentation by adding dedicated sections for contributions and our code of conduct.([61f23bd](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/pull/63/commits/61f23bd17648356b284dd63802b4f0db1bc08fachttps://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/pull/63/commits/61f23bd17648356b284dd63802b4f0db1bc08fac))
+
 ## [Released]
 
 ## [0.3.0] - 2025-06-27
