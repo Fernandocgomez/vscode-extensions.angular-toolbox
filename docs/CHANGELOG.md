@@ -8,6 +8,10 @@ All notable changes to the "Angular Toolbox" extension will be documented in thi
 
 **docs**: Enhance our documentation by adding dedicated sections for contributions and our code of conduct.([61f23bd](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/pull/63/commits/61f23bd17648356b284dd63802b4f0db1bc08fachttps://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/pull/63/commits/61f23bd17648356b284dd63802b4f0db1bc08fac))
 
+### Chore
+
+**github**: Implement a CI/CD workflow to deploy `./docs` content to AWS S3 and invalidate the CloudFront cache upon PR merges to `main`.([e1e995c](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/pull/65/commits/e1e995cb98ee92979ad5a91a9817d1dc6b365a0d))
+
 ## [Released]
 
 ## [0.3.0] - 2025-06-27
