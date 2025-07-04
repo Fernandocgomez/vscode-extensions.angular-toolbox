@@ -53,6 +53,10 @@
 				{
 					"command": "angular-toolbox.common-capabilities.generate-route-guard",
 					"group": "2_generation"
+				},
+				{
+					"command": "angular-toolbox.common-capabilities.generate-class",
+					"group": "3_generation"
 				}
 			]
 		},
@@ -98,6 +102,10 @@
 			{
 				"command": "angular-toolbox.common-capabilities.generate-route-guard",
 				"title": "Generate Route Guard"
+			},
+			{
+				"command": "angular-toolbox.common-capabilities.generate-class",
+				"title": "Generate Class"
 			}
 		],
 		"configuration": {

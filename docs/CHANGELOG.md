@@ -12,6 +12,10 @@ All notable changes to the "Angular Toolbox" extension will be documented in thi
 
 **github**: Implement a CI/CD workflow to deploy `./docs` content to AWS S3 and invalidate the CloudFront cache upon PR merges to `main`.([e1e995c](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/pull/65/commits/e1e995cb98ee92979ad5a91a9817d1dc6b365a0d))
 
+### Added
+
+**common capabilites**: Adds a context menu command to generate class boilerplate.([ce3ad54](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/pull/67/commits/ce3ad54b908ef2a27ef4eebc2be02a1203c78610))
+
 ## [Released]
 
 ## [0.3.0] - 2025-06-27
