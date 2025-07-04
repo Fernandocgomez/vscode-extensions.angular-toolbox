@@ -8,6 +8,7 @@ import {
 	generateSpec,
 	registerPrefix,
 	seePrefix,
+	generateTypeScriptElement,
 } from '@commonCapabilities';
 import { showErrorMessage } from '@extensionFramework';
 import * as vscode from 'vscode';
@@ -112,6 +113,17 @@ export function activate(context: vscode.ExtensionContext) {
 		},
 	);
 
+	const generateClassDisposable = vscode.commands.registerCommand(
+		'angular-toolbox.common-capabilities.generate-class',
+		async (arg: vscode.Uri) => {
+			try {
+				await generateTypeScriptElement(arg.fsPath, 'class');
+			} catch (error: any) {
+				showErrorMessage(error.message);
+			}
+		},
+	);
+
 	context.subscriptions.push(
 		generateComponentDisposable,
 		generateServiceDisposable,
@@ -122,6 +134,7 @@ export function activate(context: vscode.ExtensionContext) {
 		generateComponentStoryDisposable,
 		generateSpecDisposable,
 		generateRouteGuardDisposable,
+		generateClassDisposable,
 	);
 }
 

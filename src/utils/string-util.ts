@@ -123,3 +123,83 @@ export const kebabCaseToCamelCase = (kebabCaseInput: string): string => {
 		})
 		.join('');
 };
+
+/**
+ * Checks if a string is in PascalCase.
+ *
+ * @param str - The string to check.
+ * @returns `true` if the string is PascalCase, `false` otherwise.
+ *
+ * @example
+ * isPascalCase('PascalCaseString'); // returns true
+ * isPascalCase('AnotherExample');  // returns true
+ * isPascalCase('Pascal');           // returns true
+ * isPascalCase('camelCaseString'); // returns false
+ * isPascalCase('kebab-case-string'); // returns false
+ * isPascalCase('');             // returns false
+ */
+export const isPascalCase = (str: string): boolean => {
+	if (!str || str.length === 0) {
+		return false;
+	}
+
+	// Must start with an uppercase letter, followed by letters or digits
+	const initialPattern = /^[A-Z][a-zA-Z0-9]*$/;
+	if (!initialPattern.test(str)) {
+		return false;
+	}
+
+	// Disallow consecutive uppercase letters (e.g., "MyAPI")
+	const consecutiveUppercasePattern = /[A-Z]{2,}/;
+	if (consecutiveUppercasePattern.test(str)) {
+		return false;
+	}
+
+	return true;
+};
+
+/**
+ * Checks if a string is in camelCase, kebab-case, or PascalCase.
+ *
+ * @param value - The string to check.
+ * @returns `true` if the string is in one of the specified cases, `false` otherwise.
+ */
+export const isCamelKebabPascalCase = (value: string): boolean => {
+	return isCamelCase(value) || isKebabCase(value) || isPascalCase(value);
+};
+
+/**
+ * Converts a string from camelCase, kebab-case, or PascalCase to kebab-case.
+ *
+ * @param inputString - The string to convert.
+ * @returns The kebab-case version of the string.
+ */
+export const toKebabCase = (inputString: string): string => {
+	if (isKebabCase(inputString)) {
+		return inputString;
+	}
+	if (isCamelCase(inputString)) {
+		return camelCaseToKebabCase(inputString);
+	}
+	if (isPascalCase(inputString)) {
+		return camelCaseToKebabCase(
+			inputString.charAt(0).toLowerCase() + inputString.slice(1),
+		);
+	}
+
+	return inputString;
+};
+
+export const toPascalCase = (inputString: string): string => {
+	if (isPascalCase(inputString)) {
+		return inputString;
+	}
+	if (isKebabCase(inputString)) {
+		return kebabCaseToPascal(inputString);
+	}
+	if (isCamelCase(inputString)) {
+		return inputString.charAt(0).toUpperCase() + inputString.slice(1);
+	}
+
+	return inputString;
+};
