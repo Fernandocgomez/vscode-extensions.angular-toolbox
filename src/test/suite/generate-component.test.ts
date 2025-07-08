@@ -78,6 +78,52 @@ suite('Generate Component', () => {
 				);
 			});
 
+			test('should support camel case component names', async () => {
+				createPromptStub(sandbox)
+					.inputBox('dummyInCamelCase') // "Enter component name (kebab-case)"
+					.apply();
+
+				await runCommand();
+
+				const componentPath = path.join(
+					getSrcDirectoryPath(),
+					'dummy-in-camel-case.component.ts',
+				);
+				const specPath = path.join(
+					getSrcDirectoryPath(),
+					'dummy-in-camel-case.component.spec.ts',
+				);
+
+				assertItExists(
+					componentPath,
+					`Component file should exist at ${componentPath}`,
+				);
+				assertItExists(specPath, `Spec file should exist at ${specPath}`);
+			});
+
+			test('should support pascal case component names', async () => {
+				createPromptStub(sandbox)
+					.inputBox('DummyInCamelCase') // "Enter component name (kebab-case)"
+					.apply();
+
+				await runCommand();
+
+				const componentPath = path.join(
+					getSrcDirectoryPath(),
+					'dummy-in-camel-case.component.ts',
+				);
+				const specPath = path.join(
+					getSrcDirectoryPath(),
+					'dummy-in-camel-case.component.spec.ts',
+				);
+
+				assertItExists(
+					componentPath,
+					`Component file should exist at ${componentPath}`,
+				);
+				assertItExists(specPath, `Spec file should exist at ${specPath}`);
+			});
+
 			test('should generate a component file, but using a custom template when the user provide it', async () => {
 				await makeAngularToolboxDirectory();
 				await createTemplateFile(
