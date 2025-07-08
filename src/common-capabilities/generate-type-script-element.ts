@@ -1,25 +1,15 @@
-import {
-	openTextFile,
-	promptInput,
-	showInformationMessage,
-} from '@extensionFramework';
+import { openTextFile, showInformationMessage } from '@extensionFramework';
 import { throwExceptionWhenFileExist, writeFileSync } from '@fileSystem';
-import { isCamelKebabPascalCase, toKebabCase, toPascalCase } from '@utils';
+import { toKebabCase, toPascalCase } from '@utils';
 import * as path from 'path';
-import { appendToIndex } from './util';
+import { appendToIndex, promptForName } from './util';
+import { TypeScriptElement } from './models';
 
 export const generateTypeScriptElement = async (
 	folderRightClickedPath: string,
-	elementName: 'class' | 'interface' | 'enum' | 'type',
+	elementName: TypeScriptElement,
 ): Promise<void> => {
-	const name = await promptInput({
-		prompt: `Enter ${elementName} name (kebab-case, camel-case or pascal-case)`,
-		placeHolder: 'e.g. error-handler',
-		validationFn: value =>
-			isCamelKebabPascalCase(value)
-				? null
-				: `${elementName.toUpperCase()} name must be in kebab-case, camel-case, or pascal-case`,
-	});
+	const name = await promptForName(elementName, 'error-handler');
 
 	const filePath = path.join(
 		folderRightClickedPath,

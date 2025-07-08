@@ -9,6 +9,7 @@ import {
 	registerPrefix,
 	seePrefix,
 	generateTypeScriptElement,
+	TypeScriptElement,
 } from '@commonCapabilities';
 import { showErrorMessage } from '@extensionFramework';
 import * as vscode from 'vscode';
@@ -117,7 +118,7 @@ export function activate(context: vscode.ExtensionContext) {
 		'angular-toolbox.common-capabilities.generate-class',
 		async (arg: vscode.Uri) => {
 			try {
-				await generateTypeScriptElement(arg.fsPath, 'class');
+				await generateTypeScriptElement(arg.fsPath, TypeScriptElement.CLASS);
 			} catch (error: any) {
 				showErrorMessage(error.message);
 			}
