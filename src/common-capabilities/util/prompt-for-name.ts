@@ -2,6 +2,10 @@ import { promptInput } from '@extensionFramework';
 import { isCamelKebabPascalCase } from '@utils';
 import { AngularElement, TypeScriptElement } from '../models';
 
+/**
+ * The return value could be in any of these three formats: kebab-case, camel-case or pascal-case
+ * @throws Error if the user cancels the input.
+ */
 export const promptForName = async (
 	elementName: AngularElement | TypeScriptElement,
 	placeHolder: string,
