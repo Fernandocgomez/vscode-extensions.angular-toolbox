@@ -52,7 +52,7 @@ suite('Generate Component', () => {
 		() => {
 			test('should generate a component and spec file', async () => {
 				createPromptStub(sandbox)
-					.inputBox('dummy') // "Enter component name (kebab-case)"
+					.inputBox('dummy') // "Enter component name"
 					.apply();
 
 				await runCommand();
@@ -80,7 +80,7 @@ suite('Generate Component', () => {
 
 			test('should support camel case component names', async () => {
 				createPromptStub(sandbox)
-					.inputBox('dummyInCamelCase') // "Enter component name (kebab-case)"
+					.inputBox('dummyInCamelCase') // "Enter component name"
 					.apply();
 
 				await runCommand();
@@ -103,7 +103,7 @@ suite('Generate Component', () => {
 
 			test('should support pascal case component names', async () => {
 				createPromptStub(sandbox)
-					.inputBox('DummyInCamelCase') // "Enter component name (kebab-case)"
+					.inputBox('DummyInCamelCase') // "Enter component name"
 					.apply();
 
 				await runCommand();
@@ -131,7 +131,7 @@ suite('Generate Component', () => {
 					customComponentTemplateTestingData,
 				);
 				createPromptStub(sandbox)
-					.inputBox('dummy') // "Enter component name (kebab-case)"
+					.inputBox('dummy') // "Enter component name"
 					.apply();
 
 				await runCommand();
@@ -154,7 +154,7 @@ suite('Generate Component', () => {
 					'showErrorMessage',
 				);
 				createPromptStub(sandbox)
-					.inputBox('dummy') // "Enter component name (kebab-case)"
+					.inputBox('dummy') // "Enter component name"
 					.apply();
 
 				await runCommand();
@@ -179,7 +179,7 @@ suite('Generate Component', () => {
 						skipSpec: true,
 					});
 					createPromptStub(sandbox)
-						.inputBox('dummy') // "Enter component name (kebab-case)"
+						.inputBox('dummy') // "Enter component name"
 						.apply();
 
 					await runCommand();
@@ -201,7 +201,7 @@ suite('Generate Component', () => {
 						},
 					});
 					createPromptStub(sandbox)
-						.inputBox('dummy') // "Enter component name (kebab-case)"
+						.inputBox('dummy') // "Enter component name"
 						.apply();
 
 					await runCommand();
@@ -229,7 +229,7 @@ suite('Generate Component', () => {
 						},
 					});
 					createPromptStub(sandbox)
-						.inputBox('dummy') // "Enter component name (kebab-case)"
+						.inputBox('dummy') // "Enter component name"
 						.apply();
 
 					await runCommand();
@@ -256,7 +256,7 @@ suite('Generate Component', () => {
 						},
 					});
 					createPromptStub(sandbox)
-						.inputBox('dummy') // "Enter component name (kebab-case)"
+						.inputBox('dummy') // "Enter component name"
 						.apply();
 
 					await runCommand();
@@ -274,7 +274,7 @@ suite('Generate Component', () => {
 					});
 					await setPrefixInWorkspaceConfig('prefix');
 					createPromptStub(sandbox)
-						.inputBox('dummy') // "Enter component name (kebab-case)"
+						.inputBox('dummy') // "Enter component name"
 						.apply();
 					const componentPath = path.join(
 						getSrcDirectoryPath(),
@@ -297,7 +297,7 @@ suite('Generate Component', () => {
 						skipPrefix: false,
 					});
 					createPromptStub(sandbox)
-						.inputBox('dummy') // "Enter component name (kebab-case)"
+						.inputBox('dummy') // "Enter component name"
 						.apply();
 
 					await runCommand();
@@ -318,7 +318,7 @@ suite('Generate Component', () => {
 						'showErrorMessage',
 					);
 					createPromptStub(sandbox)
-						.inputBox('dummy') // "Enter component name (kebab-case)"
+						.inputBox('dummy') // "Enter component name"
 						.apply();
 
 					await runCommand();
@@ -338,7 +338,7 @@ suite('Generate Component', () => {
 						},
 					});
 					createPromptStub(sandbox)
-						.inputBox('dummy') // "Enter component name (kebab-case)"
+						.inputBox('dummy') // "Enter component name"
 						.apply();
 
 					await runCommand();
@@ -365,7 +365,7 @@ suite('Generate Component', () => {
 						},
 					});
 					createPromptStub(sandbox)
-						.inputBox('dummy') // "Enter component name (kebab-case)"
+						.inputBox('dummy') // "Enter component name"
 						.apply();
 
 					await runCommand();
