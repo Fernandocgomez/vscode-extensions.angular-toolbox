@@ -1,5 +1,5 @@
 import * as path from 'path';
-import { isKebabCase, kebabCaseToPascal, toKebabCase } from '@utils';
+import { isKebabCase, toPascalCase, toKebabCase } from '@utils';
 import {
 	ComponentSpecTemplateData,
 	ComponentTemplateData,
@@ -68,7 +68,7 @@ const getComponentTemplateData = (
 	componentSelectorPrefix: string | null,
 ): ComponentTemplateData => {
 	return {
-		className: `${kebabCaseToPascal(nameInKebabCase)}Component`,
+		className: `${toPascalCase(nameInKebabCase)}Component`,
 		selector: componentSelectorPrefix
 			? `${componentSelectorPrefix}-${nameInKebabCase}`
 			: `${nameInKebabCase}`,

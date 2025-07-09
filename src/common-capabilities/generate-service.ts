@@ -1,5 +1,5 @@
 import { promptBoolean, promptInput } from '@extensionFramework';
-import { isKebabCase, kebabCaseToPascal } from '@utils';
+import { isKebabCase, toPascalCase } from '@utils';
 import * as path from 'path';
 import {
 	ServiceSpecTemplateData,
@@ -30,8 +30,8 @@ export const generateService = async (
 	const serviceTemplateData: ServiceTemplateData = {
 		isGlobal: isServiceGlobal,
 		className: isHttpService
-			? `${kebabCaseToPascal(serviceName)}Service`
-			: kebabCaseToPascal(serviceName),
+			? `${toPascalCase(serviceName)}Service`
+			: toPascalCase(serviceName),
 	};
 
 	await generateAngularElement(

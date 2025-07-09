@@ -1,5 +1,5 @@
 import { promptInput } from '@extensionFramework';
-import { isKebabCase, kebabCaseToCamelCase, kebabCaseToPascal } from '@utils';
+import { isKebabCase, kebabCaseToCamelCase, toPascalCase } from '@utils';
 import { generateAngularElement, generateSpec } from './util';
 import {
 	RouteGuardSpecTemplateData,
@@ -14,7 +14,7 @@ import * as path from 'path';
 export const generateRouteGuard = async (folderRightClickedPath: string) => {
 	const nameInKebabCase = await promptForName();
 	const templateData: RouteGuardTemplateData = {
-		className: `${kebabCaseToPascal(nameInKebabCase)}Guard`,
+		className: `${toPascalCase(nameInKebabCase)}Guard`,
 		fnName: `${kebabCaseToCamelCase(nameInKebabCase)}Guard`,
 	};
 
@@ -42,7 +42,7 @@ export const generateRouteGuardSpec = async (
 ): Promise<void> => {
 	const nameInKebabCase = path.basename(routeGuardFilePath, '.guard.ts');
 	const templateData: RouteGuardSpecTemplateData = {
-		className: `${kebabCaseToPascal(nameInKebabCase)}Guard`,
+		className: `${toPascalCase(nameInKebabCase)}Guard`,
 		fnName: `${kebabCaseToCamelCase(nameInKebabCase)}Guard`,
 		nameInKebabCase,
 	};

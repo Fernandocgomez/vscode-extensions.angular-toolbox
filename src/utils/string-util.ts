@@ -9,7 +9,7 @@
  * kebabCaseToPascal('another-example');  // returns 'AnotherExample'
  * kebabCaseToPascal('');             // returns ''
  */
-export const kebabCaseToPascal = (kebabCaseInput: string): string => {
+const kebabCaseToPascal = (kebabCaseInput: string): string => {
 	if (typeof kebabCaseInput !== 'string') {
 		return '';
 	}

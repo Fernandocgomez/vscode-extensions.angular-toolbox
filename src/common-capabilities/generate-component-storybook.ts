@@ -2,7 +2,7 @@ import { openTextFile } from '@extensionFramework';
 import { throwExceptionWhenFileExist, writeFileSync } from '@fileSystem';
 import { ComponentStorybookTemplateData, TemplateFileNames } from '@models';
 import { getTemplatePath, renderTemplate } from '@templates';
-import { kebabCaseToPascal } from '@utils';
+import { toPascalCase } from '@utils';
 import * as path from 'path';
 
 /**
@@ -27,7 +27,7 @@ export const generateComponentStorybook = async (
 	writeFileSync(
 		storybookFilePath,
 		renderTemplate(getTemplatePath(TemplateFileNames.COMPONENT_STORIES), {
-			className: `${kebabCaseToPascal(nameInKebabCase)}Component`,
+			className: `${toPascalCase(nameInKebabCase)}Component`,
 			componentNameAsKebabCase: nameInKebabCase,
 		} as ComponentStorybookTemplateData),
 	);
