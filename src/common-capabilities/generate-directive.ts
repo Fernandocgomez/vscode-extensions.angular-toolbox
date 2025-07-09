@@ -1,9 +1,4 @@
-import {
-	isCamelCase,
-	kebabCaseToCamelCase,
-	toCamelCase,
-	toKebabCase,
-} from '@utils';
+import { isCamelCase, toCamelCase, toKebabCase } from '@utils';
 import { generateAngularElement, generateSpec, promptForName } from './util';
 import * as path from 'path';
 import {
@@ -45,7 +40,7 @@ const getTemplateData = (
 	nameInCamelCase: string,
 ): DirectiveTemplateData => {
 	const selector = prefix
-		? `${kebabCaseToCamelCase(prefix)}${nameInCamelCase.charAt(0).toUpperCase() + nameInCamelCase.slice(1)}`
+		? `${toCamelCase(prefix)}${nameInCamelCase.charAt(0).toUpperCase() + nameInCamelCase.slice(1)}`
 		: nameInCamelCase;
 
 	return {

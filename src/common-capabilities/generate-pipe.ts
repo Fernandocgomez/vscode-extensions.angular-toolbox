@@ -4,7 +4,7 @@ import {
 	PipeTemplateData,
 	TemplateFileNames,
 } from '@models';
-import { toKebabCase, isCamelCase, kebabCaseToCamelCase } from '@utils';
+import { toKebabCase, isCamelCase, toCamelCase } from '@utils';
 import * as path from 'path';
 import { generateAngularElement, generateSpec } from './util';
 import { readFileSync } from '@fileSystem';
@@ -48,7 +48,7 @@ const getPipeTemplateData = (
 	pipeNameInCamelCase: string,
 ): PipeTemplateData => {
 	const selector = prefix
-		? `${kebabCaseToCamelCase(prefix)}${pipeNameInCamelCase.charAt(0).toUpperCase() + pipeNameInCamelCase.slice(1)}`
+		? `${toCamelCase(prefix)}${pipeNameInCamelCase.charAt(0).toUpperCase() + pipeNameInCamelCase.slice(1)}`
 		: pipeNameInCamelCase;
 
 	return {

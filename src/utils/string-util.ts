@@ -56,7 +56,7 @@ const camelCaseToKebabCase = (camelCaseString: string): string => {
  * kebabCaseToCamelCase('');                 // returns ''
  * kebabCaseToCamelCase('kebab--case');      // returns 'kebabCase' (handles multiple hyphens)
  */
-export const kebabCaseToCamelCase = (kebabCaseInput: string): string => {
+const kebabCaseToCamelCase = (kebabCaseInput: string): string => {
 	if (typeof kebabCaseInput !== 'string' || !kebabCaseInput.trim()) {
 		return '';
 	}
