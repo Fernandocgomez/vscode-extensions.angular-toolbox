@@ -180,6 +180,12 @@ export const toKebabCase = (inputString: string): string => {
 	return inputString;
 };
 
+/**
+ * Converts a string from camelCase, kebab-case, or PascalCase to PascalCase.
+ *
+ * @param inputString - The string to convert.
+ * @returns The PascalCase version of the string.
+ */
 export const toPascalCase = (inputString: string): string => {
 	if (isPascalCase(inputString)) {
 		return inputString;
@@ -194,6 +200,12 @@ export const toPascalCase = (inputString: string): string => {
 	return inputString;
 };
 
+/**
+ * Converts a string from camelCase, kebab-case, or PascalCase to camelCase.
+ *
+ * @param inputString - The string to convert.
+ * @returns The camelCase version of the string.
+ */
 export const toCamelCase = (inputString: string): string => {
 	if (isCamelCase(inputString)) {
 		return inputString;
