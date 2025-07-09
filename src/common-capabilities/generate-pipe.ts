@@ -4,11 +4,7 @@ import {
 	PipeTemplateData,
 	TemplateFileNames,
 } from '@models';
-import {
-	camelCaseToKebabCase,
-	isCamelCase,
-	kebabCaseToCamelCase,
-} from '@utils';
+import { toKebabCase, isCamelCase, kebabCaseToCamelCase } from '@utils';
 import * as path from 'path';
 import { generateAngularElement, generateSpec } from './util';
 import { readFileSync } from '@fileSystem';
@@ -29,7 +25,7 @@ export const generatePipe = async (
 	await generateAngularElement(
 		path.join(
 			folderRightClickedPath,
-			`${camelCaseToKebabCase(nameInCamelCase)}.pipe.ts`,
+			`${toKebabCase(nameInCamelCase)}.pipe.ts`,
 		),
 		TemplateFileNames.PIPE,
 		getPipeTemplateData(prefix, nameInCamelCase),

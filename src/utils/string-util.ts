@@ -33,7 +33,7 @@ const kebabCaseToPascal = (kebabCaseInput: string): string => {
  * toKebabCase('anotherExample');  // returns 'another-example'
  * toKebabCase('with spaces');    // returns 'with-spaces'
  */
-export const camelCaseToKebabCase = (camelCaseString: string): string => {
+const camelCaseToKebabCase = (camelCaseString: string): string => {
 	if (typeof camelCaseString !== 'string') {
 		return '';
 	}
