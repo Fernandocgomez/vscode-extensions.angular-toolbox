@@ -1,5 +1,5 @@
 import { promptInput } from '@extensionFramework';
-import { isCamelKebabPascalCase } from '@utils';
+import { isCamelCase, isKebabCase, isPascalCase } from '@utils';
 import { AngularElement, TypeScriptElement } from '../models';
 
 /**
@@ -14,7 +14,7 @@ export const promptForName = async (
 		prompt: `Enter ${elementName} name (kebab-case, camel-case or pascal-case)`,
 		placeHolder: `e.g. ${placeHolder}`,
 		validationFn: value =>
-			isCamelKebabPascalCase(value)
+			isCamelCase(value) || isKebabCase(value) || isPascalCase(value)
 				? null
 				: `${elementName.toUpperCase()} name must be in kebab-case, camel-case, or pascal-case`,
 	});

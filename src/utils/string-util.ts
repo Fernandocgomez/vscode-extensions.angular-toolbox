@@ -23,55 +23,6 @@ export const kebabCaseToPascal = (kebabCaseInput: string): string => {
 };
 
 /**
- * Checks if a string is in kebab-case.
- *
- * @param text - The string to check.
- * @returns `true` if the string is kebab-case, `false` otherwise.
- *
- * @example
- * isKebabCase('kebab-case-string'); // returns true
- * isKebabCase('another-example');  // returns true
- * isKebabCase('CamelCaseString'); // returns false
- * isKebabCase('with spaces');    // returns false
- */
-export const isKebabCase = (text: string): boolean => {
-	return /^[a-z][a-z0-9]*(-[a-z0-9]+)*$/.test(text);
-};
-
-/**
- * Checks if a string is in camelCase.
- *
- * @param str - The string to check.
- * @returns `true` if the string is camelCase, `false` otherwise.
- *
- * @example
- * isCamelCase('camelCaseString'); // returns true
- * isCamelCase('anotherExample');  // returns true
- * isCamelCase('camel');           // returns true
- * isCamelCase('simpleForAAAd');  // returns false
- * isCamelCase('KebabCaseString'); // returns false
- * isCamelCase('with spaces');    // returns false
- * isCamelCase('');             // returns false
- */
-export const isCamelCase = (str: string): boolean => {
-	if (!str || str.length === 0) {
-		return false;
-	}
-
-	const initialPattern = /^[a-z][a-zA-Z0-9]*$/;
-	if (!initialPattern.test(str)) {
-		return false;
-	}
-
-	const consecutiveUppercasePattern = /[A-Z]{2,}/;
-	if (consecutiveUppercasePattern.test(str)) {
-		return false;
-	}
-
-	return true;
-};
-
-/**
  * Converts a camelCase string to kebab-case.
  *
  * @param camelCaseString - The camelCase string to convert.
@@ -159,13 +110,52 @@ export const isPascalCase = (str: string): boolean => {
 };
 
 /**
- * Checks if a string is in camelCase, kebab-case, or PascalCase.
+ * Checks if a string is in kebab-case.
  *
- * @param value - The string to check.
- * @returns `true` if the string is in one of the specified cases, `false` otherwise.
+ * @param text - The string to check.
+ * @returns `true` if the string is kebab-case, `false` otherwise.
+ *
+ * @example
+ * isKebabCase('kebab-case-string'); // returns true
+ * isKebabCase('another-example');  // returns true
+ * isKebabCase('CamelCaseString'); // returns false
+ * isKebabCase('with spaces');    // returns false
  */
-export const isCamelKebabPascalCase = (value: string): boolean => {
-	return isCamelCase(value) || isKebabCase(value) || isPascalCase(value);
+export const isKebabCase = (text: string): boolean => {
+	return /^[a-z][a-z0-9]*(-[a-z0-9]+)*$/.test(text);
+};
+
+/**
+ * Checks if a string is in camelCase.
+ *
+ * @param str - The string to check.
+ * @returns `true` if the string is camelCase, `false` otherwise.
+ *
+ * @example
+ * isCamelCase('camelCaseString'); // returns true
+ * isCamelCase('anotherExample');  // returns true
+ * isCamelCase('camel');           // returns true
+ * isCamelCase('simpleForAAAd');  // returns false
+ * isCamelCase('KebabCaseString'); // returns false
+ * isCamelCase('with spaces');    // returns false
+ * isCamelCase('');             // returns false
+ */
+export const isCamelCase = (str: string): boolean => {
+	if (!str || str.length === 0) {
+		return false;
+	}
+
+	const initialPattern = /^[a-z][a-zA-Z0-9]*$/;
+	if (!initialPattern.test(str)) {
+		return false;
+	}
+
+	const consecutiveUppercasePattern = /[A-Z]{2,}/;
+	if (consecutiveUppercasePattern.test(str)) {
+		return false;
+	}
+
+	return true;
 };
 
 /**
@@ -199,6 +189,20 @@ export const toPascalCase = (inputString: string): string => {
 	}
 	if (isCamelCase(inputString)) {
 		return inputString.charAt(0).toUpperCase() + inputString.slice(1);
+	}
+
+	return inputString;
+};
+
+export const toCamelCase = (inputString: string): string => {
+	if (isCamelCase(inputString)) {
+		return inputString;
+	}
+	if (isKebabCase(inputString)) {
+		return kebabCaseToCamelCase(inputString);
+	}
+	if (isPascalCase(inputString)) {
+		return inputString.charAt(0).toLowerCase() + inputString.slice(1);
 	}
 
 	return inputString;
