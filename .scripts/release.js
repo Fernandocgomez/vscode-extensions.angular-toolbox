@@ -31,6 +31,46 @@ const main = () => {
 		);
 		console.log(`Updated package.json version to ${newVersion}`);
 
+		const releaseDate = new Date().toISOString().slice(0, 10);
+
+		// --- Update CHANGELOG.md ---
+		const changelogPath = path.join(__dirname, '..', 'docs', 'CHANGELOG.md');
+		let changelogContent = fs.readFileSync(changelogPath, 'utf8');
+
+		// Find the [Unreleased] section and its content
+		const unreleasedRegex = /## \[Unreleased\][\r\n]+([\s\S]*?)(?=^## |\Z)/m;
+		const unreleasedMatch = changelogContent.match(unreleasedRegex);
+
+		if (unreleasedMatch && unreleasedMatch[1].trim()) {
+			const unreleasedContent = unreleasedMatch[1].trim();
+
+			// Prepare new release entry
+			const newReleaseEntry = `## [${newVersion}] - ${releaseDate}\n\n${unreleasedContent}\n\n---\n`;
+
+			// Remove content under [Unreleased]
+			changelogContent = changelogContent.replace(
+				unreleasedRegex,
+				'## [Unreleased]\n\n',
+			);
+
+			// Insert new release entry after the first ## [Released] or at the top if not found
+			const releasedHeaderRegex = /^## \[Released\][\r\n]*/m;
+			if (releasedHeaderRegex.test(changelogContent)) {
+				changelogContent = changelogContent.replace(
+					releasedHeaderRegex,
+					`## [Released]\n\n${newReleaseEntry}\n`,
+				);
+			} else {
+				// If no [Released] section, append at the end
+				changelogContent += `\n## [Released]\n\n${newReleaseEntry}\n`;
+			}
+
+			fs.writeFileSync(changelogPath, changelogContent);
+			console.log('CHANGELOG.md updated with new release entry.');
+		} else {
+			console.log('No Unreleased changes found in CHANGELOG.md.');
+		}
+
 		// --- Install Node Dependencies ---
 		console.log('Installing dependencies...');
 		execSync('npm install', { stdio: 'inherit' });
@@ -86,7 +126,6 @@ const main = () => {
 
 			// --- Update the releases.md file ---
 			const releaseFileContent = fs.readFileSync(releaseFilePath, 'utf8');
-			const releaseDate = new Date().toISOString().slice(0, 10);
 			const fileVersion = vsixFile.match(/(\d+\.\d+\.\d+)/)[1] ?? '';
 			const vsixFileSize = fs.statSync(destPath).size;
 			const newReleaseRecord = `| \`${vsixFile}\` | ${releaseDate} | [${fileVersion}](/CHANGELOG?id=_${fileVersion.replace(/\./g, '')}-${releaseDate}) | ${formatFileSize(vsixFileSize)} | <a href="/artifacts/${vsixFile}" download>Download</a> |`;
