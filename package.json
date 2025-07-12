@@ -132,7 +132,10 @@
 		"lint": "eslint src",
 		"test:jest": "jest --testMatch \"**/*.spec.ts\"",
 		"test:jest:watch": "jest --testMatch \"**/*.spec.ts\" --watch",
-		"docs": "npx docsify serve docs"
+		"docs": "npx docsify serve docs",
+		"release:patch": "node .scripts/release.js patch",
+		"release:minor": "node .scripts/release.js minor",
+		"release:major": "node .scripts/release.js major"
 	},
 	"devDependencies": {
 		"@types/ejs": "^3.1.5",
