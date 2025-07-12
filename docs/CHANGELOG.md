@@ -19,6 +19,7 @@ All notable changes to the "Angular Toolbox" extension will be documented in thi
   - Added support for pipe name parsing.([796ad4a](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/commit/796ad4a))
   - Added support for component name parsing.([9f440ca](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/commit/9f440ca35c9553a40c2a80707f449ed55ec811bb))
   - Added support for directive name parsing.([8cb771e](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/pull/68/commits/8cb771ee34ec3e569f1a84e5f46f92de316ad5df))
+  - Added support for route guards name parsing([53b4a73](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/pull/68/commits/53b4a734e41d57b16ea88627945866c8ec54b65f))
 
 ## [Released]
 
