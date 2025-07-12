@@ -15,8 +15,10 @@ All notable changes to the "Angular Toolbox" extension will be documented in thi
 ### Added
 
 - **common capabilites**: Adds a context menu command to generate class boilerplate.([ce3ad54](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/pull/67/commits/ce3ad54b908ef2a27ef4eebc2be02a1203c78610))
-- **common capabilities**: Added support for component name parsing in camelCase, kebab-case, and PascalCase formats.([9f440ca](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/commit/9f440ca35c9553a40c2a80707f449ed55ec811bb))
-- **common capabilities**: Added support for directive name parsing in camelCase, kebab-case, and PascalCase formats.([8cb771e](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/pull/68/commits/8cb771ee34ec3e569f1a84e5f46f92de316ad5df))
+- **common capabilities**: Enhanced element name input handling to support multiple case formats (camelCase, kebab-case, and PascalCase):
+  - Added support for pipe name parsing.([796ad4a](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/commit/796ad4a))
+  - Added support for component name parsing.([9f440ca](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/commit/9f440ca35c9553a40c2a80707f449ed55ec811bb))
+  - Added support for directive name parsing.([8cb771e](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/pull/68/commits/8cb771ee34ec3e569f1a84e5f46f92de316ad5df))
 
 ## [Released]
 
