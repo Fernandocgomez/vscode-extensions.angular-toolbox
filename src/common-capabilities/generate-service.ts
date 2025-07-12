@@ -1,14 +1,15 @@
-import { promptBoolean, promptInput } from '@extensionFramework';
-import { isKebabCase, toPascalCase } from '@utils';
+import { promptBoolean } from '@extensionFramework';
+import { toKebabCase, toPascalCase } from '@utils';
 import * as path from 'path';
 import {
 	ServiceSpecTemplateData,
 	ServiceTemplateData,
 	TemplateFileNames,
 } from '@models';
-import { generateAngularElement, generateSpec } from './util';
+import { generateAngularElement, generateSpec, promptForName } from './util';
 import { readFileSync } from '@fileSystem';
 import { getServiceDependenciesBeingInjected } from '@angularDependencyExtractor';
+import { AngularElement } from './models';
 
 /**
  * @param folderRightClickedPath /home/fernando/test/src/app
@@ -26,7 +27,10 @@ export const generateService = async (
 		options: ['Yes', 'No'],
 	});
 
-	const serviceName = await askForServiceName();
+	const serviceName = toKebabCase(
+		await promptForName(AngularElement.SERVICE, 'user-auth'),
+	);
+
 	const serviceTemplateData: ServiceTemplateData = {
 		isGlobal: isServiceGlobal,
 		className: isHttpService
@@ -40,16 +44,6 @@ export const generateService = async (
 		serviceTemplateData,
 		generateServiceSpec,
 	);
-};
-
-const askForServiceName = async (): Promise<string> => {
-	return await promptInput({
-		prompt: 'Enter service name (kebab-case)',
-		placeHolder: 'e.g. user-auth',
-		validationFn: value =>
-			isKebabCase(value) ? null : 'Service name must be in kebab-case format',
-		errorMessage: 'Error collecting service name',
-	});
 };
 
 /**
