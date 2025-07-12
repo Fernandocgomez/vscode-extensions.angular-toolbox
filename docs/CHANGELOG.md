@@ -6,15 +6,21 @@ All notable changes to the "Angular Toolbox" extension will be documented in thi
 
 ### Doc
 
-**docs**: Enhance our documentation by adding dedicated sections for contributions and our code of conduct.([61f23bd](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/pull/63/commits/61f23bd17648356b284dd63802b4f0db1bc08fachttps://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/pull/63/commits/61f23bd17648356b284dd63802b4f0db1bc08fac))
+- **docs**: Enhance our documentation by adding dedicated sections for contributions and our code of conduct.([61f23bd](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/pull/63/commits/61f23bd17648356b284dd63802b4f0db1bc08fachttps://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/pull/63/commits/61f23bd17648356b284dd63802b4f0db1bc08fac))
 
 ### Chore
 
-**github**: Implement a CI/CD workflow to deploy `./docs` content to AWS S3 and invalidate the CloudFront cache upon PR merges to `main`.([e1e995c](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/pull/65/commits/e1e995cb98ee92979ad5a91a9817d1dc6b365a0d))
+- **github**: Implement a CI/CD workflow to deploy `./docs` content to AWS S3 and invalidate the CloudFront cache upon PR merges to `main`.([e1e995c](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/pull/65/commits/e1e995cb98ee92979ad5a91a9817d1dc6b365a0d))
 
 ### Added
 
-**common capabilites**: Adds a context menu command to generate class boilerplate.([ce3ad54](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/pull/67/commits/ce3ad54b908ef2a27ef4eebc2be02a1203c78610))
+- **common capabilites**: Adds a context menu command to generate class boilerplate.([ce3ad54](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/pull/67/commits/ce3ad54b908ef2a27ef4eebc2be02a1203c78610))
+- **common capabilities**: Enhanced element name input handling to support multiple case formats (camelCase, kebab-case, and PascalCase):
+  - Component([9f440ca](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/commit/9f440ca35c9553a40c2a80707f449ed55ec811bb))
+  - Service([fae4170](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/commit/fae4170c69c87304e9a85594d735dae713516a26))
+  - Pipe([796ad4a](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/commit/796ad4a))
+  - Directive([8cb771e](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/pull/68/commits/8cb771ee34ec3e569f1a84e5f46f92de316ad5df))
+  - Route guards([53b4a73](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/pull/68/commits/53b4a734e41d57b16ea88627945866c8ec54b65f))
 
 ## [Released]
 

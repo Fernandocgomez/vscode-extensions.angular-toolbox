@@ -69,6 +69,50 @@ suite('Generate Directive Test Suite', () => {
 				assertItExists(specPath, `Spec file should exist at ${specPath}`);
 			});
 
+			test('should support kebab case directive names', async () => {
+				createPromptStub(sandbox)
+					.inputBox('highlight-content-on-hover') // "Enter directive name"
+					.apply();
+
+				await runCommand();
+
+				const directivePath = path.join(
+					getSrcDirectoryPath(),
+					'highlight-content-on-hover.directive.ts',
+				);
+				const specPath = path.join(
+					getSrcDirectoryPath(),
+					'highlight-content-on-hover.directive.spec.ts',
+				);
+				assertItExists(
+					directivePath,
+					`directive file should exist at ${directivePath}`,
+				);
+				assertItExists(specPath, `Spec file should exist at ${specPath}`);
+			});
+
+			test('should support pascal case directive names', async () => {
+				createPromptStub(sandbox)
+					.inputBox('HighlightContentOnHover') // "Enter directive name (camel-case)"
+					.apply();
+
+				await runCommand();
+
+				const directivePath = path.join(
+					getSrcDirectoryPath(),
+					'highlight-content-on-hover.directive.ts',
+				);
+				const specPath = path.join(
+					getSrcDirectoryPath(),
+					'highlight-content-on-hover.directive.spec.ts',
+				);
+				assertItExists(
+					directivePath,
+					`directive file should exist at ${directivePath}`,
+				);
+				assertItExists(specPath, `Spec file should exist at ${specPath}`);
+			});
+
 			test('should generate a directive using the default directive template when the user does not provide a custom one', async () => {
 				createPromptStub(sandbox)
 					.inputBox('highlightContentOnHover') // "Enter directive name (camel-case)"

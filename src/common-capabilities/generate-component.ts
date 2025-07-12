@@ -1,12 +1,11 @@
 import * as path from 'path';
-import { promptInput } from '@extensionFramework';
-import { isKebabCase, kebabCaseToPascal } from '@utils';
+import { isKebabCase, toPascalCase, toKebabCase } from '@utils';
 import {
 	ComponentSpecTemplateData,
 	ComponentTemplateData,
 	TemplateFileNames,
 } from '@models';
-import { generateAngularElement, generateSpec } from './util';
+import { generateAngularElement, generateSpec, promptForName } from './util';
 import {
 	getComponentDirectivesDependencies,
 	getComponentModuleDependencies,
@@ -18,6 +17,7 @@ import { readFileSync, writeFileSync } from '@fileSystem';
 import { getExtensionJsonBaseConfigService } from '@extensionConfig';
 import { promptForPrefix } from './util/prompt-for-prefix';
 import { generateComponentStorybook } from './generate-component-storybook';
+import { AngularElement } from './models';
 
 /**
  * @param folderRightClickedPath /home/fernando/test/src/app
@@ -28,7 +28,9 @@ export const generateComponent = async (
 	const prefix = await promptForPrefix(value =>
 		isKebabCase(value) ? null : 'Component prefix must be in kebab-case format',
 	);
-	const nameInKebabCase = await promptForName();
+	const nameInKebabCase = toKebabCase(
+		await promptForName(AngularElement.COMPONENT, 'user-profile'),
+	);
 
 	await generateAngularElement(
 		path.join(folderRightClickedPath, `${nameInKebabCase}.component.ts`),
@@ -61,21 +63,12 @@ export const generateComponent = async (
 	}
 };
 
-const promptForName = async (): Promise<string> => {
-	return await promptInput({
-		prompt: 'Enter component name (kebab-case)',
-		placeHolder: 'e.g. user-profile',
-		validationFn: value =>
-			isKebabCase(value) ? null : 'Component name must be in kebab-case format',
-	});
-};
-
 const getComponentTemplateData = (
 	nameInKebabCase: string,
 	componentSelectorPrefix: string | null,
 ): ComponentTemplateData => {
 	return {
-		className: `${kebabCaseToPascal(nameInKebabCase)}Component`,
+		className: `${toPascalCase(nameInKebabCase)}Component`,
 		selector: componentSelectorPrefix
 			? `${componentSelectorPrefix}-${nameInKebabCase}`
 			: `${nameInKebabCase}`,

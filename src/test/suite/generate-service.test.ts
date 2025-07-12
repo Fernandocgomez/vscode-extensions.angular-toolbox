@@ -74,6 +74,63 @@ suite('Generate Service Test Suite', () => {
 				assertItExists(specPath, `Spec file should exist at ${specPath}`);
 			});
 
+			test('should accept camelCase as a valid service name and generate correct file', async () => {
+				createPromptStub(sandbox)
+					.quickPick('Yes') // 1. "Is this service global?"
+					.quickPick('No') // 2. "Is this service an HTTP one?"
+					.inputBox('userAuth') // 3. "Enter service name (camelCase)"
+					.apply();
+
+				await runCommand();
+
+				const servicePath = path.join(
+					getSrcDirectoryPath(),
+					'user-auth.service.ts',
+				);
+				assertItExists(
+					servicePath,
+					`Service file should exist at ${servicePath}`,
+				);
+			});
+
+			test('should accept kebab-case as a valid service name and generate correct file', async () => {
+				createPromptStub(sandbox)
+					.quickPick('No') // 1. "Is this service global?"
+					.quickPick('No') // 2. "Is this service an HTTP one?"
+					.inputBox('user-auth') // 3. "Enter service name (kebab-case)"
+					.apply();
+
+				await runCommand();
+
+				const servicePath = path.join(
+					getSrcDirectoryPath(),
+					'user-auth.service.ts',
+				);
+				assertItExists(
+					servicePath,
+					`Service file should exist at ${servicePath}`,
+				);
+			});
+
+			test('should accept PascalCase as a valid service name and generate correct file', async () => {
+				createPromptStub(sandbox)
+					.quickPick('No') // 1. "Is this service global?"
+					.quickPick('Yes') // 2. "Is this service an HTTP one?"
+					.inputBox('UserAuth') // 3. "Enter service name (PascalCase)"
+					.apply();
+
+				await runCommand();
+
+				const servicePath = path.join(
+					getSrcDirectoryPath(),
+					'user-auth.service.ts',
+				);
+				assertItExists(
+					servicePath,
+					`Service file should exist at ${servicePath}`,
+				);
+			});
+
 			test('should add the "Service" suffix to the class name if the user select "Yes" to the question "Is this service an HTTP one"', async () => {
 				createPromptStub(sandbox)
 					.quickPick('Yes') // 1. "Is this service global?"

@@ -3,7 +3,7 @@ import {
 	getPrefixValueFromWorkspaceConfig,
 	isPrefixSetInWorkspaceConfig,
 } from '@extensionConfig';
-import { kebabCaseToCamelCase } from '@utils';
+import { toCamelCase } from '@utils';
 
 export const promptForPrefix = async (
 	validationFn: (value: string) => string | null,
@@ -15,9 +15,7 @@ export const promptForPrefix = async (
 	if (await isPrefixSetInWorkspaceConfig()) {
 		const prefix = (await getPrefixValueFromWorkspaceConfig()) as string;
 
-		return validationFn(prefix) === null
-			? prefix
-			: kebabCaseToCamelCase(prefix);
+		return validationFn(prefix) === null ? prefix : toCamelCase(prefix);
 	}
 
 	return null;

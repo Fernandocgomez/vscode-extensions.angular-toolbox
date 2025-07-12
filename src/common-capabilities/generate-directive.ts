@@ -1,10 +1,5 @@
-import { promptInput } from '@extensionFramework';
-import {
-	camelCaseToKebabCase,
-	isCamelCase,
-	kebabCaseToCamelCase,
-} from '@utils';
-import { generateAngularElement, generateSpec } from './util';
+import { isCamelCase, toCamelCase, toKebabCase } from '@utils';
+import { generateAngularElement, generateSpec, promptForName } from './util';
 import * as path from 'path';
 import {
 	DirectiveSpecTemplateData,
@@ -14,6 +9,7 @@ import {
 import { readFileSync } from '@fileSystem';
 import { getProviderDependencies } from '@angularDependencyExtractor';
 import { promptForPrefix } from './util/prompt-for-prefix';
+import { AngularElement } from './models';
 
 /**
  * @param folderRightClickedPath /home/fernando/test/src/app
@@ -24,12 +20,14 @@ export const generateDirective = async (
 	const prefix = await promptForPrefix(value =>
 		isCamelCase(value) ? null : 'Directive prefix must be in camel-case format',
 	);
-	const nameInCamelCase = await promptForName();
+	const nameInCamelCase = toCamelCase(
+		await promptForName(AngularElement.DIRECTIVE, 'highlight-on-hover'),
+	);
 
 	await generateAngularElement(
 		path.join(
 			folderRightClickedPath,
-			`${camelCaseToKebabCase(nameInCamelCase)}.directive.ts`,
+			`${toKebabCase(nameInCamelCase)}.directive.ts`,
 		),
 		TemplateFileNames.DIRECTIVE,
 		getTemplateData(prefix, nameInCamelCase),
@@ -37,22 +35,12 @@ export const generateDirective = async (
 	);
 };
 
-const promptForName = async (): Promise<string> => {
-	return await promptInput({
-		prompt: 'Enter directive name (camel-case)',
-		placeHolder: 'e.g. highlightOnHover',
-		validationFn: value =>
-			isCamelCase(value) ? null : 'Directive name must be in camel-case format',
-		errorMessage: 'Error collecting directive name',
-	});
-};
-
 const getTemplateData = (
 	prefix: string | null,
 	nameInCamelCase: string,
 ): DirectiveTemplateData => {
 	const selector = prefix
-		? `${kebabCaseToCamelCase(prefix)}${nameInCamelCase.charAt(0).toUpperCase() + nameInCamelCase.slice(1)}`
+		? `${toCamelCase(prefix)}${nameInCamelCase.charAt(0).toUpperCase() + nameInCamelCase.slice(1)}`
 		: nameInCamelCase;
 
 	return {

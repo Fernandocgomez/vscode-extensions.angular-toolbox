@@ -1,19 +1,15 @@
-import { promptInput } from '@extensionFramework';
 import {
 	PipeSpecTemplateData,
 	PipeTemplateData,
 	TemplateFileNames,
 } from '@models';
-import {
-	camelCaseToKebabCase,
-	isCamelCase,
-	kebabCaseToCamelCase,
-} from '@utils';
+import { toKebabCase, isCamelCase, toCamelCase } from '@utils';
 import * as path from 'path';
-import { generateAngularElement, generateSpec } from './util';
+import { generateAngularElement, generateSpec, promptForName } from './util';
 import { readFileSync } from '@fileSystem';
 import { getProviderDependencies } from '@angularDependencyExtractor';
 import { promptForPrefix } from './util/prompt-for-prefix';
+import { AngularElement } from './models';
 
 /**
  * @param folderRightClickedPath /home/fernando/test/src/app
@@ -24,12 +20,14 @@ export const generatePipe = async (
 	const prefix = await promptForPrefix(value =>
 		isCamelCase(value) ? null : 'Pipe prefix must be in camel-case format',
 	);
-	const nameInCamelCase = await promptForPipeName();
+	const nameInCamelCase = toCamelCase(
+		await promptForName(AngularElement.PIPE, 'simple-format'),
+	);
 
 	await generateAngularElement(
 		path.join(
 			folderRightClickedPath,
-			`${camelCaseToKebabCase(nameInCamelCase)}.pipe.ts`,
+			`${toKebabCase(nameInCamelCase)}.pipe.ts`,
 		),
 		TemplateFileNames.PIPE,
 		getPipeTemplateData(prefix, nameInCamelCase),
@@ -37,22 +35,12 @@ export const generatePipe = async (
 	);
 };
 
-const promptForPipeName = async (): Promise<string> => {
-	return await promptInput({
-		prompt: 'Enter pipe name (camel-case)',
-		placeHolder: 'e.g. simpleFormat',
-		validationFn: value =>
-			isCamelCase(value) ? null : 'Pipe name must be in camel-case format',
-		errorMessage: 'Error collecting pipe name',
-	});
-};
-
 const getPipeTemplateData = (
 	prefix: string | null,
 	pipeNameInCamelCase: string,
 ): PipeTemplateData => {
 	const selector = prefix
-		? `${kebabCaseToCamelCase(prefix)}${pipeNameInCamelCase.charAt(0).toUpperCase() + pipeNameInCamelCase.slice(1)}`
+		? `${toCamelCase(prefix)}${pipeNameInCamelCase.charAt(0).toUpperCase() + pipeNameInCamelCase.slice(1)}`
 		: pipeNameInCamelCase;
 
 	return {
