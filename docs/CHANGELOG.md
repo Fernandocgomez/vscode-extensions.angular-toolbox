@@ -4,6 +4,10 @@ All notable changes to the "Angular Toolbox" extension will be documented in thi
 
 ## [Unreleased]
 
+## [Released]
+
+## [0.4.0] - 2025-07-12
+
 ### Doc
 
 - **docs**: Enhance our documentation by adding dedicated sections for contributions and our code of conduct.([61f23bd](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/pull/63/commits/61f23bd17648356b284dd63802b4f0db1bc08fachttps://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/pull/63/commits/61f23bd17648356b284dd63802b4f0db1bc08fac))
@@ -22,7 +26,7 @@ All notable changes to the "Angular Toolbox" extension will be documented in thi
   - Directive([8cb771e](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/pull/68/commits/8cb771ee34ec3e569f1a84e5f46f92de316ad5df))
   - Route guards([53b4a73](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/pull/68/commits/53b4a734e41d57b16ea88627945866c8ec54b65f))
 
-## [Released]
+---
 
 ## [0.3.0] - 2025-06-27
 

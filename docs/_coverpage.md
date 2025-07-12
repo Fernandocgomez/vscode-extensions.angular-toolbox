@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-# Angular Toolbox <small>0.2.0</small>
+# Angular Toolbox <small>0.4.0</small>
 
 > Build Angular apps faster and more consistently.
 

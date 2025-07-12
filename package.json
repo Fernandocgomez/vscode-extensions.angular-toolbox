@@ -1,164 +1,167 @@
 {
-	"name": "gdlc-angular-toolbox",
-	"publisher": "fernandocgomez",
-	"icon": "./icon.png",
-	"displayName": "Angular Toolbox",
-	"description": "Generate Angular elements (components, services, pipes, directives) using your own custom templates.",
-	"version": "0.3.0",
-	"engines": {
-		"vscode": "^1.99.0"
-	},
-	"repository": "https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox",
-	"categories": [
-		"Other"
-	],
-	"activationEvents": [],
-	"main": "./dist/extension.js",
-	"contributes": {
-		"menus": {
-			"explorer/context": [
-				{
-					"submenu": "angular-toolbox.menu",
-					"group": "navigation",
-					"when": "explorerResourceIsFolder"
-				},
-				{
-					"command": "angular-toolbox.common-capabilities.generate-component-storybook",
-					"when": "resourceFilename =~ /\\.component\\.ts$/",
-					"group": "navigation"
-				},
-				{
-					"command": "angular-toolbox.common-capabilities.generate-spec",
-					"when": "resourceFilename =~ /\\.(component|pipe|directive|service|guard|resolver|interceptor)\\.ts$/",
-					"group": "navigation"
-				}
-			],
-			"angular-toolbox.menu": [
-				{
-					"command": "angular-toolbox.common-capabilities.generate-component",
-					"group": "1_generation@1"
-				},
-				{
-					"command": "angular-toolbox.common-capabilities.generate-service",
-					"group": "1_generation@2"
-				},
-				{
-					"command": "angular-toolbox.common-capabilities.generate-pipe",
-					"group": "1_generation@3"
-				},
-				{
-					"command": "angular-toolbox.common-capabilities.generate-directive",
-					"group": "1_generation@4"
-				},
-				{
-					"command": "angular-toolbox.common-capabilities.generate-route-guard",
-					"group": "2_generation"
-				},
-				{
-					"command": "angular-toolbox.common-capabilities.generate-class",
-					"group": "3_generation"
-				}
-			]
-		},
-		"submenus": [
-			{
-				"id": "angular-toolbox.menu",
-				"label": "Angular Toolbox"
-			}
-		],
-		"commands": [
-			{
-				"command": "angular-toolbox.common-capabilities.generate-component",
-				"title": "Generate Component"
-			},
-			{
-				"command": "angular-toolbox.common-capabilities.generate-service",
-				"title": "Generate Service"
-			},
-			{
-				"command": "angular-toolbox.common-capabilities.generate-pipe",
-				"title": "Generate Pipe"
-			},
-			{
-				"command": "angular-toolbox.common-capabilities.generate-directive",
-				"title": "Generate Directive"
-			},
-			{
-				"command": "angular-toolbox.common-capabilities.register-prefix",
-				"title": "Angular Toolbox: Register Prefix"
-			},
-			{
-				"command": "angular-toolbox.common-capabilities.see-prefix",
-				"title": "Angular Toolbox: See Prefix"
-			},
-			{
-				"command": "angular-toolbox.common-capabilities.generate-component-storybook",
-				"title": "Generate Story (Angular Toolbox)"
-			},
-			{
-				"command": "angular-toolbox.common-capabilities.generate-spec",
-				"title": "Generate Spec (Angular Toolbox)"
-			},
-			{
-				"command": "angular-toolbox.common-capabilities.generate-route-guard",
-				"title": "Generate Route Guard"
-			},
-			{
-				"command": "angular-toolbox.common-capabilities.generate-class",
-				"title": "Generate Class"
-			}
-		],
-		"configuration": {
-			"title": "GDLC Angular Toolbox",
-			"properties": {
-				"fernandocgomez.angular-toolbox.prefix": {
-					"type": "string",
-					"default": "",
-					"description": "The prefix to be used for generated Angular schematics."
-				}
-			}
-		}
-	},
-	"scripts": {
-		"vscode:prepublish": "npm run package",
-		"compile": "webpack",
-		"watch": "webpack --watch",
-		"package": "webpack --mode production --devtool hidden-source-map",
-		"compile-tests": "tsc -p . --outDir out",
-		"watch-tests": "tsc -p . -w --outDir out",
-		"pretest": "rm -rf out && rm -rf testWorkspace && mkdir -p ./testWorkspace && npm run compile-tests && npm run compile && npm run lint",
-		"test": "vscode-test",
-		"posttest": "rm -rf out && rm -rf testWorkspace",
-		"lint": "eslint src",
-		"test:jest": "jest --testMatch \"**/*.spec.ts\"",
-		"test:jest:watch": "jest --testMatch \"**/*.spec.ts\" --watch",
-		"docs": "npx docsify serve docs"
-	},
-	"devDependencies": {
-		"@types/ejs": "^3.1.5",
-		"@types/jest": "^29.5.14",
-		"@types/mocha": "^10.0.10",
-		"@types/node": "20.x",
-		"@types/sinon": "^17.0.4",
-		"@types/vscode": "^1.99.0",
-		"@typescript-eslint/eslint-plugin": "^8.28.0",
-		"@typescript-eslint/parser": "^8.28.0",
-		"@vscode/test-cli": "^0.0.10",
-		"@vscode/test-electron": "^2.5.2",
-		"copy-webpack-plugin": "^13.0.0",
-		"eslint": "^9.23.0",
-		"glob": "^11.0.2",
-		"jest": "^29.7.0",
-		"prettier": "^3.5.3",
-		"sinon": "^20.0.0",
-		"ts-jest": "^29.3.2",
-		"ts-loader": "^9.5.2",
-		"ts-node": "^10.9.2",
-		"typescript": "^5.8.2",
-		"webpack": "^5.98.0",
-		"webpack-cli": "^6.0.1"
-	},
-	"dependencies": {
-		"ejs": "^3.1.10"
-	}
+  "name": "gdlc-angular-toolbox",
+  "publisher": "fernandocgomez",
+  "icon": "./icon.png",
+  "displayName": "Angular Toolbox",
+  "description": "Generate Angular elements (components, services, pipes, directives) using your own custom templates.",
+  "version": "0.4.0",
+  "engines": {
+    "vscode": "^1.99.0"
+  },
+  "repository": "https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox",
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "menus": {
+      "explorer/context": [
+        {
+          "submenu": "angular-toolbox.menu",
+          "group": "navigation",
+          "when": "explorerResourceIsFolder"
+        },
+        {
+          "command": "angular-toolbox.common-capabilities.generate-component-storybook",
+          "when": "resourceFilename =~ /\\.component\\.ts$/",
+          "group": "navigation"
+        },
+        {
+          "command": "angular-toolbox.common-capabilities.generate-spec",
+          "when": "resourceFilename =~ /\\.(component|pipe|directive|service|guard|resolver|interceptor)\\.ts$/",
+          "group": "navigation"
+        }
+      ],
+      "angular-toolbox.menu": [
+        {
+          "command": "angular-toolbox.common-capabilities.generate-component",
+          "group": "1_generation@1"
+        },
+        {
+          "command": "angular-toolbox.common-capabilities.generate-service",
+          "group": "1_generation@2"
+        },
+        {
+          "command": "angular-toolbox.common-capabilities.generate-pipe",
+          "group": "1_generation@3"
+        },
+        {
+          "command": "angular-toolbox.common-capabilities.generate-directive",
+          "group": "1_generation@4"
+        },
+        {
+          "command": "angular-toolbox.common-capabilities.generate-route-guard",
+          "group": "2_generation"
+        },
+        {
+          "command": "angular-toolbox.common-capabilities.generate-class",
+          "group": "3_generation"
+        }
+      ]
+    },
+    "submenus": [
+      {
+        "id": "angular-toolbox.menu",
+        "label": "Angular Toolbox"
+      }
+    ],
+    "commands": [
+      {
+        "command": "angular-toolbox.common-capabilities.generate-component",
+        "title": "Generate Component"
+      },
+      {
+        "command": "angular-toolbox.common-capabilities.generate-service",
+        "title": "Generate Service"
+      },
+      {
+        "command": "angular-toolbox.common-capabilities.generate-pipe",
+        "title": "Generate Pipe"
+      },
+      {
+        "command": "angular-toolbox.common-capabilities.generate-directive",
+        "title": "Generate Directive"
+      },
+      {
+        "command": "angular-toolbox.common-capabilities.register-prefix",
+        "title": "Angular Toolbox: Register Prefix"
+      },
+      {
+        "command": "angular-toolbox.common-capabilities.see-prefix",
+        "title": "Angular Toolbox: See Prefix"
+      },
+      {
+        "command": "angular-toolbox.common-capabilities.generate-component-storybook",
+        "title": "Generate Story (Angular Toolbox)"
+      },
+      {
+        "command": "angular-toolbox.common-capabilities.generate-spec",
+        "title": "Generate Spec (Angular Toolbox)"
+      },
+      {
+        "command": "angular-toolbox.common-capabilities.generate-route-guard",
+        "title": "Generate Route Guard"
+      },
+      {
+        "command": "angular-toolbox.common-capabilities.generate-class",
+        "title": "Generate Class"
+      }
+    ],
+    "configuration": {
+      "title": "GDLC Angular Toolbox",
+      "properties": {
+        "fernandocgomez.angular-toolbox.prefix": {
+          "type": "string",
+          "default": "",
+          "description": "The prefix to be used for generated Angular schematics."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run package",
+    "compile": "webpack",
+    "watch": "webpack --watch",
+    "package": "webpack --mode production --devtool hidden-source-map",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "rm -rf out && rm -rf testWorkspace && mkdir -p ./testWorkspace && npm run compile-tests && npm run compile && npm run lint",
+    "test": "vscode-test",
+    "posttest": "rm -rf out && rm -rf testWorkspace",
+    "lint": "eslint src",
+    "test:jest": "jest --testMatch \"**/*.spec.ts\"",
+    "test:jest:watch": "jest --testMatch \"**/*.spec.ts\" --watch",
+    "docs": "npx docsify serve docs",
+    "release:patch": "node .scripts/release.js patch",
+    "release:minor": "node .scripts/release.js minor",
+    "release:major": "node .scripts/release.js major"
+  },
+  "devDependencies": {
+    "@types/ejs": "^3.1.5",
+    "@types/jest": "^29.5.14",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "20.x",
+    "@types/sinon": "^17.0.4",
+    "@types/vscode": "^1.99.0",
+    "@typescript-eslint/eslint-plugin": "^8.28.0",
+    "@typescript-eslint/parser": "^8.28.0",
+    "@vscode/test-cli": "^0.0.10",
+    "@vscode/test-electron": "^2.5.2",
+    "copy-webpack-plugin": "^13.0.0",
+    "eslint": "^9.23.0",
+    "glob": "^11.0.2",
+    "jest": "^29.7.0",
+    "prettier": "^3.5.3",
+    "sinon": "^20.0.0",
+    "ts-jest": "^29.3.2",
+    "ts-loader": "^9.5.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.2",
+    "webpack": "^5.98.0",
+    "webpack-cli": "^6.0.1"
+  },
+  "dependencies": {
+    "ejs": "^3.1.10"
+  }
 }
