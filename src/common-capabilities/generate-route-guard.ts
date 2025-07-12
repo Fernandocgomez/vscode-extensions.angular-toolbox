@@ -1,18 +1,20 @@
-import { promptInput } from '@extensionFramework';
-import { isKebabCase, toCamelCase, toPascalCase } from '@utils';
-import { generateAngularElement, generateSpec } from './util';
+import { toCamelCase, toPascalCase, toKebabCase } from '@utils';
+import { generateAngularElement, generateSpec, promptForName } from './util';
 import {
 	RouteGuardSpecTemplateData,
 	RouteGuardTemplateData,
 	TemplateFileNames,
 } from '@models';
 import * as path from 'path';
+import { AngularElement } from './models';
 
 /**
  * @param folderRightClickedPath /home/fernando/test/src/app
  */
 export const generateRouteGuard = async (folderRightClickedPath: string) => {
-	const nameInKebabCase = await promptForName();
+	const nameInKebabCase = toKebabCase(
+		await promptForName(AngularElement.GUARD, 'user-auth'),
+	);
 	const templateData: RouteGuardTemplateData = {
 		className: `${toPascalCase(nameInKebabCase)}Guard`,
 		fnName: `${toCamelCase(nameInKebabCase)}Guard`,
@@ -24,17 +26,6 @@ export const generateRouteGuard = async (folderRightClickedPath: string) => {
 		templateData,
 		generateRouteGuardSpec,
 	);
-};
-
-const promptForName = async (): Promise<string> => {
-	return await promptInput({
-		prompt: 'Enter route guard name (kebab-case)',
-		placeHolder: 'e.g. user-auth',
-		validationFn: value =>
-			isKebabCase(value)
-				? null
-				: 'Route guard name must be in kebab-case format',
-	});
 };
 
 export const generateRouteGuardSpec = async (
