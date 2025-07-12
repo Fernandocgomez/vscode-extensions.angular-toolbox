@@ -102,6 +102,75 @@ suite('Generate Pipe', () => {
 				);
 			});
 
+			test('should generate a pipe file when the pipe name is in camelCase', async () => {
+				createPromptStub(sandbox)
+					.inputBox('myTestPipe') // "Enter pipe name (camel-case)"
+					.apply();
+
+				await runCommand();
+
+				assertStrictEqual(
+					path.join(getSrcDirectoryPath(), 'my-test-pipe.pipe.ts'),
+					pipeWithoutPrefixFixture
+						.replace(/FormatNumber/g, 'MyTestPipe')
+						.replace(/format-number/g, 'my-test-pipe'),
+					'Generated pipe content does not match fixture for camelCase input',
+				);
+				assertStrictEqual(
+					path.join(getSrcDirectoryPath(), 'my-test-pipe.pipe.spec.ts'),
+					pipeSpecFixture
+						.replace(/FormatNumber/g, 'MyTestPipe')
+						.replace(/format-number/g, 'my-test-pipe'),
+					'Generated spec content does not match fixture for camelCase input',
+				);
+			});
+
+			test('should generate a pipe file when the pipe name is in kebab-case', async () => {
+				createPromptStub(sandbox)
+					.inputBox('my-test-pipe') // "Enter pipe name (camel-case)"
+					.apply();
+
+				await runCommand();
+
+				assertStrictEqual(
+					path.join(getSrcDirectoryPath(), 'my-test-pipe.pipe.ts'),
+					pipeWithoutPrefixFixture
+						.replace(/FormatNumber/g, 'MyTestPipe')
+						.replace(/format-number/g, 'my-test-pipe'),
+					'Generated pipe content does not match fixture for kebab-case input',
+				);
+				assertStrictEqual(
+					path.join(getSrcDirectoryPath(), 'my-test-pipe.pipe.spec.ts'),
+					pipeSpecFixture
+						.replace(/FormatNumber/g, 'MyTestPipe')
+						.replace(/format-number/g, 'my-test-pipe'),
+					'Generated spec content does not match fixture for kebab-case input',
+				);
+			});
+
+			test('should generate a pipe file when the pipe name is in PascalCase', async () => {
+				createPromptStub(sandbox)
+					.inputBox('MyTestPipe') // "Enter pipe name (camel-case)"
+					.apply();
+
+				await runCommand();
+
+				assertStrictEqual(
+					path.join(getSrcDirectoryPath(), 'my-test-pipe.pipe.ts'),
+					pipeWithoutPrefixFixture
+						.replace(/FormatNumber/g, 'MyTestPipe')
+						.replace(/format-number/g, 'my-test-pipe'),
+					'Generated pipe content does not match fixture for PascalCase input',
+				);
+				assertStrictEqual(
+					path.join(getSrcDirectoryPath(), 'my-test-pipe.pipe.spec.ts'),
+					pipeSpecFixture
+						.replace(/FormatNumber/g, 'MyTestPipe')
+						.replace(/format-number/g, 'my-test-pipe'),
+					'Generated spec content does not match fixture for PascalCase input',
+				);
+			});
+
 			suite('and the user provider a custom config', () => {
 				test('should not generate the spec file if the config skipSpec is true', async () => {
 					await makeAngularToolboxDirectory();
