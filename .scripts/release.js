@@ -78,8 +78,11 @@ const main = () => {
 			fs.mkdirSync(destDir, { recursive: true });
 
 			// --- Copy the file ---
-			fs.copyFileSync(sourcePath, destPath);
-			console.log(`Successfully copied ${sourcePath} to ${destDir}`);
+			const sourceFullPath = path.join('.', sourcePath);
+			if (fs.existsSync(sourceFullPath)) {
+				fs.copyFileSync(sourceFullPath, destPath);
+				console.log(`Successfully copied ${sourcePath} to ${destDir}`);
+			}
 
 			// --- Update the releases.md file ---
 			const releaseFileContent = fs.readFileSync(releaseFilePath, 'utf8');
@@ -92,6 +95,12 @@ const main = () => {
 				releaseFilePath,
 				releaseFileContent + '\n' + newReleaseRecord,
 			);
+
+			// --- Clean up VSIX file from root directory ---
+			if (fs.existsSync(sourcePath)) {
+				fs.unlinkSync(sourcePath);
+				console.log(`Removed ${sourcePath} from root directory`);
+			}
 		} else {
 			console.warn('Warning: Could not find the VSIX artifact to copy.');
 		}
