@@ -77,7 +77,7 @@ For a complete guide, including detailed tutorials, advanced configuration optio
 
 ## What's New? 📣
 
-We're always improving! Check out our [CHANGELOG.md](CHANGELOG.md) to see the latest updates.
+We're always improving! Check out our [CHANGELOG.md](https://www.angulartoolbox.com/#/CHANGELOG) to see the latest updates.
 
 ---
 
