@@ -4,6 +4,10 @@ All notable changes to the "Angular Toolbox" extension will be documented in thi
 
 ## [Unreleased]
 
+### Doc
+
+- **docs**: Updated the README to link to the changelog section on the documentation website instead of the repository file.([613fb3f](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/commit/613fb3f66239422db2c82ade4eb061cc78196678))
+
 ## [Released]
 
 ## [0.4.0] - 2025-07-12
