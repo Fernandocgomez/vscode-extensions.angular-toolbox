@@ -136,6 +136,17 @@ export function activate(context: vscode.ExtensionContext) {
 		},
 	);
 
+	const generateEnumDisposable = vscode.commands.registerCommand(
+		'angular-toolbox.common-capabilities.generate-enum',
+		async (arg: vscode.Uri) => {
+			try {
+				await generateTypeScriptElement(arg.fsPath, TypeScriptElement.ENUM);
+			} catch (error: any) {
+				showErrorMessage(error.message);
+			}
+		},
+	);
+
 	context.subscriptions.push(
 		generateComponentDisposable,
 		generateServiceDisposable,
@@ -148,6 +159,7 @@ export function activate(context: vscode.ExtensionContext) {
 		generateRouteGuardDisposable,
 		generateClassDisposable,
 		generateTypeDisposable,
+		generateEnumDisposable,
 	);
 }
 
