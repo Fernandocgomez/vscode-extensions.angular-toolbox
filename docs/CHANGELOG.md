@@ -8,6 +8,10 @@ All notable changes to the "Angular Toolbox" extension will be documented in thi
 
 - **docs**: Updated the README to link to the changelog section on the documentation website instead of the repository file.([613fb3f](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/commit/613fb3f66239422db2c82ade4eb061cc78196678))
 
+### Added
+
+- **common capabilities**: Introduced a context menu command to scaffold TypeScript type definitions using a configurable template.([fac82a4](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/commit/fac82a4952e402edb7e36bd71804b86998aceb02))
+
 ## [Released]
 
 ## [0.4.0] - 2025-07-12

@@ -125,6 +125,17 @@ export function activate(context: vscode.ExtensionContext) {
 		},
 	);
 
+	const generateTypeDisposable = vscode.commands.registerCommand(
+		'angular-toolbox.common-capabilities.generate-type',
+		async (arg: vscode.Uri) => {
+			try {
+				await generateTypeScriptElement(arg.fsPath, TypeScriptElement.TYPE);
+			} catch (error: any) {
+				showErrorMessage(error.message);
+			}
+		},
+	);
+
 	context.subscriptions.push(
 		generateComponentDisposable,
 		generateServiceDisposable,
@@ -136,6 +147,7 @@ export function activate(context: vscode.ExtensionContext) {
 		generateSpecDisposable,
 		generateRouteGuardDisposable,
 		generateClassDisposable,
+		generateTypeDisposable,
 	);
 }
 
