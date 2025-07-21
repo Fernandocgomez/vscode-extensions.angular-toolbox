@@ -20,7 +20,7 @@ export const generateTypeScriptElement = async (
 
 	writeFileSync(
 		filePath,
-		`export ${elementName} ${toPascalCase(name)} ${elementName === 'type' ? ` = '';` : '{}'}`,
+		`export ${elementName} ${toPascalCase(name)} ${elementName === 'type' ? `= '';` : '{}'}`,
 	);
 
 	appendToIndex(folderRightClickedPath, path.basename(filePath));
