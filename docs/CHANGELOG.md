@@ -10,7 +10,9 @@ All notable changes to the "Angular Toolbox" extension will be documented in thi
 
 ### Added
 
-- **common capabilities**: Introduced a context menu command to scaffold TypeScript type definitions using a configurable template.([fac82a4](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/commit/fac82a4952e402edb7e36bd71804b86998aceb02))
+- **common capabilities**: Introduced a context menu command to scaffold TypeScript type.([fac82a4](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/commit/fac82a4952e402edb7e36bd71804b86998aceb02))
+- **common capabilities**: Added a context menu command to generate TypeScript enum boilerplate.([1ba177e](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/commit/1ba177ebe7f79cbcab2b4a938b4b54765c611bb5))
+
 
 ## [Released]
 
