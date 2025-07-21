@@ -112,15 +112,17 @@ suite('Generate Pipe', () => {
 				assertStrictEqual(
 					path.join(getSrcDirectoryPath(), 'my-test-pipe.pipe.ts'),
 					pipeWithoutPrefixFixture
-						.replace(/FormatNumber/g, 'MyTestPipe')
-						.replace(/format-number/g, 'my-test-pipe'),
+						.replace(/formatNumber/g, 'myTestPipe')
+						.replace(/format-number/g, 'my-test-pipe')
+						.replace(/FormatNumberPipe/g, 'MyTestPipePipe'),
 					'Generated pipe content does not match fixture for camelCase input',
 				);
 				assertStrictEqual(
 					path.join(getSrcDirectoryPath(), 'my-test-pipe.pipe.spec.ts'),
 					pipeSpecFixture
-						.replace(/FormatNumber/g, 'MyTestPipe')
-						.replace(/format-number/g, 'my-test-pipe'),
+						.replace(/formatNumber/g, 'myTestPipe')
+						.replace(/format-number/g, 'my-test-pipe')
+						.replace(/FormatNumberPipe/g, 'MyTestPipePipe'),
 					'Generated spec content does not match fixture for camelCase input',
 				);
 			});
@@ -135,15 +137,17 @@ suite('Generate Pipe', () => {
 				assertStrictEqual(
 					path.join(getSrcDirectoryPath(), 'my-test-pipe.pipe.ts'),
 					pipeWithoutPrefixFixture
-						.replace(/FormatNumber/g, 'MyTestPipe')
-						.replace(/format-number/g, 'my-test-pipe'),
+						.replace(/formatNumber/g, 'myTestPipe')
+						.replace(/format-number/g, 'my-test-pipe')
+						.replace(/FormatNumberPipe/g, 'MyTestPipePipe'),
 					'Generated pipe content does not match fixture for kebab-case input',
 				);
 				assertStrictEqual(
 					path.join(getSrcDirectoryPath(), 'my-test-pipe.pipe.spec.ts'),
 					pipeSpecFixture
-						.replace(/FormatNumber/g, 'MyTestPipe')
-						.replace(/format-number/g, 'my-test-pipe'),
+						.replace(/formatNumber/g, 'myTestPipe')
+						.replace(/format-number/g, 'my-test-pipe')
+						.replace(/FormatNumberPipe/g, 'MyTestPipePipe'),
 					'Generated spec content does not match fixture for kebab-case input',
 				);
 			});
@@ -158,15 +162,17 @@ suite('Generate Pipe', () => {
 				assertStrictEqual(
 					path.join(getSrcDirectoryPath(), 'my-test-pipe.pipe.ts'),
 					pipeWithoutPrefixFixture
-						.replace(/FormatNumber/g, 'MyTestPipe')
-						.replace(/format-number/g, 'my-test-pipe'),
+						.replace(/formatNumber/g, 'myTestPipe')
+						.replace(/format-number/g, 'my-test-pipe')
+						.replace(/FormatNumberPipe/g, 'MyTestPipePipe'),
 					'Generated pipe content does not match fixture for PascalCase input',
 				);
 				assertStrictEqual(
 					path.join(getSrcDirectoryPath(), 'my-test-pipe.pipe.spec.ts'),
 					pipeSpecFixture
-						.replace(/FormatNumber/g, 'MyTestPipe')
-						.replace(/format-number/g, 'my-test-pipe'),
+						.replace(/formatNumber/g, 'myTestPipe')
+						.replace(/format-number/g, 'my-test-pipe')
+						.replace(/FormatNumberPipe/g, 'MyTestPipePipe'),
 					'Generated spec content does not match fixture for PascalCase input',
 				);
 			});
