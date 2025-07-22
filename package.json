@@ -65,6 +65,10 @@
 				{
 					"command": "angular-toolbox.common-capabilities.generate-enum",
 					"group": "3_generation"
+				},
+				{
+					"command": "angular-toolbox.common-capabilities.generate-interface",
+					"group": "3_generation"
 				}
 			]
 		},
@@ -122,6 +126,10 @@
 			{
 				"command": "angular-toolbox.common-capabilities.generate-enum",
 				"title": "Generate Enum"
+			},
+			{
+				"command": "angular-toolbox.common-capabilities.generate-interface",
+				"title": "Generate Interface"
 			}
 		],
 		"configuration": {

@@ -147,6 +147,20 @@ export function activate(context: vscode.ExtensionContext) {
 		},
 	);
 
+	const generateInterfaceDisposable = vscode.commands.registerCommand(
+		'angular-toolbox.common-capabilities.generate-interface',
+		async (arg: vscode.Uri) => {
+			try {
+				await generateTypeScriptElement(
+					arg.fsPath,
+					TypeScriptElement.INTERFACE,
+				);
+			} catch (error: any) {
+				showErrorMessage(error.message);
+			}
+		},
+	);
+
 	context.subscriptions.push(
 		generateComponentDisposable,
 		generateServiceDisposable,
@@ -160,6 +174,7 @@ export function activate(context: vscode.ExtensionContext) {
 		generateClassDisposable,
 		generateTypeDisposable,
 		generateEnumDisposable,
+		generateInterfaceDisposable,
 	);
 }
 
