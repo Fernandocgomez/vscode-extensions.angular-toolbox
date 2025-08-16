@@ -4,6 +4,10 @@ All notable changes to the "Angular Toolbox" extension will be documented in thi
 
 ## [Unreleased]
 
+## [Released]
+
+## [0.5.0] - 2025-08-16
+
 ### Doc
 
 - **docs**: Updated the README to link to the changelog section on the documentation website instead of the repository file.([613fb3f](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/commit/613fb3f66239422db2c82ade4eb061cc78196678))
@@ -14,7 +18,7 @@ All notable changes to the "Angular Toolbox" extension will be documented in thi
 - **common capabilities**: Added a context menu command to generate TypeScript enum boilerplate.([1ba177e](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/commit/1ba177ebe7f79cbcab2b4a938b4b54765c611bb5))
 - **common capabilities**: Added a context menu command to generate TypeScript interface boilerplate.([0680ee7](https://github.com/Fernandocgomez/vscode-extensions.angular-toolbox/commit/0680ee72142b51fddc6d294a6171fc557736b576))
 
-## [Released]
+---
 
 ## [0.4.0] - 2025-07-12
 
